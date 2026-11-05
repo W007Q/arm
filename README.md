@@ -1,19 +1,7 @@
 # reBot Arm ROS2 SDK
 
 <p align="center">
-  <img src="./media/rebot_arm_b601.png" alt="reBot Arm" width="720">
-</p>
-
-<p align="center">
   <strong>ROS2 · Arm Control · Gripper Control · Trajectory Interfaces · RViz · Open Source</strong>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/ROS2-Humble | Jazzy-blue.svg" alt="ROS2 Humble">
-  <img src="https://img.shields.io/badge/Python-3.10+-blue.svg" alt="Python 3.10">
-  <img src="https://img.shields.io/badge/Version-v0.3.0-brightgreen.svg" alt="Version v0.3.0">
-  <img src="https://img.shields.io/badge/Platform-Ubuntu%2022.04+-orange.svg" alt="Ubuntu 22.04+">
-  <img src="https://img.shields.io/badge/Hardware-DM%20%7C%20RS-lightgrey.svg" alt="DM and RS">
 </p>
 
 <p align="center">
