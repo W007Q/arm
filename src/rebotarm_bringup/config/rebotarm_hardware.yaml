@@ -1,0 +1,105 @@
+# Derived by scripts/sync_robot_parameters.py; do not edit these values here.
+# Sources: rebotarm_description/urdf/robot_arm.urdf and config/*.yaml.
+default_model: hybrid
+models:
+  hybrid:
+    sdk_config: rebotarm_dm.yaml
+    overrides:
+      name: reBotArm-Hybrid-DM-PA43
+      urdf_path: package://rebotarm_description/urdf/rebotarm_with_d435.urdf.xacro
+      end_effector_frame: gripper_tcp
+      channel: can0
+      rate: 500
+      groups:
+        arm:
+          joints:
+          - joint1
+          - joint2
+          - joint3
+          - joint4
+          - joint5
+          - joint6
+        gripper:
+          joints:
+          - gripper
+      joints:
+      - name: joint1
+        motor_id: 8
+        feedback_id: 17
+        model: 4340P
+        vendor: damiao
+        MIT:
+          kp: 6.5
+          kd: 1.4
+      - name: joint2
+        motor_id: 9
+        feedback_id: 18
+        model: 4340P
+        vendor: damiao
+        MIT:
+          kp: 7.8
+          kd: 1.4
+      - name: joint3
+        motor_id: 20
+        feedback_id: 19
+        model: 4340P
+        vendor: damiao
+        MIT:
+          kp: 3.1
+          kd: 1.4
+      - name: joint4
+        motor_id: 1
+        feedback_id: 4
+        model: '4310'
+        vendor: damiao
+        MIT:
+          kp: 1.2
+          kd: 0.6
+      - name: joint5
+        motor_id: 1
+        feedback_id: 6
+        model: PA43
+        vendor: hightorque
+        MIT:
+          kp: 2.1
+          kd: 0.3
+      - name: joint6
+        motor_id: 2
+        feedback_id: 5
+        model: '4310'
+        vendor: damiao
+        MIT:
+          kp: 1.2
+          kd: 0.6
+      - name: gripper
+        motor_id: 2
+        feedback_id: 7
+        model: PA43
+        vendor: hightorque
+        MIT:
+          kp: 2.1
+          kd: 0.3
+      gripper:
+        torque_limit_nm: 0.0
+        position_limits:
+          open: 5.0
+          close: 0.0
+      control:
+        arm_control_mode: mit
+      gravity_compensation:
+        kp: 2.0
+        kd: 1.0
+        joint_direction:
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+        - 1.0
+        tau_scale:
+        - 0.3
+        - 0.3
+        - 0.3
+        - 0.3
+        - 0.3
+        - 0.3

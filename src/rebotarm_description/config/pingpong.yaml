@@ -1,0 +1,166 @@
+# Pingpong-only tool, scene and simulation experiment. SI units.
+# Shared arm kinematics/limits still come from robot_arm.urdf; motors from
+# rebotarm_hardware.yaml. Regenerate MJCF with scripts/sync_robot_parameters.py.
+schema_version: 2
+paddle:
+  # Fixed mount on link6; motor 7 and the entire gripper are absent.
+  mount_xyz_m: [0.0, 0.0, 0.13]
+  # Angled adapter makes a horizontal blade reachable with J4 inside limits.
+  mount_rpy_rad: [1.95592253, 0.0, 1.62776247]
+  radius_m: 0.075
+  thickness_m: 0.010
+  blade_mass_kg: 0.12
+  handle_length_m: 0.06
+  handle_radius_m: 0.012
+  handle_mass_kg: 0.05
+  adapter_radius_m: 0.014
+  adapter_mass_kg: 0.035
+ball:
+  radius_m: 0.020
+  mass_kg: 0.0027
+  # Explicit I = 2/3 m r^2; a rigid thin shell, not a deformable ball FEM.
+  inertia_model: thin_shell
+  # Unmeasured contact priors. This is MuJoCo's time constant, NOT the
+  # contact duration or a measured restitution coefficient. A drop test
+  # must jointly fit rebound and contact duration with the actual rubber.
+  contact_time_s: 0.003
+  contact_damping_ratio: 0.10
+  contact_width_m: 0.0001
+  sliding_friction: 0.25
+  # MuJoCo torsion/rolling friction have units of length, not unitless mu.
+  torsional_friction_m: 0.001
+  rolling_friction_m: 0.0001
+  drag_coefficient: 0.47
+  air_density_kg_m3: 1.225
+  # Aerodynamic/spin priors require flight recordings; not fitted values.
+  magnus_lift_slope: 0.15
+  magnus_lift_max: 0.50
+  spin_decay_time_s: 2.0
+scene:
+  # Resolves the approximately 1 ms contact prior with 8 solver steps.
+  timestep_s: 0.000125
+  gravity_m_s2: 9.81
+  wind_velocity_m_s: [0.0, 0.0, 0.0]
+  # The baseline holds the paddle horizontal at this point.
+  home_surface_xyz_m: [0.30, 0.0, 0.38]
+  # Same horizontal blade position; this yaw folds J4 into a lower-load pose.
+  home_yaw_rad: -2.0
+  target_apex_m: 0.15  # ball centre rise above contact-centre height
+  floor_z_m: -0.06
+cameras:
+  # MuJoCo camera looks along local -Z, +Y is image up.
+  # The generator derives rotation from position + look_at (world frame).
+  tracking:
+    position_m: [0.65, -0.75, 0.70]
+    look_at_m: [0.30, 0.0, 0.48]
+    fovy_deg: 48.0
+    width: 640
+    height: 480
+    suggested_fps: 60  # simulated profile; verify real sensor capability
+  tracking_side:
+    # Fixed second camera, synchronised with tracking. A 1.3 m baseline
+    # avoids estimating depth from the apparent diameter of a small ball.
+    position_m: [0.65, 0.55, 0.70]
+    look_at_m: [0.30, 0.0, 0.48]
+    fovy_deg: 48.0
+    width: 640
+    height: 480
+    suggested_fps: 60
+  overview:
+    position_m: [1.05, -1.2, 0.90]
+    look_at_m: [0.15, 0.0, 0.32]
+    fovy_deg: 50.0
+perception:
+  # RGB frames -> white-ball centroids -> calibrated stereo rays -> filter.
+  # A 60 FPS software camera is used here; high speed global shutter cameras
+  # are preferable on hardware. No depth or segmentation truth is consumed.
+  camera_names: [tracking, tracking_side]
+  width: 320
+  height: 240
+  fps: 60
+  exposure_s: 0.002  # temporal RGB integration; fit real shutter/exposure
+  latency_s: 0.012
+  latency_jitter_s: 0.002
+  dropout_probability: 0.01
+  image_noise_std: 1.5
+  blur_sigma_px: 0.35
+  centroid_noise_std_px: 0.15
+  # Unmeasured calibration uncertainty, sampled once per episode.
+  calibration_position_std_m: 0.0005
+  calibration_rotation_std_deg: 0.05
+  calibration_focal_relative_std: 0.001
+  max_age_s: 0.10
+  tracking_timeout_s: 0.30
+  max_reprojection_error_px: 2.0
+  max_ray_gap_m: 0.012
+  min_brightness: 100
+  max_chroma: 60
+  min_radius_px: 2.0
+  max_radius_px: 25.0
+  position_alpha: 0.85
+  velocity_alpha: 0.80
+  workspace_min_m: [0.05, -0.35, 0.20]
+  workspace_max_m: [0.60, 0.35, 0.95]
+control:
+  policy_hz: 100
+  servo_hz: 500
+  joint_kp_scale: 1.0  # canonical hardware MIT gains
+  joint_kd_scale: 1.0
+  # Unmeasured actuator response priors; fit command/encoder recordings.
+  actuator_delay_s: 0.004
+  actuator_time_constant_s: 0.004
+  max_paddle_speed_m_s: 0.60
+  max_paddle_acceleration_m_s2: 5.0
+  stroke_m: 0.045
+  # Bounded Cartesian reference about home; ball motion is never constrained.
+  # Grid-checked reachable region at the horizontal home yaw. This limits
+  # the reference only; a ball beyond reach is a real failed episode.
+  xy_tracking_limit_m: 0.12
+  cartesian_speed_limit_m_s: [0.25, 0.25, 0.60]
+  cartesian_acceleration_limit_m_s2: [0.8, 0.8, 5.0]
+  paddle_tilt_limit_rad: 0.12
+  paddle_tilt_rate_limit_rad_s: 1.5
+  paddle_tilt_acceleration_limit_rad_s2: 8.0
+  tracking_lookahead_s: 0.06
+  xy_tracking_gain_s: 5.0
+  xy_tracking_damping: 0.65
+  tilt_tracking_time_s: 0.08
+  # Tilt creates a physical collision impulse back toward the home centre.
+  lateral_position_gain_rad_m: 0.1
+  lateral_velocity_gain_rad_s_m: 0.02
+  # Position target acceleration is a command slew limit; the plant still
+  # enforces motor torque, velocity and UART limits.
+  joint_target_acceleration_rad_s2: 100.0
+  residual_cartesian_speed_m_s: [0.10, 0.10, 0.20]
+  residual_tilt_rate_rad_s: [0.5, 0.5]
+  nominal_restitution: 0.74  # simulation prior; calibrate from drop experiment
+  residual_speed_m_s: 0.20
+  max_contact_s: 0.010
+calibration:
+  # Never label numerical convergence as agreement with the real robot.
+  status: unmeasured
+  ball_id: null
+  paddle_id: null
+  drop_heights_m: [0.10, 0.15, 0.20]
+  restitution_tolerance: 0.05
+  contact_duration_relative_tolerance: 0.20
+  # Populate with measured drop_height_m, rebound_height_m, contact_duration_s,
+  # incoming_speed_m_s and outgoing_speed_m_s using a fixed physical paddle.
+  measurements: []
+experiment:
+  episode_s: 15.0
+  initial_height_m: [0.11, 0.19]
+  initial_velocity_m_s: [-0.20, 0.20]
+  # The ball is always 6 DOF; initial lateral perturbations are not removed.
+  initial_xy_offset_m: [-0.004, 0.004]
+  initial_horizontal_velocity_m_s: [-0.025, 0.025]
+  initial_spin_rad_s: [-5.0, 5.0]
+  success_bounces: 20
+  seed: 42
+  randomization:
+    damping_ratio: [0.08, 0.16]
+    contact_time_scale: [0.80, 1.20]
+    friction_scale: [0.60, 1.60]
+    wind_m_s: [-0.10, 0.10]
+    mass_scale: [0.90, 1.10]
+    actuator_gain: [0.90, 1.10]

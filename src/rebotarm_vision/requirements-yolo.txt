@@ -1,0 +1,4 @@
+# YOLO26 使用 Ultralytics 官方 Python 包提供，不是名为 yolo26 的独立 pip 包。
+# 先安装支持本机 GPU 的 CUDA 版 torch/torchvision 配对，再安装本文件。
+# 不锁定旧版 torchvision，以免把已安装的 CUDA 版 torch 降级。
+ultralytics>=8.4.0,<9

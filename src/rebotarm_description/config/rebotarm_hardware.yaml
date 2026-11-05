@@ -1,0 +1,324 @@
+# 机械臂硬件参数主配置：统一维护关节电机映射、MIT 增益、UART 上限和电机参数。
+# 参数名保留英文供程序读取；日常调参主要修改 joints[].MIT 和 uart.gravity。
+# 修改参数后，在工作空间根目录运行：python3 scripts/sync_robot_parameters.py
+# 同步脚本生成 motor_specs.yaml、UART 配置及相关仿真参数，不要再手工同步这些副本。
+# 当前控制节点在启动时读取这些参数，修改后需重启相应后端；普通复制安装还需重新构建。
+# 只修改注释不影响运行，也不需要重新生成参数或重启节点。
+#
+# 参数归属：关节角度限位、连杆质量和质心以 robot_arm.urdf 为准；
+# 相机光学外参和工具中心点 TCP 以 d435_mount.yaml 为准；颠球专属参数在 pingpong.yaml。
+# 本文件的电机质量用于参数目录，不会自动替换 URDF 中的连杆质量，也不会自动加入负载。
+#
+# 单位约定：角度为 rad，角速度为 rad/s，输出端力矩为 Nm，质量为 kg。
+# ID 写成 0x 开头表示十六进制，例如 0x14 是十进制 20，0x13 是十进制 19。
+# 每个字段注明适用后端；SDK/CAN 参数不一定对 UART 生效，UART 参数也不修改 STM32 固件。
+
+# 默认硬件配置名称，对应下方 models 的键；SDK 启动参数 model 可覆盖此选择。
+# 参数同步和共享增益读取以这里选中的配置为准，切换前需核对完整映射。
+default_model: hybrid
+
+# 按名称保存硬件配置；当前 hybrid 是 DM4340P、DM4310 和 PA43 的混合机械臂。
+models:
+  hybrid:
+    # SDK 基础配置文件；相对路径从 third_party/reBotArm_control_py/config 查找。
+    # 先读取达妙基础配置，再用 overrides 递归覆盖字典；列表（如 joints）整体替换。
+    sdk_config: rebotarm_dm.yaml
+    # 本机对 SDK 基础配置的覆盖项；其中 joints 的映射和增益也供 UART/仿真读取。
+    overrides:
+      # SDK 内部使用的机械臂名称，用于标识这套配置，不是 ROS 节点或话题名称。
+      name: reBotArm-Hybrid-DM-PA43
+      # SDK 运动学和动力学使用的模型，包含夹爪、D435 和 TCP；package:// 按 ROS 包定位。
+      # xacro 会先展开为 URDF；关节轴、零姿态、连杆质量和质心都影响计算结果。
+      # UART 前馈模型由启动参数 sdk_urdf 另行选择，不由这里自动决定。
+      urdf_path: package://rebotarm_description/urdf/rebotarm_with_d435.urdf.xacro
+      # SDK 正逆运动学使用的末端坐标系，必须存在于上述模型；这里是夹爪工具中心点。
+      end_effector_frame: gripper_tcp
+      # SDK 直连 CAN 使用的 Linux 接口；启动参数 channel 优先，UART 模式不使用此项。
+      channel: can0
+      # SDK 控制循环的目标频率，单位 Hz；不是 UART 发包频率，也不保证系统实时性。
+      rate: 500
+      # SDK 的控制分组：arm 为六个机械臂电机，gripper 为第七个夹爪电机。
+      groups:
+        arm:
+          # 六轴的逻辑顺序；规划目标、反馈和逐轴增益均按 J1～J6 对齐。
+          joints: [joint1, joint2, joint3, joint4, joint5, joint6]
+        gripper:
+          # gripper 是夹爪电机名称，不是 URDF 中两个直线夹指关节的名称。
+          joints: [gripper]
+      # 关节电机表，保持 J1～J6、夹爪的逻辑顺序，便于逐行调整实际 Kp/Kd。
+      # 每行字段说明：
+      #   name：逻辑关节名，需与控制分组及模型对应；gripper 表示第七个电机。
+      #   motor_id：电机在下位机 CAN 总线上的本地控制 ID，必须与电机设置和固件一致。
+      #   feedback_id：CAN 反馈帧的标识符（达妙通常称主机 ID），不是 UART 逻辑关节号。
+      #   model：下方 motor_catalog 的型号键，用于查额定/峰值力矩和仿真电机参数。
+      #   vendor：SDK 协议适配器标识；damiao 为达妙，hightorque 对应当前 PA43 适配器。
+      #   MIT.kp：位置刚度，单位 Nm/rad；越大越强地修正位置误差，也可能增加振荡。
+      #   MIT.kd：速度阻尼，单位 Nm·s/rad；阻碍速度偏差，过大也会影响运动响应。
+      # MIT 的典型力矩关系为 kp×位置误差 + kd×速度误差 + 前馈力矩，固件实现需另行核对。
+      # UART 的速度字段是非负限速，STM32 内部还会生成位置步进，不能直接当作目标速度。
+      # 正常运动的各关节 Kp/Kd 只改这里；SDK、UART 适配器及共用仿真默认增益由此读取。
+      # 夹爪在当前 SDK/UART 路径中由主机使用这组增益计算限矩 PD；夹爪发包增益可为零。
+      # 相同的本地 motor_id 可出现在不同厂商/独立 CAN 总线中，不能仅凭 ID 数字判断冲突。
+      joints:
+        - {name: joint1, motor_id: 0x08, feedback_id: 0x11, model: "4340P", vendor: damiao, MIT: {kp: 6.5, kd: 1.4}}
+        - {name: joint2, motor_id: 0x09, feedback_id: 0x12, model: "4340P", vendor: damiao, MIT: {kp: 7.8, kd: 1.4}}
+        - {name: joint3, motor_id: 0x14, feedback_id: 0x13, model: "4340P", vendor: damiao, MIT: {kp: 3.1, kd: 1.4}}
+        - {name: joint4, motor_id: 0x01, feedback_id: 0x04, model: "4310", vendor: damiao, MIT: {kp: 1.2, kd: 0.6}}
+        - {name: joint5, motor_id: 0x01, feedback_id: 0x06, model: "PA43", vendor: hightorque, MIT: {kp: 2.1, kd: 0.3}}
+        - {name: joint6, motor_id: 0x02, feedback_id: 0x05, model: "4310", vendor: damiao, MIT: {kp: 1.2, kd: 0.6}}
+        - {name: gripper, motor_id: 0x02, feedback_id: 0x07, model: "PA43", vendor: hightorque, MIT: {kp: 2.1, kd: 0.3}}
+      # 夹爪电机的标定和设备限矩，SDK/UART 共用；夹指直线行程仍由 URDF 定义。
+      gripper:
+        # 允许的夹爪输出端力矩上限，单位 Nm；应由实测确定，不直接照抄 PA43 峰值。
+        # 0 表示尚未标定，主机夹爪控制不输出夹持力矩；任务可再设置更低的请求上限。
+        torque_limit_nm: 0.0
+        # 夹爪电机的绝对角度端点，单位 rad，不是夹指间距，也不是关节角度增量。
+        position_limits:
+          # 完全张开时的电机角度；与 URDF 手指行程一起用于角度/开口宽度换算。
+          open: 5.0
+          # 完全闭合时的电机角度；开闭方向由这两个端点决定，不要求 open 小于 close。
+          close: 0.0
+      # SDK 直连 CAN 的正常运动控制模式；UART 的固定七轴 MIT 协议不由这里切换。
+      control:
+        # mit 使用位置/速度/刚度/阻尼/前馈力矩；posvel 使用位置速度控制路径。
+        # 当前选择 mit，普通运动增益读取上方 joints[].MIT。
+        arm_control_mode: mit
+      # 仅用于 SDK/CAN 的独立重力补偿模式，由 gravity_compensation/start 服务进入。
+      # 这组参数不控制 UART 的 gravity_feedforward；SDK 普通运动前馈也不由此组统一缩放。
+      # 启用后按测量角度更新 MIT 位置目标；以下弱增益不代表已完成手推示教安全验证。
+      gravity_compensation:
+        # 独立补偿模式的位置刚度，单位 Nm/rad；标量对六轴相同，也支持六轴列表。
+        kp: 2.0
+        # 独立补偿模式的速度阻尼，单位 Nm·s/rad；标量对六轴相同，也支持六轴列表。
+        kd: 1.0
+        # 按 J1～J6 排列；同模型方向为 1，反向为 -1，同时用于角度和力矩方向换算。
+        # 逐轴核对实际运动方向，不能仅根据厂商所说的顺时针/逆时针填写。
+        joint_direction: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+        # 按 J1～J6 缩放模型重力矩，无单位；0 为不补偿，1 为模型计算值的全量补偿。
+        # 当前 0.3 表示 30%；先以小比例验证方向，再逐轴增加，实际效果取决于模型准确度。
+        tau_scale: [0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+
+# UART 后端：上位机向 STM32 发送 72 字节目标帧，接收 131 字节反馈帧。
+# 此处配置供主机读取和校验，不会修改 STM32 固件、电机驱动器或 CAN 接线。
+uart:
+  # 串口、ROS 指令来源、协议槽位映射以及主机超时策略。
+  transport:
+    # Linux 串口设备路径，例如 /dev/ttyCH343USB0 或 /dev/serial/by-id/...。
+    # 留空表示启动时必须通过 port:=... 指定，避免自动选中错误设备。
+    port: ''
+    # UART 波特率，单位 bit/s；需与 STM32 一致，当前链路按 8N1 计算带宽。
+    baudrate: 3000000
+    # 131 字节反馈中七个槽位预期携带的电机本地 ID，解码器据此校验整帧。
+    # 顺序固定为 [J4, J6, J1, J2, J3, J5, J7]，不是机械臂关节从根到末端的顺序。
+    # 前两槽为 DM4310，中间三槽为 DM4340P，末两槽为 PA43；与当前下位机映射一致。
+    feedback_motor_ids: [0x01, 0x02, 0x08, 0x09, 0x14, 0x01, 0x02]
+    # STM32 槽位到 ROS 逻辑关节号的对应表；7 表示夹爪。
+    # 第一个槽位装 J4，第二个装 J6，以此类推；发包重排和收包还原都用此表。
+    slot_joint_ids: [4, 6, 1, 2, 3, 5, 7]
+    # 同一槽位顺序下的 CAN 反馈/主机 ID，仅用于映射校验和诊断显示。
+    # 这些 CAN 帧 ID 不直接出现在固定 UART 帧中；与上面的电机本地 ID 是不同字段。
+    slot_feedback_ids: [0x04, 0x05, 0x11, 0x12, 0x13, 0x06, 0x07]
+    # ROS 话题和服务的命名空间，生成 /rebotarm/uart/status、/rebotarm/enable 等名称。
+    # 同一套规划器、适配器和通信桥应保持一致，启动参数可覆盖。
+    arm_namespace: rebotarm
+    # 指令来源：batch 接收一条包含全部七轴 MIT 目标的消息；per_joint 接收逐轴 MIT 消息。
+    # 当前统一位置接口经 posvel_to_mit 适配后使用 batch，避免发送不完整的七轴目标。
+    command_source: batch
+    # 使能后的 UART 目标发包频率，单位 Hz；100 表示约每 10 ms 发一帧。
+    # 适配器也读取此值设置发布频率；它不是 STM32 的内部位置步进周期。
+    # te (3) 固件的 UART 反馈仍为 50 Hz、内部控制为 200 Hz；此参数不会改变它们。
+    # 提高频率前核对双方带宽：桥按收发帧长度校验，并预留 20% 串口带宽。
+    tx_hz: 100.0
+    # 上游完整七轴 MIT 目标允许的最大年龄，单位 s；超时锁存故障并停止 UART 发送。
+    # 角度不变也要持续刷新目标。此值只检测 ROS 到通信桥，不是 STM32 看门狗时间。
+    command_timeout: 0.30
+    # 已使能后允许多久没有新的有效 131 字节反馈，单位 s；超时停止发送并锁存故障。
+    # 帧内逐电机 feedback_fresh 仍需单独有效，不能用持续收到 UART 字节代替 CAN 新鲜度。
+    feedback_timeout: 0.25
+    # 使能握手取得新反馈后，正常初始目标与实测角度允许的最大差，单位 rad，约 8.6°。
+    # 用于拦截目标跳变；不是运动完成精度，也不是关节机械限位容差。
+    start_tolerance: 0.15
+    # 六轴模型反馈的零位死区，按 [J1, J2, J3, J4, J5, J6] 排列，单位 rad。
+    # 用户确认实物已摆到 URDF 零位：J5 的约 0.00744 rad 读数可视为零。
+    # 仅 J5 开启 ±0.01 rad（约 ±0.57°）死区；范围内 joint_states 发布为 0。
+    # 其他轴为 0 表示关闭；超过死区保留实测值，不作全行程偏置或方向标定。
+    # RViz、执行误差检查、空闲保持与模型前馈均使用该 joint_states，死区内小运动不再分辨。
+    # uart/status.feedback_position_rad 和逐电机 state 始终保留原始读数，故障/新鲜度检查不变。
+    feedback_zero_tolerance_rad: [0.0, 0.0, 0.0, 0.0, 0.01, 0.0]
+    # 当前固定协议靠停止收包触发 STM32 约 500 ms 看门狗失能；该时间只在固件中配置。
+    # 72 字节目标没有看门狗设置字段，因此上方超时值不会改变下位机失能延迟。
+  # 在上位机记录的 STM32 能力上限；最初按 te (2).zip 的电机分组头文件核对。
+  # 固件变更后需重新核对这些值；提高 YAML 上限不会自动提高固件实际能力。
+  # velocity、torque 数组都按 [J4, J6, J1, J2, J3, J5, J7] 的槽位顺序填写。
+  firmware:
+    # 七个槽位各自允许的最大限速，单位 rad/s；发送的是非负限速而非有符号目标速度。
+    # 主机实际允许值取此项与 arm_limits/gripper_limits.velocity 中较小者。
+    velocity: [0.3, 0.3, 0.3, 0.3, 0.3, 0.5, 0.5]
+    # 七个槽位的前馈力矩 tau 上限，单位 Nm，校验时按正负对称范围处理。
+    # 主机实际允许值还受电机 peak、夹爪通信上限影响；夹爪 PD 另受设备实测限矩约束。
+    # 这不是电机内部 PD 加前馈后的总力矩上限；当前逻辑顺序 J1/J2/J3 的 tau 均限 1 Nm。
+    torque: [10.0, 10.0, 1.0, 1.0, 1.0, 3.0, 3.0]
+    # 协议允许的 Kp 最大值，单位 Nm/rad；不是实际工作增益，工作值在 joints[].MIT.kp。
+    # 当前 UART 字段按 0.001 编码到无符号 16 位，最大可表示 65.535。
+    kp: 65.535
+    # 固件允许的 Kd 最大值，单位 Nm·s/rad；不是 joints[].MIT.kd 的默认值。
+    kd: 5.0
+  # UART 六轴重力前馈标定，以下数组均按 [J1, J2, J3, J4, J5, J6] 排列，不含夹爪。
+  # 只有启动时设置 gravity_feedforward:=true 才计算并发送重力前馈，默认关闭。
+  # 计算关系：模型角度 = 实测角度×joint_direction + joint_offset；
+  # 电机前馈 = 模型重力矩×joint_direction×tau_scale，再受逐轴前馈限矩约束。
+  # 这些值只用于重力计算，不会自动修正规划目标和反馈坐标，也不会开启手推示教模式。
+  gravity:
+    # UART 实测角度为零时，对应的 URDF 关节角，单位 rad。
+    # STM32 每次复位会重新设置零点；若上电实物姿态就是 URDF 零姿态，可保持全零。
+    joint_offset: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    # 电机角度与 URDF 角度同向为 1，反向为 -1；此处同时换算力矩方向。
+    # 更改它不会修复 RViz 运动方向；目标/反馈的整体坐标对应仍需另外核对。
+    joint_direction: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    # 每轴模型重力矩的缩放比例，无单位，当前程序要求在 0～1 之间。
+    # 当前 0.1 为 10%；1 为模型全量，不保证实物完全平衡，且前馈限矩仍会截断输出。
+    tau_scale: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+  # UART 六轴共用的软件上限；同步脚本会与固件上限合并，生成逐轴实际限制。
+  # 这些值不自动设置电机驱动器，也不替代 STM32 本地保护。
+  arm_limits:
+    # 六轴共用的速度上限，单位 rad/s；还需不超过 URDF 速度上限。
+    # 当前固件逐轴限速更小，所以实际多数轴仍为 0.3 rad/s，J5 为 0.5 rad/s。
+    velocity: 2.0
+    # 六轴共用的 Kp 校验上限，单位 Nm/rad；实际还受 firmware.kp=65.535 限制。
+    kp: 500.0
+    # 六轴共用的 Kd 校验上限，单位 Nm·s/rad；实际还受 firmware.kd=5.0 限制。
+    kd: 20.0
+  # 夹爪在 UART 通信层的上限；设备限矩另由上方 gripper.torque_limit_nm 实测确定。
+  gripper_limits:
+    # 夹爪电机角速度上限，单位 rad/s；与固件该槽位限速取小，当前实际为 0.5。
+    velocity: 1.0
+    # 夹爪前馈力矩的通信层上限，单位 Nm；再与固件 3 Nm、电机峰值取小。
+    # 即使此处非零，设备 gripper.torque_limit_nm 为零时，主机夹持力矩仍不启用。
+    torque: 5.0
+    # 夹爪 MIT 指令的 Kp 校验上限，单位 Nm/rad；正常调参仍改 joints[].MIT。
+    kp: 50.0
+    # 夹爪 MIT 指令的 Kd 校验上限，单位 Nm·s/rad；还受固件上限约束。
+    kd: 5.0
+# 电机参数目录，供仿真电机模型、重力能力扫描和 UART 峰值限幅读取。
+# 每个型号键需与 joints[].model 一致；同一型号的多个关节共用这组参数。
+# rated/peak、转速和力矩常数按输出端解释；转子惯量则是电机转子侧，下面注明换算。
+# 摩擦和热参数仍含工程估计，PA43 的转子惯量、电阻也需实测；不能据此保证长期热安全。
+# 修改这里的 mass 不会重建 URDF 质量/质心；真实重力计算以所加载 URDF 的惯性参数为准。
+motor_catalog:
+  # J1～J3 使用的 DM4340P，下面是该型号共用参数。
+  4340P:
+    # 电机模型名称，用于生成 motor_specs.yaml 中的型号索引和显示名称。
+    name: DM4340P
+    # 输出端额定力矩，单位 Nm；用于静态能力对照，持续运行能力仍取决于散热条件。
+    rated: 9.0
+    # 输出端短时峰值力矩，单位 Nm；用于仿真能力包络及 UART 上限合并，不宜长期保持。
+    peak: 27.0
+    # 单个电机组件质量，单位 kg；作为电机规格记录，不自动叠加到 CAD 连杆质量中。
+    mass: 0.375
+    # 减速比，无单位；例如 40 表示转子约转 40 圈，输出端转 1 圈。
+    # 仿真把转子惯量按 gear²×rotor_inertia 折算到关节输出侧。
+    gear: 40.0
+    # 输出端等效力矩常数，单位 Nm/A；热模型用 |力矩|/该值估算电流，不是电流控制指令。
+    torque_constant: 3.0
+    # 输出端空载角速度，单位 rad/s；仿真在达到此速度时将可用驱动力矩降至零。
+    no_load_speed: 5.5
+    # 输出端额定角速度，单位 rad/s；仿真低于此值允许峰值包络，超过后按速度降额。
+    rated_speed: 3.77
+    # 转子侧转动惯量，单位 kg·m²；仿真按减速比平方折算，不能误填已折算的关节惯量。
+    rotor_inertia: 2.0e-05
+    # 输出端静摩擦/库仑摩擦力矩的近似值，单位 Nm；用于仿真摩擦损失。
+    friction_static: 0.05
+    # 输出端黏性阻尼系数，单位 Nm·s/rad；仿真中产生随速度增加的阻力矩。
+    friction_viscous: 0.02
+    # 电机相电阻，单位 Ω；热模型按 1.5×电流²×相电阻估算铜耗。
+    phase_resistance: 0.88
+    # 简化热阻，单位 K/W；越大表示同样温差下散热越慢，需根据实测校准。
+    thermal_resistance: 2.0
+    # 简化热容量，单位 J/K；越大表示相同净热功率下温度变化越慢，需根据实测校准。
+    thermal_capacity: 60.0
+  # J4、J6 使用的 DM4310；键加引号以保持为字符串，与 joints[].model 对应。
+  '4310':
+    # 电机模型名称，供生成文件和诊断显示使用。
+    name: DM4310
+    # 输出端额定力矩，单位 Nm；持续能力参考值，不是 UART 前馈限矩。
+    rated: 3.0
+    # 输出端短时峰值力矩，单位 Nm；仿真能力包络和 UART 上限合并会读取。
+    peak: 7.0
+    # 单个电机组件质量，单位 kg；不会自动修改 URDF 连杆质量。
+    mass: 0.3
+    # 减速比，无单位；用于把转子侧惯量按比例平方折算到关节侧。
+    gear: 10.0
+    # 输出端等效力矩常数，单位 Nm/A；用于由力矩估算发热电流。
+    torque_constant: 0.81
+    # 输出端空载角速度，单位 rad/s；仿真在此速度及以上不再提供驱动力矩。
+    no_load_speed: 20.9
+    # 输出端额定角速度，单位 rad/s；仿真超过此值后按速度降低允许峰值力矩。
+    rated_speed: 12.57
+    # 转子侧惯量，单位 kg·m²；反射到关节侧的惯量为该值×gear²。
+    rotor_inertia: 1.8e-05
+    # 输出端静摩擦/库仑摩擦力矩估计，单位 Nm；仿真使用，需实测校准。
+    friction_static: 0.03
+    # 输出端黏性阻尼系数，单位 Nm·s/rad；仿真使用，需实测校准。
+    friction_viscous: 0.01
+    # 电机相电阻，单位 Ω；参与简化铜耗和温升计算。
+    phase_resistance: 0.85
+    # 简化热阻，单位 K/W；决定相对环境温差下的散热功率，当前为估计值。
+    thermal_resistance: 2.5
+    # 简化热容量，单位 J/K；决定温升和冷却速度，当前为估计值。
+    thermal_capacity: 40.0
+  # J5 和第七个夹爪电机使用的 PA43；型号参数共用，工作增益按各关节分别填写。
+  PA43:
+    # 电机模型名称，供生成文件和诊断显示使用。
+    name: PA43
+    # 输出端额定力矩，单位 Nm；不是已经标定好的夹爪安全夹持力矩。
+    rated: 5.0
+    # 输出端短时峰值力矩，单位 Nm；不能直接作为夹爪持续夹持上限。
+    peak: 13.0
+    # 单个电机组件质量，单位 kg；仅为规格记录，不自动修改 URDF。
+    mass: 0.295
+    # 减速比，无单位；关节侧反射惯量使用该值的平方进行换算。
+    gear: 20.25
+    # 输出端等效力矩常数，单位 Nm/A；用于简化热模型估算电流。
+    torque_constant: 3.42
+    # 输出端空载角速度，单位 rad/s；当前与额定转速取同值，简化模型的高速区较粗略。
+    no_load_speed: 10.47
+    # 输出端额定角速度，单位 rad/s；用于仿真转矩/转速包络，不是 UART 工作限速。
+    rated_speed: 10.47
+    # 转子侧惯量估计，单位 kg·m²；仿真再乘 gear²，需用 PA43 实测或厂家数据替换。
+    rotor_inertia: 2.0e-05
+    # 输出端静摩擦/库仑摩擦力矩估计，单位 Nm；影响仿真低速和静止表现。
+    friction_static: 0.05
+    # 输出端黏性阻尼系数估计，单位 Nm·s/rad；影响仿真运动阻力。
+    friction_viscous: 0.02
+    # 相电阻估计，单位 Ω；用于热模型，当前值不代表已完成 PA43 电阻标定。
+    phase_resistance: 1.0
+    # 简化热阻估计，单位 K/W；需通过温升/冷却实验校准。
+    thermal_resistance: 2.0
+    # 简化热容量估计，单位 J/K；需通过温升/冷却实验校准。
+    thermal_capacity: 50.0
+# 仿真和离线能力分析设置，会写入派生的 motor_specs.yaml。
+# 这里的负载列表和扫描范围不修改 MoveIt 规划配置，也不自动改变真机重力前馈模型。
+simulation:
+  # 重力力矩扫描的关节采样范围覆盖项，单位 rad；空字典表示采用仿真模型的关节限位。
+  # 示例：{joint2: [-1.0, 1.0]}。只影响扫描搜索范围，不修改实体限位或规划器限位。
+  limits: {}
+  # 离线静态负载扫描：在 TCP 点附加重量计算需求力矩，不是生成实际抓取物体。
+  payload:
+    # 需要逐个评估的额外负载质量，单位 kg；0 表示空载，1.5/2.5 为分析工况。
+    # 它们不表示已验证的安全载荷；负载施加位置由 d435_mount.yaml 的 TCP 配置派生。
+    masses_kg:
+    - 0.0
+    - 1.5
+    - 2.5
+  # rs_gravity_scan 的默认搜索设置，命令行参数可以覆盖；扫描本身不驱动真机。
+  scan:
+    # 每个负载工况的随机关节姿态采样数；越大通常覆盖越充分，耗时也越长。
+    samples: 20000
+    # 是否在随机采样后，逐关节用差分进化继续寻找较大重力矩；增加计算量。
+    # 搜索结果不保证全局最大值，扫描也不自动过滤自碰撞，不能直接作为执行姿态。
+    refine: true
+    # 随机采样和优化使用的随机种子；固定整数便于在相同模型、配置下复现实验。
+    seed: 0
+  # 仿真电机热模型的环境温度，单位 °C，同时作为电机估算初始温度。
+  # 不是电机传感器实时温度，也不设置真机过温保护阈值。
+  ambient_temperature: 25.0

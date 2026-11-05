@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!-- The CAD export is the source of the arm and camera_link geometry.  This
+     wrapper only adds the controller TCP, an optional D435 collision mesh,
+     and the optical frame names used by RealSense. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rebotarm">
+  <xacro:include filename="$(find rebotarm_description)/urdf/robot_arm.urdf"/>
+  <xacro:property name="mounts" value="${xacro.load_yaml('$(find rebotarm_description)/config/d435_mount.yaml')}"/>
+  <xacro:property name="tcp_mount" value="${mounts['tcp']}"/>
+
+  <link name="gripper_tcp"/>
+  <joint name="gripper_tcp_joint" type="fixed">
+    <parent link="gripper_end"/>
+    <child link="gripper_tcp"/>
+    <origin xyz="${' '.join(str(v) for v in tcp_mount['xyz_m'])}"
+            rpy="${' '.join(str(v) for v in tcp_mount['rpy_rad'])}"/>
+  </joint>
+
+  <!-- The CAD camera mesh is positioned in camera_link coordinates. -->
+  <xacro:arg name="d435_collision" default="true"/>
+  <xacro:if value="$(arg d435_collision)">
+    <link name="d435_collision_proxy">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><mesh filename="package://rebotarm_description/meshes/part_110_part.stl" scale="0.001 0.001 0.001"/></geometry>
+      </collision>
+    </link>
+    <joint name="d435_collision_proxy_joint" type="fixed">
+      <parent link="camera_link"/>
+      <child link="d435_collision_proxy"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:if>
+
+  <!-- CAD camera_link is not the RealSense sensor origin. This transform
+       is shared with MuJoCo; its measurement status is recorded in YAML. -->
+  <xacro:property name="sensor_mount" value="${mounts['d435_mount']}"/>
+  <link name="camera_sensor_frame"/>
+  <joint name="camera_sensor_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_sensor_frame"/>
+    <origin xyz="${' '.join(str(v) for v in sensor_mount['xyz_m'])}"
+            rpy="${' '.join(str(v) for v in sensor_mount['rpy_rad'])}"/>
+  </joint>
+
+  <!-- RealSense publishes these internal frames on hardware. -->
+  <xacro:arg name="d435_internal_tf" default="true"/>
+  <xacro:if value="$(arg d435_internal_tf)">
+    <link name="camera_color_frame"/>
+    <joint name="camera_color_joint" type="fixed">
+      <parent link="camera_sensor_frame"/>
+      <child link="camera_color_frame"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    <link name="camera_color_optical_frame"/>
+    <joint name="camera_color_optical_joint" type="fixed">
+      <parent link="camera_color_frame"/>
+      <child link="camera_color_optical_frame"/>
+      <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+    </joint>
+    <link name="camera_depth_frame"/>
+    <joint name="camera_depth_joint" type="fixed">
+      <parent link="camera_sensor_frame"/>
+      <child link="camera_depth_frame"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    <link name="camera_depth_optical_frame"/>
+    <joint name="camera_depth_optical_joint" type="fixed">
+      <parent link="camera_depth_frame"/>
+      <child link="camera_depth_optical_frame"/>
+      <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+    </joint>
+  </xacro:if>
+</robot>

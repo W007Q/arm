@@ -1,0 +1,26 @@
+# Housing pose, mesh and inertia: robot_arm.urdf (CAD export).
+# Sensor frame: estimate at the housing front face, 1 mm clear of the mesh.
+# NOT measured lens extrinsics; verify lens position/axes before visual grasping.
+d435_mount:
+  parent_frame: camera_link
+  child_frame: camera_sensor_frame
+  xyz_m:
+  - -0.0007257355906973174
+  - 0.1989140884848552
+  - 0.454425573348999
+  rpy_rad:
+  - 0.0
+  - 0.0
+  - 1.019391448804163
+  calibration_status: cad_front_face_estimate_optics_unverified
+tcp:
+  parent_frame: gripper_end
+  child_frame: gripper_tcp
+  xyz_m:
+  - 0.0412434
+  - 0.1005811
+  - 0.1376001
+  rpy_rad:
+  - 0.0
+  - 0.0
+  - 0.0

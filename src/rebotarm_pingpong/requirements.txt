@@ -1,0 +1,12 @@
+# Python 3.10; optional training dependencies, kept out of the grasp packages.
+# Compatible with this workspace's torch 2.4 and NumPy 2; avoid a torch upgrade.
+mujoco==3.13.0
+numpy>=1.26,<3
+scipy>=1.13,<2
+PyYAML>=6
+opencv-python>=4.9,<5
+gymnasium==1.0.0
+stable-baselines3==2.5.0
+torch>=2.3,<2.6
+matplotlib>=3.9,<4
+pandas>=2.2,<3

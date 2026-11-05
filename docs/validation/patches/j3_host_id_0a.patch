@@ -1,0 +1,20 @@
+--- a/src/rebotarm_description/config/rebotarm_hardware.yaml
++++ b/src/rebotarm_description/config/rebotarm_hardware.yaml
+@@ -30,7 +30,7 @@
+         # 各关节 Kp/Kd 只改这里的 MIT；仿真、SDK 和 UART 共用，发包自动重排。
+         - {name: joint1, motor_id: 0x08, feedback_id: 0x11, model: "4340P", vendor: damiao, MIT: {kp: 3.1, kd: 1.4}}
+         - {name: joint2, motor_id: 0x09, feedback_id: 0x12, model: "4340P", vendor: damiao, MIT: {kp: 3.1, kd: 1.4}}
+-        - {name: joint3, motor_id: 0x10, feedback_id: 0x13, model: "4340P", vendor: damiao, MIT: {kp: 3.1, kd: 1.4}}
++        - {name: joint3, motor_id: 0x0A, feedback_id: 0x13, model: "4340P", vendor: damiao, MIT: {kp: 3.1, kd: 1.4}}
+         - {name: joint4, motor_id: 0x01, feedback_id: 0x04, model: "4310", vendor: damiao, MIT: {kp: 1.2, kd: 0.6}}
+         - {name: joint5, motor_id: 0x01, feedback_id: 0x06, model: "PA43", vendor: hightorque, MIT: {kp: 2.1, kd: 0.3}}
+         - {name: joint6, motor_id: 0x02, feedback_id: 0x05, model: "4310", vendor: damiao, MIT: {kp: 1.2, kd: 0.6}}
+@@ -61,7 +61,7 @@
+     # te (2).zip: these IDs are in fixed STM32 wire-slot order, not logical
+     # joint order. The first two are DM4310, the next three DM4340P, and the
+     # final two Motorevo/PA43 slots.
+-    feedback_motor_ids: [0x01, 0x02, 0x08, 0x09, 0x10, 0x01, 0x02]
++    feedback_motor_ids: [0x01, 0x02, 0x08, 0x09, 0x0A, 0x01, 0x02]
+     # Wire slot -> logical joint: [J4, J6, J1, J2, J3, J5, J7].
+     slot_joint_ids: [4, 6, 1, 2, 3, 5, 7]
+     # CAN feedback/Master IDs in the same STM32 wire-slot order. These IDs

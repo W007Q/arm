@@ -1,0 +1,122 @@
+[INFO] [launch]: All log files can be found below /home/wq/reBotArmController_ROS2-main/artifacts/validation/max_lead/2026-10-24-21-37-20-447014-wq-Legion-R7000P-ADR10-695453
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [static_transform_publisher-1]: process started with pid [695481]
+[INFO] [move_group-2]: process started with pid [695483]
+[static_transform_publisher-1] [WARN] [1792849040.657676191] []: Old-style arguments are deprecated; see --help for new-style arguments
+[static_transform_publisher-1] [INFO] [1792849040.667478401] [static_transform_publisher]: Spinning until stopped - publishing transform
+[static_transform_publisher-1] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-1] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-1] from 'world' to 'base_link'
+[move_group-2] [INFO] [1792849040.688333032] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.0029504 seconds
+[move_group-2] [INFO] [1792849040.688371025] [moveit_robot_model.robot_model]: Loading robot model 'rebotarm_hybrid'...
+[move_group-2] [WARN] [1792849041.181105450] [moveit_robot_model.robot_model]: Link camera_link has visual geometry but no collision geometry. Collision geometry will be left empty. Fix your URDF file by explicitly specifying collision geometry.
+[move_group-2] [INFO] [1792849042.318818463] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[move_group-2] [INFO] [1792849042.318957375] [moveit.ros_planning_interface.moveit_cpp]: Listening to 'joint_states' for joint states
+[move_group-2] [INFO] [1792849042.319333744] [moveit_ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[move_group-2] [INFO] [1792849042.319517772] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/attached_collision_object' for attached collision objects
+[move_group-2] [INFO] [1792849042.319529645] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting planning scene monitor
+[move_group-2] [INFO] [1792849042.319666183] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/planning_scene'
+[move_group-2] [INFO] [1792849042.319675681] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting world geometry update monitor for collision objects, attached objects, octomap updates.
+[move_group-2] [INFO] [1792849042.319825279] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to 'collision_object'
+[move_group-2] [INFO] [1792849042.319976064] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to 'planning_scene_world' for planning scene world geometry
+[move_group-2] [WARN] [1792849042.320139909] [moveit.ros.occupancy_map_monitor.middleware_handle]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+[move_group-2] [ERROR] [1792849042.320148220] [moveit.ros.occupancy_map_monitor.middleware_handle]: No 3D sensor plugin(s) defined for octomap updates
+[move_group-2] [INFO] [1792849045.731676233] [moveit.ros_planning_interface.moveit_cpp]: Loading planning pipeline 'ompl'
+[move_group-2] [INFO] [1792849045.738955467] [moveit.ros_planning.planning_pipeline]: Using planning interface 'OMPL'
+[move_group-2] [INFO] [1792849045.740343402] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.path_tolerance' was not set. Using default value: 0.100000
+[move_group-2] [INFO] [1792849045.740354087] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.resample_dt' was not set. Using default value: 0.100000
+[move_group-2] [INFO] [1792849045.740358836] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.min_angle_change' was not set. Using default value: 0.001000
+[move_group-2] [INFO] [1792849045.740371896] [moveit_ros.fix_workspace_bounds]: Param 'ompl.default_workspace_bounds' was not set. Using default value: 10.000000
+[move_group-2] [INFO] [1792849045.740380207] [moveit_ros.fix_start_state_bounds]: Param 'ompl.start_state_max_bounds_error' was not set. Using default value: 0.050000
+[move_group-2] [INFO] [1792849045.740384957] [moveit_ros.fix_start_state_bounds]: Param 'ompl.start_state_max_dt' was not set. Using default value: 0.500000
+[move_group-2] [INFO] [1792849045.740389706] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Add Time Optimal Parameterization'
+[move_group-2] [INFO] [1792849045.740393268] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Resolve constraint frames to robot links'
+[move_group-2] [INFO] [1792849045.740396829] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Workspace Bounds'
+[move_group-2] [INFO] [1792849045.740400391] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Start State Bounds'
+[move_group-2] [INFO] [1792849045.781209694] [moveit.plugins.moveit_simple_controller_manager]: Added FollowJointTrajectory controller for rebotarm
+[move_group-2] [INFO] [1792849045.781310613] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[move_group-2] [INFO] [1792849045.781322486] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[move_group-2] [INFO] [1792849045.781493455] [moveit_ros.trajectory_execution_manager]: Trajectory execution is managing controllers
+[move_group-2] [INFO] [1792849045.781505328] [move_group.move_group]: MoveGroup debug mode is ON
+[move_group-2] [INFO] [1792849045.789659590] [move_group.move_group]: 
+[move_group-2] 
+[move_group-2] ********************************************************
+[move_group-2] * MoveGroup using: 
+[move_group-2] *     - ApplyPlanningSceneService
+[move_group-2] *     - ClearOctomapService
+[move_group-2] *     - CartesianPathService
+[move_group-2] *     - ExecuteTrajectoryAction
+[move_group-2] *     - GetPlanningSceneService
+[move_group-2] *     - KinematicsService
+[move_group-2] *     - MoveAction
+[move_group-2] *     - MotionPlanService
+[move_group-2] *     - QueryPlannersService
+[move_group-2] *     - StateValidationService
+[move_group-2] ********************************************************
+[move_group-2] 
+[move_group-2] [INFO] [1792849045.789689272] [moveit_move_group_capabilities_base.move_group_context]: MoveGroup context using planning plugin ompl_interface/OMPLPlanner
+[move_group-2] [INFO] [1792849045.789696396] [moveit_move_group_capabilities_base.move_group_context]: MoveGroup context initialization complete
+[move_group-2] [96mLoading 'move_group/ApplyPlanningSceneService'...
+[move_group-2] [0m[96mLoading 'move_group/ClearOctomapService'...
+[move_group-2] [0m[96mLoading 'move_group/MoveGroupCartesianPathService'...
+[move_group-2] [0m[96mLoading 'move_group/MoveGroupExecuteTrajectoryAction'...
+[move_group-2] [0m[96mLoading 'move_group/MoveGroupGetPlanningSceneService'...
+[move_group-2] [0m[96mLoading 'move_group/MoveGroupKinematicsService'...
+[move_group-2] [0m[96mLoading 'move_group/MoveGroupMoveAction'...
+[move_group-2] [0m[96mLoading 'move_group/MoveGroupPlanService'...
+[move_group-2] [0m[96mLoading 'move_group/MoveGroupQueryPlannersService'...
+[move_group-2] [0m[96mLoading 'move_group/MoveGroupStateValidationService'...
+[move_group-2] [0m[92m
+[move_group-2] You can start planning now!
+[move_group-2] 
+[move_group-2] [INFO] [1792849045.895257758] [moveit_move_group_default_capabilities.plan_service_capability]: Received new planning service request...
+[move_group-2] [INFO] [1792849045.897320069] [moveit_move_group_capabilities_base.move_group_capability]: Using planning pipeline 'ompl'
+[move_group-2] [INFO] [1792849045.898022941] [moveit.ompl_planning.model_based_planning_context]: Planner configuration 'arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[move_group-2] [INFO] [1792849045.962808244] [moveit_move_group_default_capabilities.execute_trajectory_action_capability]: Received goal request
+[move_group-2] [INFO] [1792849045.962932909] [moveit_move_group_default_capabilities.execute_trajectory_action_capability]: Execution request received
+[move_group-2] [INFO] [1792849045.962955467] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[move_group-2] [INFO] [1792849045.962970902] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[move_group-2] [INFO] [1792849045.963038577] [moveit_ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.05
+[move_group-2] [INFO] [1792849045.977189807] [moveit_ros.trajectory_execution_manager]: Starting trajectory execution ...
+[move_group-2] [INFO] [1792849045.977264606] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[move_group-2] [INFO] [1792849045.977281228] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[move_group-2] [INFO] [1792849045.977371461] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to rebotarm
+[move_group-2] [INFO] [1792849045.979195129] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: rebotarm started execution
+[move_group-2] [INFO] [1792849045.979212938] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request accepted!
+[move_group-2] [INFO] [1792849047.750091203] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Controller 'rebotarm' successfully finished
+[move_group-2] [INFO] [1792849047.797895982] [moveit_ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+[move_group-2] [INFO] [1792849047.798012335] [moveit_move_group_default_capabilities.execute_trajectory_action_capability]: Execution completed: SUCCEEDED
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [move_group-2]: sending signal 'SIGINT' to process[move_group-2]
+[INFO] [static_transform_publisher-1]: sending signal 'SIGINT' to process[static_transform_publisher-1]
+[move_group-2] [INFO] [1792849047.813338977] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[static_transform_publisher-1] [INFO] [1792849047.813342538] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[move_group-2] [INFO] [1792849047.814387348] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[ERROR] [static_transform_publisher-1]: process has died [pid 695481, exit code -2, cmd '/opt/ros/humble/lib/tf2_ros/static_transform_publisher 0 0 0 0 0 0 world base_link --ros-args -r __node:=static_transform_publisher'].
+[move_group-2] [INFO] [1792849047.820091057] [moveit.ros_planning_interface.moveit_cpp]: Deleting MoveItCpp
+[move_group-2] [INFO] [1792849047.820575469] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Stopped publishing maintained planning scene.
+[move_group-2] [INFO] [1792849047.820890099] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Stopping world geometry monitor
+[move_group-2] [INFO] [1792849047.821023075] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Stopping planning scene monitor
+[move_group-2] Warning: class_loader.ClassLoader: SEVERE WARNING!!! Attempting to unload library while objects created by this loader exist in the heap! You should delete your objects before attempting to unload the library or destroying the ClassLoader. The library will NOT be unloaded.
+[move_group-2]          at line 127 in ./src/class_loader.cpp
+[move_group-2] Stack trace (most recent call last):
+[move_group-2] #16   Object "", at 0xffffffffffffffff, in 
+[move_group-2] #15   Object "/opt/ros/humble/lib/moveit_ros_move_group/move_group", at 0x5e8567897724, in 
+[move_group-2] #14   Source "../csu/libc-start.c", line 392, in __libc_start_main_impl [0x749d69629e3f]
+[move_group-2] #13   Source "../sysdeps/nptl/libc_start_call_main.h", line 58, in __libc_start_call_main [0x749d69629d8f]
+[move_group-2] #12   Object "/opt/ros/humble/lib/moveit_ros_move_group/move_group", at 0x5e856789665b, in 
+[move_group-2] #11   Object "/opt/ros/humble/lib/moveit_ros_move_group/move_group", at 0x5e8567898709, in 
+[move_group-2] #10   Object "/opt/ros/humble/lib/libmoveit_cpp.so.2.5.9", at 0x749d6a169876, in moveit_cpp::MoveItCpp::~MoveItCpp()
+[move_group-2] #9    Object "/opt/ros/humble/lib/libmoveit_cpp.so.2.5.9", at 0x749d6a167ba9, in 
+[move_group-2] #8    Object "/opt/ros/humble/lib/libmoveit_trajectory_execution_manager.so.2.5.9", at 0x749d694d13b5, in trajectory_execution_manager::TrajectoryExecutionManager::~TrajectoryExecutionManager()
+[move_group-2] #7    Object "/opt/ros/humble/lib/libmoveit_trajectory_execution_manager.so.2.5.9", at 0x749d694e42d9, in 
+[move_group-2] #6    Object "/opt/ros/humble/lib/librclcpp.so", at 0x749d69dc7f2c, in rclcpp::Node::~Node()
+[move_group-2] #5    Object "/opt/ros/humble/lib/librclcpp.so", at 0x749d69dc7ece, in rclcpp::Node::~Node()
+[move_group-2] #4    Object "/opt/ros/humble/lib/librclcpp.so", at 0x749d69da2f39, in 
+[move_group-2] #3    Object "/opt/ros/humble/lib/librclcpp.so", at 0x749d69dd1579, in 
+[move_group-2] #2    Object "/opt/ros/humble/lib/librclcpp.so", at 0x749d69dd14c0, in rclcpp::node_interfaces::NodeBase::~NodeBase()
+[move_group-2] #1    Object "/opt/ros/humble/lib/librclcpp.so", at 0x749d69da2f39, in 
+[move_group-2] #0    Object "/opt/ros/humble/lib/librclcpp.so", at 0x749d69da7df1, in rclcpp::CallbackGroup::~CallbackGroup()
+[move_group-2] Segmentation fault (Address not mapped to object [0x749d6017b798])
+[ERROR] [move_group-2]: process has died [pid 695483, exit code -11, cmd '/opt/ros/humble/lib/moveit_ros_move_group/move_group --ros-args --params-file /tmp/launch_params_gnwsc7e4 -r /joint_states:=/rebotarm/joint_states'].
+[move_group-2] [0m

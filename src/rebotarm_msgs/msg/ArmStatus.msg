@@ -1,0 +1,9 @@
+std_msgs/Header header
+string mode
+bool enabled
+bool control_loop_active
+string state_machine
+string[] joint_names
+uint8[] per_joint_status_code
+float64[] per_joint_temperature
+string[] error_codes

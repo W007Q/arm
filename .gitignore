@@ -1,0 +1,17 @@
+build/
+install/
+log/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+info
+third_party/
+artifacts/pingpong/
+# YOLO 权重通常较大，按需下载，不纳入源码版本控制。
+*.pt
+*.onnx
+*.engine
+archive/legacy_b601_mujoco/
+ch343ser_linux/

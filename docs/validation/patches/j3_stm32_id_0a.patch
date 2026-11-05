@@ -1,0 +1,11 @@
+--- a/Core/Inc/motor3_app.h
++++ b/Core/Inc/motor3_app.h
+@@ -5,7 +5,7 @@
+ #define MOTOR3_APP_COUNT          3u
+ #define MOTOR3_APP_ID1            0x08u
+ #define MOTOR3_APP_ID2            0x09u
+-#define MOTOR3_APP_ID3            0x10u
++#define MOTOR3_APP_ID3            0x0Au
+ #define MOTOR3_APP_MASTER1        0x11u                                                                               
+ #define MOTOR3_APP_MASTER2        0x12u
+ #define MOTOR3_APP_MASTER3        0x13u

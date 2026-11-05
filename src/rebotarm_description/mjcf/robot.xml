@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Parameters synchronized by scripts/sync_robot_parameters.py.
+     Edit URDF/config for joint/body/camera/TCP parameters.
+     Meshes, collision proxies, contact and solver settings remain editable here. -->
+<mujoco model="rebotarm_cad_v5">
+  <compiler angle="radian" eulerseq="xyz" autolimits="true" balanceinertia="true" boundinertia="1e-8" meshdir="../meshes/" />
+  <asset>
+    <mesh name="part_015_j1" file="part_015_j1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_014_part" file="part_014_part.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_001__STEP" file="part_001_.STEP.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_005_part" file="part_005_part.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_006_surface_shell_212" file="part_006_surface_shell_212.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_007_surface_shell_213" file="part_007_surface_shell_213.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_008_surface_shell_214" file="part_008_surface_shell_214.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_009_surface_shell_215" file="part_009_surface_shell_215.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_010_surface_shell_216" file="part_010_surface_shell_216.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_011_surface_shell_217" file="part_011_surface_shell_217.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_012_surface_shell_218" file="part_012_surface_shell_218.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_013_surface_shell_219" file="part_013_surface_shell_219.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_105_02_Lower_Wrist_Link_R" file="part_105_02_Lower_Wrist_Link_R.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_104_02_Lower_Wrist_Link_L" file="part_104_02_Lower_Wrist_Link_L.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_002_PA43_10_20_25_DEEP__S02_step" file="part_002_PA43-10-20.25_DEEP_-S02.step.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_003_part" file="part_003_part.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_106_PA43_2" file="part_106_PA43_2.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_004_part" file="part_004_part.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_107_part" file="part_107_part.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_108_part" file="part_108_part.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_109_2" file="part_109_2.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_018_surface_shell_261" file="part_018_surface_shell_261.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_020_surface_shell_263" file="part_020_surface_shell_263.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_022_surface_shell_265" file="part_022_surface_shell_265.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_023_surface_shell_266" file="part_023_surface_shell_266.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_024_surface_shell_267" file="part_024_surface_shell_267.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_025_surface_shell_268" file="part_025_surface_shell_268.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_027_surface_shell_270" file="part_027_surface_shell_270.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_028_surface_shell_271" file="part_028_surface_shell_271.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_030_surface_shell_273" file="part_030_surface_shell_273.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_031_surface_shell_274" file="part_031_surface_shell_274.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_032_surface_shell_275" file="part_032_surface_shell_275.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_033_surface_shell_276" file="part_033_surface_shell_276.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_034_surface_shell_277" file="part_034_surface_shell_277.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_037_surface_shell_280" file="part_037_surface_shell_280.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_040_surface_shell_283" file="part_040_surface_shell_283.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_041_surface_shell_284" file="part_041_surface_shell_284.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_044_surface_shell_287" file="part_044_surface_shell_287.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_045_surface_shell_288" file="part_045_surface_shell_288.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_046_surface_shell_289" file="part_046_surface_shell_289.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_047_surface_shell_290" file="part_047_surface_shell_290.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_048_surface_shell_291" file="part_048_surface_shell_291.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_049_surface_shell_292" file="part_049_surface_shell_292.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_050_surface_shell_293" file="part_050_surface_shell_293.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_052_surface_shell_295" file="part_052_surface_shell_295.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_053_surface_shell_296" file="part_053_surface_shell_296.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_055_surface_shell_298" file="part_055_surface_shell_298.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_059_surface_shell_302" file="part_059_surface_shell_302.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_062_surface_shell_305" file="part_062_surface_shell_305.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_063_surface_shell_306" file="part_063_surface_shell_306.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_064_surface_shell_307" file="part_064_surface_shell_307.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_065_surface_shell_308" file="part_065_surface_shell_308.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_066_surface_shell_309" file="part_066_surface_shell_309.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_068_surface_shell_311" file="part_068_surface_shell_311.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_071_surface_shell_314" file="part_071_surface_shell_314.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_073_surface_shell_316" file="part_073_surface_shell_316.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_076_surface_shell_319" file="part_076_surface_shell_319.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_077_surface_shell_320" file="part_077_surface_shell_320.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_080_surface_shell_323" file="part_080_surface_shell_323.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_081_surface_shell_324" file="part_081_surface_shell_324.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_082_surface_shell_325" file="part_082_surface_shell_325.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_084_surface_shell_327" file="part_084_surface_shell_327.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_086_surface_shell_329" file="part_086_surface_shell_329.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_090_surface_shell_333" file="part_090_surface_shell_333.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_091_surface_shell_334" file="part_091_surface_shell_334.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_093_surface_shell_336" file="part_093_surface_shell_336.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_094_surface_shell_337" file="part_094_surface_shell_337.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_097_surface_shell_340" file="part_097_surface_shell_340.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_099_surface_shell_342" file="part_099_surface_shell_342.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_100_surface_shell_343" file="part_100_surface_shell_343.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_101_surface_shell_344" file="part_101_surface_shell_344.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_057_surface_shell_300" file="part_057_surface_shell_300.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_035_surface_shell_278" file="part_035_surface_shell_278.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_051_surface_shell_294" file="part_051_surface_shell_294.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_036_surface_shell_279" file="part_036_surface_shell_279.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_075_surface_shell_318" file="part_075_surface_shell_318.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_019_surface_shell_262" file="part_019_surface_shell_262.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_021_surface_shell_264" file="part_021_surface_shell_264.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_026_surface_shell_269" file="part_026_surface_shell_269.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_029_surface_shell_272" file="part_029_surface_shell_272.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_038_surface_shell_281" file="part_038_surface_shell_281.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_039_surface_shell_282" file="part_039_surface_shell_282.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_042_surface_shell_285" file="part_042_surface_shell_285.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_043_surface_shell_286" file="part_043_surface_shell_286.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_054_surface_shell_297" file="part_054_surface_shell_297.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_056_surface_shell_299" file="part_056_surface_shell_299.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_058_surface_shell_301" file="part_058_surface_shell_301.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_060_surface_shell_303" file="part_060_surface_shell_303.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_061_surface_shell_304" file="part_061_surface_shell_304.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_067_surface_shell_310" file="part_067_surface_shell_310.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_070_surface_shell_313" file="part_070_surface_shell_313.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_072_surface_shell_315" file="part_072_surface_shell_315.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_074_surface_shell_317" file="part_074_surface_shell_317.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_078_surface_shell_321" file="part_078_surface_shell_321.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_079_surface_shell_322" file="part_079_surface_shell_322.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_083_surface_shell_326" file="part_083_surface_shell_326.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_087_surface_shell_330" file="part_087_surface_shell_330.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_092_surface_shell_335" file="part_092_surface_shell_335.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_095_surface_shell_338" file="part_095_surface_shell_338.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_096_surface_shell_339" file="part_096_surface_shell_339.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_098_surface_shell_341" file="part_098_surface_shell_341.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_102_surface_shell_345" file="part_102_surface_shell_345.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_089_surface_shell_332" file="part_089_surface_shell_332.stl" scale="0.001 0.001 0.001" inertia="shell" />
+    <mesh name="part_103_1" file="part_103_1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_016_Copy_of_1_J1" file="part_016_Copy_of_1_J1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_017_Copy_of_2_J1" file="part_017_Copy_of_2_J1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="part_110_part" file="part_110_part.stl" scale="0.001 0.001 0.001" />
+  </asset>
+  <worldbody>
+    <body name="base_link" pos="0 0 0" quat="1 0 0 0">
+      <body name="cad_base_link" pos="0 0 0" quat="0.873612044394556 0 0 -0.486623053182609">
+        <inertial pos="2.2750408e-06 -9.5072954e-06 -0.012309946" mass="0.95944937" fullinertia="0.001965345 0.0023304435 0.0029320801 0.0003611782 1.7045966e-07 1.4506239e-07" />
+        <body name="link1" pos="3.58e-09 -8.1000002e-10 0.033425001" quat="1 0 0 0">
+          <inertial pos="-0.00085023103 -0.0013856474 0.029125338" mass="0.074828023" fullinertia="7.8716981e-05 9.1169382e-05 9.9230889e-05 1.2324165e-05 -8.4709188e-06 -1.3775321e-05" />
+          <joint name="joint1" type="hinge" pos="0 0 0" axis="0 0 1" range="-2.8797933 2.8797933" limited="true" />
+          <body name="link2" pos="0.043378052 -0.0031992513 0.0644" quat="0.617228581659244 0.617228565120668 0.345005630391204 0.345005639635595">
+            <inertial pos="-0.13169591 0.0031321724 -0.038595154" mass="0.82081859" fullinertia="0.00047522806 0.0077309289 0.0075560134 2.4415547e-06 -7.1289536e-07 -2.7971196e-06" />
+            <joint name="joint2" type="hinge" pos="0 0 0" axis="0 0 1" range="-2.6179939 0" limited="true" />
+            <body name="link3" pos="-0.264 0 -0.012250001" quat="1 0 0 0">
+              <inertial pos="0.12449732 0.054175638 -0.025874508" mass="0.60938279" fullinertia="0.00041573174 0.0048766103 0.0047788226 -8.8238252e-05 1.5675042e-05 4.7072929e-06" />
+              <joint name="joint3" type="hinge" pos="0 0 0" axis="0 0 1" range="0 2.0943951" limited="true" />
+              <body name="link4" pos="0.2426 0.054 -0.00087499868" quat="1 0 0 0">
+                <inertial pos="0.052896586 0.037841442 -0.022958237" mass="0.10483447" fullinertia="0.00021209552 0.00016224381 0.00026384427 -5.5864566e-05 9.5722206e-07 2.6698797e-05" />
+                <joint name="joint4" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.5707963 1.5707963" limited="true" />
+                <body name="link5" pos="0.072784713 0.0485 -0.0245" quat="0.617228581659244 0.617228565120668 -0.345005639635595 0.345005630391204">
+                  <inertial pos="-0.0016329724 0.0026339116 0.050026633" mass="0.1551456" fullinertia="8.6702773e-05 8.32849e-05 7.2133807e-05 3.4416056e-06 4.1569872e-06 -6.8154926e-06" />
+                  <joint name="joint5" type="hinge" pos="0 0 0" axis="0 0 1" range="-1.5707963 1.5707963" limited="true" />
+                  <body name="link6" pos="0.009381647 -0.015244498 0.051" quat="0.680402340733954 0.680402322502644 0.19249069103611 0.192490696193878">
+                    <inertial pos="0.00026252329 0.001855459 0.010014631" mass="0.021122752" fullinertia="1.0981602e-05 4.8824954e-06 1.4724216e-05 -1.3058238e-06 3.204722e-07 1.6116644e-06" />
+                    <joint name="joint6" type="hinge" pos="0 0 0" axis="0 0 1" range="-3.1415927 3.1415927" limited="true" />
+                    <body name="gripper_end" pos="-0.107030133567259 0.0990695055357244 0.254506743114842" quat="1.28914813302454e-08 0.962234205244875 -3.64709241527966e-09 0.272222949540929">
+                      <inertial pos="-0.009109279 0.0983240546999999 0.219000956745" mass="0.1332538" fullinertia="0.0001381725 0.00025773776 0.00019482127 -2.50836810000022e-06 -6.0208866e-05 1.16155059999998e-05" />
+                      <site name="gripper_tcp" size=".001" rgba="0 0 0 0" pos="0.0412434 0.1005811 0.1376001" quat="1 0 0 0" />
+                      <geom name="gripper_end_mesh_1" type="mesh" mesh="part_018_surface_shell_261" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_2" type="mesh" mesh="part_020_surface_shell_263" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_3" type="mesh" mesh="part_022_surface_shell_265" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_4" type="mesh" mesh="part_023_surface_shell_266" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_5" type="mesh" mesh="part_024_surface_shell_267" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_6" type="mesh" mesh="part_025_surface_shell_268" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_7" type="mesh" mesh="part_027_surface_shell_270" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_8" type="mesh" mesh="part_028_surface_shell_271" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_9" type="mesh" mesh="part_030_surface_shell_273" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_10" type="mesh" mesh="part_031_surface_shell_274" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_11" type="mesh" mesh="part_032_surface_shell_275" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_12" type="mesh" mesh="part_033_surface_shell_276" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_13" type="mesh" mesh="part_034_surface_shell_277" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_14" type="mesh" mesh="part_037_surface_shell_280" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_15" type="mesh" mesh="part_040_surface_shell_283" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_16" type="mesh" mesh="part_041_surface_shell_284" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_17" type="mesh" mesh="part_044_surface_shell_287" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_18" type="mesh" mesh="part_045_surface_shell_288" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_19" type="mesh" mesh="part_046_surface_shell_289" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_20" type="mesh" mesh="part_047_surface_shell_290" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_21" type="mesh" mesh="part_048_surface_shell_291" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_22" type="mesh" mesh="part_049_surface_shell_292" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_23" type="mesh" mesh="part_050_surface_shell_293" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_24" type="mesh" mesh="part_052_surface_shell_295" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_25" type="mesh" mesh="part_053_surface_shell_296" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_26" type="mesh" mesh="part_055_surface_shell_298" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_27" type="mesh" mesh="part_059_surface_shell_302" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_28" type="mesh" mesh="part_062_surface_shell_305" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_29" type="mesh" mesh="part_063_surface_shell_306" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_30" type="mesh" mesh="part_064_surface_shell_307" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_31" type="mesh" mesh="part_065_surface_shell_308" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_32" type="mesh" mesh="part_066_surface_shell_309" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_33" type="mesh" mesh="part_068_surface_shell_311" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_34" type="mesh" mesh="part_071_surface_shell_314" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_35" type="mesh" mesh="part_073_surface_shell_316" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_36" type="mesh" mesh="part_076_surface_shell_319" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_37" type="mesh" mesh="part_077_surface_shell_320" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_38" type="mesh" mesh="part_080_surface_shell_323" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_39" type="mesh" mesh="part_081_surface_shell_324" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_40" type="mesh" mesh="part_082_surface_shell_325" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_41" type="mesh" mesh="part_084_surface_shell_327" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_42" type="mesh" mesh="part_086_surface_shell_329" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_43" type="mesh" mesh="part_090_surface_shell_333" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_44" type="mesh" mesh="part_091_surface_shell_334" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_45" type="mesh" mesh="part_093_surface_shell_336" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_46" type="mesh" mesh="part_094_surface_shell_337" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_47" type="mesh" mesh="part_097_surface_shell_340" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_48" type="mesh" mesh="part_099_surface_shell_342" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_49" type="mesh" mesh="part_100_surface_shell_343" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_50" type="mesh" mesh="part_101_surface_shell_344" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_51" type="mesh" mesh="part_057_surface_shell_300" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_52" type="mesh" mesh="part_035_surface_shell_278" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_53" type="mesh" mesh="part_051_surface_shell_294" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_54" type="mesh" mesh="part_036_surface_shell_279" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_55" type="mesh" mesh="part_075_surface_shell_318" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_56" type="mesh" mesh="part_019_surface_shell_262" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_57" type="mesh" mesh="part_021_surface_shell_264" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_58" type="mesh" mesh="part_026_surface_shell_269" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_59" type="mesh" mesh="part_029_surface_shell_272" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_60" type="mesh" mesh="part_038_surface_shell_281" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_61" type="mesh" mesh="part_039_surface_shell_282" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_62" type="mesh" mesh="part_042_surface_shell_285" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_63" type="mesh" mesh="part_043_surface_shell_286" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_64" type="mesh" mesh="part_054_surface_shell_297" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_65" type="mesh" mesh="part_056_surface_shell_299" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_66" type="mesh" mesh="part_058_surface_shell_301" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_67" type="mesh" mesh="part_060_surface_shell_303" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_68" type="mesh" mesh="part_061_surface_shell_304" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_69" type="mesh" mesh="part_067_surface_shell_310" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_70" type="mesh" mesh="part_070_surface_shell_313" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_71" type="mesh" mesh="part_072_surface_shell_315" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_72" type="mesh" mesh="part_074_surface_shell_317" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_73" type="mesh" mesh="part_078_surface_shell_321" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_74" type="mesh" mesh="part_079_surface_shell_322" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_75" type="mesh" mesh="part_083_surface_shell_326" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_76" type="mesh" mesh="part_087_surface_shell_330" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_77" type="mesh" mesh="part_092_surface_shell_335" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_78" type="mesh" mesh="part_095_surface_shell_338" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_79" type="mesh" mesh="part_096_surface_shell_339" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_80" type="mesh" mesh="part_098_surface_shell_341" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_81" type="mesh" mesh="part_102_surface_shell_345" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_82" type="mesh" mesh="part_089_surface_shell_332" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_83" type="mesh" mesh="part_103_1" mass="0" group="1" contype="0" conaffinity="0" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" />
+                      <geom name="gripper_end_mesh_1_collision" type="mesh" mesh="part_018_surface_shell_261" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_2_collision" type="mesh" mesh="part_020_surface_shell_263" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_3_collision" type="mesh" mesh="part_022_surface_shell_265" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_4_collision" type="mesh" mesh="part_023_surface_shell_266" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_5_collision" type="mesh" mesh="part_024_surface_shell_267" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_6_collision" type="mesh" mesh="part_025_surface_shell_268" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_7_collision" type="mesh" mesh="part_027_surface_shell_270" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_8_collision" type="mesh" mesh="part_028_surface_shell_271" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_9_collision" type="mesh" mesh="part_030_surface_shell_273" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_10_collision" type="mesh" mesh="part_031_surface_shell_274" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_11_collision" type="mesh" mesh="part_032_surface_shell_275" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_12_collision" type="mesh" mesh="part_033_surface_shell_276" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_13_collision" type="mesh" mesh="part_034_surface_shell_277" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_14_collision" type="mesh" mesh="part_037_surface_shell_280" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_15_collision" type="mesh" mesh="part_040_surface_shell_283" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_16_collision" type="mesh" mesh="part_041_surface_shell_284" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_17_collision" type="mesh" mesh="part_044_surface_shell_287" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_18_collision" type="mesh" mesh="part_045_surface_shell_288" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_19_collision" type="mesh" mesh="part_046_surface_shell_289" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_20_collision" type="mesh" mesh="part_047_surface_shell_290" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_21_collision" type="mesh" mesh="part_048_surface_shell_291" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_22_collision" type="mesh" mesh="part_049_surface_shell_292" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_23_collision" type="mesh" mesh="part_050_surface_shell_293" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_24_collision" type="mesh" mesh="part_052_surface_shell_295" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_25_collision" type="mesh" mesh="part_053_surface_shell_296" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_26_collision" type="mesh" mesh="part_055_surface_shell_298" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_27_collision" type="mesh" mesh="part_059_surface_shell_302" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_28_collision" type="mesh" mesh="part_062_surface_shell_305" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_29_collision" type="mesh" mesh="part_063_surface_shell_306" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_30_collision" type="mesh" mesh="part_064_surface_shell_307" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_31_collision" type="mesh" mesh="part_065_surface_shell_308" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_32_collision" type="mesh" mesh="part_066_surface_shell_309" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_33_collision" type="mesh" mesh="part_068_surface_shell_311" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_34_collision" type="mesh" mesh="part_071_surface_shell_314" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_35_collision" type="mesh" mesh="part_073_surface_shell_316" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_36_collision" type="mesh" mesh="part_076_surface_shell_319" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_37_collision" type="mesh" mesh="part_077_surface_shell_320" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_38_collision" type="mesh" mesh="part_080_surface_shell_323" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_39_collision" type="mesh" mesh="part_081_surface_shell_324" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_40_collision" type="mesh" mesh="part_082_surface_shell_325" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_41_collision" type="mesh" mesh="part_084_surface_shell_327" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_42_collision" type="mesh" mesh="part_086_surface_shell_329" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_43_collision" type="mesh" mesh="part_090_surface_shell_333" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_44_collision" type="mesh" mesh="part_091_surface_shell_334" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_45_collision" type="mesh" mesh="part_093_surface_shell_336" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_46_collision" type="mesh" mesh="part_094_surface_shell_337" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_47_collision" type="mesh" mesh="part_097_surface_shell_340" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_48_collision" type="mesh" mesh="part_099_surface_shell_342" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_49_collision" type="mesh" mesh="part_100_surface_shell_343" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_50_collision" type="mesh" mesh="part_101_surface_shell_344" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_51_collision" type="mesh" mesh="part_057_surface_shell_300" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_52_collision" type="mesh" mesh="part_035_surface_shell_278" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_53_collision" type="mesh" mesh="part_051_surface_shell_294" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_54_collision" type="mesh" mesh="part_036_surface_shell_279" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_55_collision" type="mesh" mesh="part_075_surface_shell_318" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_56_collision" type="mesh" mesh="part_019_surface_shell_262" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_57_collision" type="mesh" mesh="part_021_surface_shell_264" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_58_collision" type="mesh" mesh="part_026_surface_shell_269" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_59_collision" type="mesh" mesh="part_029_surface_shell_272" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_60_collision" type="mesh" mesh="part_038_surface_shell_281" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_61_collision" type="mesh" mesh="part_039_surface_shell_282" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_62_collision" type="mesh" mesh="part_042_surface_shell_285" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_63_collision" type="mesh" mesh="part_043_surface_shell_286" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_64_collision" type="mesh" mesh="part_054_surface_shell_297" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_65_collision" type="mesh" mesh="part_056_surface_shell_299" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_66_collision" type="mesh" mesh="part_058_surface_shell_301" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_67_collision" type="mesh" mesh="part_060_surface_shell_303" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_68_collision" type="mesh" mesh="part_061_surface_shell_304" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_69_collision" type="mesh" mesh="part_067_surface_shell_310" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_70_collision" type="mesh" mesh="part_070_surface_shell_313" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_71_collision" type="mesh" mesh="part_072_surface_shell_315" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_72_collision" type="mesh" mesh="part_074_surface_shell_317" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_73_collision" type="mesh" mesh="part_078_surface_shell_321" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_74_collision" type="mesh" mesh="part_079_surface_shell_322" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_75_collision" type="mesh" mesh="part_083_surface_shell_326" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_76_collision" type="mesh" mesh="part_087_surface_shell_330" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_77_collision" type="mesh" mesh="part_092_surface_shell_335" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_78_collision" type="mesh" mesh="part_095_surface_shell_338" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_79_collision" type="mesh" mesh="part_096_surface_shell_339" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_80_collision" type="mesh" mesh="part_098_surface_shell_341" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_81_collision" type="mesh" mesh="part_102_surface_shell_345" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_82_collision" type="mesh" mesh="part_089_surface_shell_332" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <geom name="gripper_end_mesh_83_collision" type="mesh" mesh="part_103_1" mass="0" group="3" contype="1" conaffinity="1" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                      <body name="gripper_left" pos="0.0063388448 0.1127082747 0.205447536745" quat="0.00223872951400671 0.874097759192392 -0.00124406513055397 -0.485743294103947">
+                        <inertial pos="0.027374993 0.011354194 0.019169762" mass="0.051643796" fullinertia="1.9826402e-05 3.4926608e-05 2.5980222e-05 -2.8115555e-06 8.7776188e-07 -1.9269957e-06" />
+                        <joint name="gripper_joint1" type="slide" pos="0 0 0" axis="0 0 -1" range="-0.046 0" limited="true" />
+                        <geom name="gripper_left_mesh_1" type="mesh" mesh="part_016_Copy_of_1_J1" mass="0" group="1" contype="0" conaffinity="0" pos="-0.17045606 0.4220779 -0.098541726" quat="0.616497427258937 0.619663472917816 0.342592683490054 -0.344352081064753" />
+                        <geom name="gripper_left_contact" type="box" pos="0.075 0.006 0.0068" size=".019 .018 .001" mass="0" group="3" contype="1" conaffinity="1" friction="1.2 .005 .0001" solref=".001 1" solimp=".99 .99 .001" />
+                      </body>
+                      <body name="gripper_right" pos="-0.0025506617 0.0840507547 0.196995266745" quat="0.8719652203893 0.00832817302961233 0.4894746577015 0.00467497951097789">
+                        <inertial pos="0.025016794 0.012686803 0.018966015" mass="0.051643788" fullinertia="1.9763546e-05 3.4941424e-05 2.6027739e-05 -2.6228627e-06 8.9686242e-07 -2.0460593e-06" />
+                        <joint name="gripper_joint2" type="slide" pos="0 0 0" axis="0 0 1" range="0 0.046" limited="true" />
+                        <geom name="gripper_right_mesh_1" type="mesh" mesh="part_017_Copy_of_2_J1" mass="0" group="1" contype="0" conaffinity="0" pos="-0.18209248 -0.38837384 0.11407189" quat="0.610683605151868 -0.62246140646294 -0.342805161244485 -0.349416589885252" />
+                        <geom name="gripper_right_contact" type="box" pos="0.075 0.009 0.0063" size=".019 .018 .001" mass="0" group="3" contype="1" conaffinity="1" friction="1.2 .005 .0001" solref=".001 1" solimp=".99 .99 .001" />
+                      </body>
+                      <body name="camera_link" pos="0 -0.3083560753 0.404395076745" quat="0.707106781186546 -0.707106781186549 0 0">
+                        <inertial pos="-0.0058499182 0.19058261 0.46007341" mass="0.048432895" fullinertia="1.0863062e-05 1.8724221e-05 2.0039085e-05 7.776623e-06 1.1356427e-07 1.8464543e-07" />
+                        <body name="d435_link" pos="-0.000725735590697317 0.198914088484855 0.454425573348999" quat="0.872893007666214 0 0 0.487911669431497">
+                          <camera name="d435_color" pos="0 0 0" quat=".5 .5 -.5 -.5" fovy="42.5" />
+                        </body>
+                        <geom name="camera_link_mesh_1" type="mesh" mesh="part_110_part" mass="0" group="1" contype="0" conaffinity="0" pos="0 0 0" quat="1 0 0 0" />
+                        <geom name="d435_body_visual" type="mesh" mesh="part_110_part" pos="0 0 0" quat="1 0 0 0" mass="0" group="3" contype="1" conaffinity="1" rgba="0 0 0 0" />
+                      </body>
+                      <body name="gripper_coupler" pos="0 0 0" quat="1 0 0 0">
+                        <joint name="joint7" type="slide" axis="0 1 0" limited="true" range="0 0.046" damping="1" frictionloss=".1" armature=".01" />
+                        <inertial pos="0 0 0" mass=".001" diaginertia="1e-6 1e-6 1e-6" />
+                      </body>
+                    </body>
+                    <geom name="link6_mesh_1" type="mesh" mesh="part_108_part" mass="0" group="1" contype="0" conaffinity="0" pos="0.10482617 0.40742557 -0.089952676" quat="0.680402340733954 0.680402322502644 -0.192490696193878 0.19249069103611" />
+                    <geom name="link6_mesh_2" type="mesh" mesh="part_109_2" mass="0" group="1" contype="0" conaffinity="0" pos="0.10482617 0.40742557 -0.089952676" quat="0.680402340733954 0.680402322502644 -0.192490696193878 0.19249069103611" />
+                    <geom name="link6_mesh_1_collision" type="mesh" mesh="part_108_part" mass="0" group="3" contype="1" conaffinity="1" pos="0.10482617 0.40742557 -0.089952676" quat="0.680402340733954 0.680402322502644 -0.192490696193878 0.19249069103611" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                    <geom name="link6_mesh_2_collision" type="mesh" mesh="part_109_2" mass="0" group="3" contype="1" conaffinity="1" pos="0.10482617 0.40742557 -0.089952676" quat="0.680402340733954 0.680402322502644 -0.192490696193878 0.19249069103611" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                  </body>
+                  <geom name="link5_mesh_1" type="mesh" mesh="part_004_part" mass="0" group="1" contype="0" conaffinity="0" pos="0.051546647 0.11629303 0.45842557" quat="-2.32051033331424e-08 -1 0 0" />
+                  <geom name="link5_mesh_2" type="mesh" mesh="part_107_part" mass="0" group="1" contype="0" conaffinity="0" pos="0.051546647 0.11629303 0.45842557" quat="-2.32051033331424e-08 -1 0 0" />
+                  <geom name="link5_mesh_1_collision" type="mesh" mesh="part_004_part" mass="0" group="3" contype="1" conaffinity="1" pos="0.051546647 0.11629303 0.45842557" quat="-2.32051033331424e-08 -1 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                  <geom name="link5_mesh_2_collision" type="mesh" mesh="part_107_part" mass="0" group="3" contype="1" conaffinity="1" pos="0.051546647 0.11629303 0.45842557" quat="-2.32051033331424e-08 -1 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                </body>
+                <geom name="link4_mesh_1" type="mesh" mesh="part_105_02_Lower_Wrist_Link_R" mass="0" group="1" contype="0" conaffinity="0" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+                <geom name="link4_mesh_2" type="mesh" mesh="part_104_02_Lower_Wrist_Link_L" mass="0" group="1" contype="0" conaffinity="0" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+                <geom name="link4_mesh_3" type="mesh" mesh="part_002_PA43_10_20_25_DEEP__S02_step" mass="0" group="1" contype="0" conaffinity="0" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+                <geom name="link4_mesh_4" type="mesh" mesh="part_003_part" mass="0" group="1" contype="0" conaffinity="0" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+                <geom name="link4_mesh_5" type="mesh" mesh="part_106_PA43_2" mass="0" group="1" contype="0" conaffinity="0" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+                <geom name="link4_mesh_1_collision" type="mesh" mesh="part_105_02_Lower_Wrist_Link_R" mass="0" group="3" contype="1" conaffinity="1" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                <geom name="link4_mesh_2_collision" type="mesh" mesh="part_104_02_Lower_Wrist_Link_L" mass="0" group="3" contype="1" conaffinity="1" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                <geom name="link4_mesh_3_collision" type="mesh" mesh="part_002_PA43_10_20_25_DEEP__S02_step" mass="0" group="3" contype="1" conaffinity="1" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                <geom name="link4_mesh_4_collision" type="mesh" mesh="part_003_part" mass="0" group="3" contype="1" conaffinity="1" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+                <geom name="link4_mesh_5_collision" type="mesh" mesh="part_106_PA43_2" mass="0" group="3" contype="1" conaffinity="1" pos="0.00073203762 -0.40992557 0.080330998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              </body>
+              <geom name="link3_mesh_1" type="mesh" mesh="part_005_part" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_2" type="mesh" mesh="part_006_surface_shell_212" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_3" type="mesh" mesh="part_007_surface_shell_213" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_4" type="mesh" mesh="part_008_surface_shell_214" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_5" type="mesh" mesh="part_009_surface_shell_215" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_6" type="mesh" mesh="part_010_surface_shell_216" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_7" type="mesh" mesh="part_011_surface_shell_217" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_8" type="mesh" mesh="part_012_surface_shell_218" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_9" type="mesh" mesh="part_013_surface_shell_219" mass="0" group="1" contype="0" conaffinity="0" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+              <geom name="link3_mesh_1_collision" type="mesh" mesh="part_005_part" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              <geom name="link3_mesh_2_collision" type="mesh" mesh="part_006_surface_shell_212" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              <geom name="link3_mesh_3_collision" type="mesh" mesh="part_007_surface_shell_213" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              <geom name="link3_mesh_4_collision" type="mesh" mesh="part_008_surface_shell_214" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              <geom name="link3_mesh_5_collision" type="mesh" mesh="part_009_surface_shell_215" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              <geom name="link3_mesh_6_collision" type="mesh" mesh="part_010_surface_shell_216" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              <geom name="link3_mesh_7_collision" type="mesh" mesh="part_011_surface_shell_217" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              <geom name="link3_mesh_8_collision" type="mesh" mesh="part_012_surface_shell_218" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+              <geom name="link3_mesh_9_collision" type="mesh" mesh="part_013_surface_shell_219" mass="0" group="3" contype="1" conaffinity="1" pos="0.24333204 -0.35592557 0.079455999" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+            </body>
+            <geom name="link2_mesh_1" type="mesh" mesh="part_001__STEP" mass="0" group="1" contype="0" conaffinity="0" pos="-0.020667962 -0.35592557 0.067205998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" />
+            <geom name="link2_mesh_1_collision" type="mesh" mesh="part_001__STEP" mass="0" group="3" contype="1" conaffinity="1" pos="-0.020667962 -0.35592557 0.067205998" quat="0.617228581659244 -0.617228565120668 -0.345005639635595 -0.345005630391204" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+          </body>
+          <geom name="link1_mesh_1" type="mesh" mesh="part_014_part" mass="0" group="1" contype="0" conaffinity="0" pos="0.089795779 -0.05601218 -0.29152557" quat="1 0 0 0" />
+          <geom name="link1_mesh_1_collision" type="mesh" mesh="part_014_part" mass="0" group="3" contype="1" conaffinity="1" pos="0.089795779 -0.05601218 -0.29152557" quat="1 0 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+        </body>
+        <geom name="base_link_mesh_1" type="mesh" mesh="part_015_j1" mass="0" group="1" contype="0" conaffinity="0" pos="0.089795783 -0.05601218 -0.25810057" quat="1 0 0 0" />
+        <geom name="base_link_mesh_1_collision" type="mesh" mesh="part_015_j1" mass="0" group="3" contype="1" conaffinity="1" pos="0.089795783 -0.05601218 -0.25810057" quat="1 0 0 0" friction="2.5 0.005 0.0001" solref=".001 1" solimp=".99 .99 .001" />
+      </body>
+    </body>
+  </worldbody>
+  <keyframe>
+    <key name="home" qpos="0 0 0 0 0 0 0 0 0" />
+  </keyframe>
+  <equality>
+    <joint joint1="joint7" joint2="gripper_joint1" polycoef="0 -1 0 0 0" solref=".001 1" solimp=".99 .99 .001" />
+    <joint joint1="joint7" joint2="gripper_joint2" polycoef="0 1 0 0 0" solref=".001 1" solimp=".99 .99 .001" />
+  </equality>
+  <actuator>
+    <motor name="joint1_motor" joint="joint1" ctrlrange="-36 36" gear="1" />
+    <motor name="joint2_motor" joint="joint2" ctrlrange="-36 36" gear="1" />
+    <motor name="joint3_motor" joint="joint3" ctrlrange="-36 36" gear="1" />
+    <motor name="joint4_motor" joint="joint4" ctrlrange="-14 14" gear="1" />
+    <motor name="joint5_motor" joint="joint5" ctrlrange="-14 14" gear="1" />
+    <motor name="joint6_motor" joint="joint6" ctrlrange="-14 14" gear="1" />
+    <motor name="joint7_motor" joint="joint7" ctrlrange="-500 500" gear="1" />
+  </actuator>
+</mujoco>

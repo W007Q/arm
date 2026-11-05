@@ -1,0 +1,7 @@
+{
+    "python.analysis.stubPath": "/home/wq/.kendryte/k230_canmv_pylance/773b59fbefd66472/typings",
+    "python.analysis.extraPaths": [
+        "/home/wq/.kendryte/k230_canmv_stubs/f6ca68a0ed02f8d29d27bcf9681581e9f71209bb"
+    ],
+    "cmake.sourceDirectory": "/home/wq/reBotArmController_ROS2-main/src/rebotarm_moveit_config"
+}

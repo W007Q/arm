@@ -1,0 +1,72 @@
+[INFO] [1792836847.758112770] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.00553295 seconds
+[INFO] [1792836847.758283746] [moveit_robot_model.robot_model]: Loading robot model 'rebotarm_hybrid'...
+[WARN] [1792836848.242636925] [moveit_robot_model.robot_model]: Link camera_link has visual geometry but no collision geometry. Collision geometry will be left empty. Fix your URDF file by explicitly specifying collision geometry.
+[INFO] [1792836849.420689611] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[INFO] [1792836849.420820217] [moveit.ros_planning_interface.moveit_cpp]: Listening to 'joint_states' for joint states
+[INFO] [1792836849.422167836] [moveit_ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[INFO] [1792836849.422503850] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/attached_collision_object' for attached collision objects
+[INFO] [1792836849.422515723] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting planning scene monitor
+[INFO] [1792836849.422714007] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/planning_scene'
+[INFO] [1792836849.422724693] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting world geometry update monitor for collision objects, attached objects, octomap updates.
+[INFO] [1792836849.422886170] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to 'collision_object'
+[INFO] [1792836849.423051209] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to 'planning_scene_world' for planning scene world geometry
+[WARN] [1792836849.426747365] [moveit.ros.occupancy_map_monitor.middleware_handle]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+[ERROR] [1792836849.426761613] [moveit.ros.occupancy_map_monitor.middleware_handle]: No 3D sensor plugin(s) defined for octomap updates
+[INFO] [1792836852.726157264] [moveit.ros_planning_interface.moveit_cpp]: Loading planning pipeline 'ompl'
+[INFO] [1792836852.776323111] [moveit.ros_planning.planning_pipeline]: Using planning interface 'OMPL'
+[INFO] [1792836852.779292622] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.path_tolerance' was not set. Using default value: 0.100000
+[INFO] [1792836852.779304495] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.resample_dt' was not set. Using default value: 0.100000
+[INFO] [1792836852.779310432] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.min_angle_change' was not set. Using default value: 0.001000
+[INFO] [1792836852.779322305] [moveit_ros.fix_workspace_bounds]: Param 'ompl.default_workspace_bounds' was not set. Using default value: 10.000000
+[INFO] [1792836852.779330616] [moveit_ros.fix_start_state_bounds]: Param 'ompl.start_state_max_bounds_error' was not set. Using default value: 0.050000
+[INFO] [1792836852.779336553] [moveit_ros.fix_start_state_bounds]: Param 'ompl.start_state_max_dt' was not set. Using default value: 0.500000
+[INFO] [1792836852.779344864] [moveit_ros.fix_start_state_collision]: Param 'ompl.start_state_max_dt' was not set. Using default value: 0.500000
+[INFO] [1792836852.779349614] [moveit_ros.fix_start_state_collision]: Param 'ompl.jiggle_fraction' was not set. Using default value: 0.020000
+[INFO] [1792836852.779356738] [moveit_ros.fix_start_state_collision]: Param 'ompl.max_sampling_attempts' was set to 0
+[WARN] [1792836852.779361487] [moveit_ros.fix_start_state_collision]: Param 'max_sampling_attempts' needs to be at least 1.
+[INFO] [1792836852.779366236] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Add Time Optimal Parameterization'
+[INFO] [1792836852.779370986] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Resolve constraint frames to robot links'
+[INFO] [1792836852.779375735] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Workspace Bounds'
+[INFO] [1792836852.779379297] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Start State Bounds'
+[INFO] [1792836852.779384046] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Start State In Collision'
+[INFO] [1792836852.810058697] [moveit.plugins.moveit_simple_controller_manager]: Added FollowJointTrajectory controller for rebotarm
+[INFO] [1792836852.810190490] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792836852.810203551] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792836852.810386400] [moveit_ros.trajectory_execution_manager]: Trajectory execution is managing controllers
+[INFO] [1792836852.810398273] [move_group.move_group]: MoveGroup debug mode is ON
+[INFO] [1792836852.820139122] [move_group.move_group]: 
+
+********************************************************
+* MoveGroup using: 
+*     - ApplyPlanningSceneService
+*     - ClearOctomapService
+*     - CartesianPathService
+*     - ExecuteTrajectoryAction
+*     - GetPlanningSceneService
+*     - KinematicsService
+*     - MoveAction
+*     - MotionPlanService
+*     - QueryPlannersService
+*     - StateValidationService
+********************************************************
+
+[INFO] [1792836852.820162869] [moveit_move_group_capabilities_base.move_group_context]: MoveGroup context using planning plugin ompl_interface/OMPLPlanner
+[INFO] [1792836852.820169993] [moveit_move_group_capabilities_base.move_group_context]: MoveGroup context initialization complete
+[INFO] [1792836852.894942051] [moveit_move_group_default_capabilities.plan_service_capability]: Received new planning service request...
+[INFO] [1792836852.896562755] [moveit_move_group_capabilities_base.move_group_capability]: Using planning pipeline 'ompl'
+[INFO] [1792836852.901300199] [moveit.ompl_planning.model_based_planning_context]: Planner configuration 'arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792836852.970620042] [moveit_move_group_default_capabilities.execute_trajectory_action_capability]: Received goal request
+[INFO] [1792836852.970786268] [moveit_move_group_default_capabilities.execute_trajectory_action_capability]: Execution request received
+[INFO] [1792836852.970811202] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792836852.970827824] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792836852.970899064] [moveit_ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.05
+[INFO] [1792836852.976564999] [moveit_ros.trajectory_execution_manager]: Starting trajectory execution ...
+[INFO] [1792836852.976612492] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792836852.976625553] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792836852.976715790] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to rebotarm
+[INFO] [1792836852.982765232] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: rebotarm started execution
+[INFO] [1792836852.982781855] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request accepted!
+[INFO] [1792836854.783378475] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Controller 'rebotarm' successfully finished
+[INFO] [1792836854.836687181] [moveit_ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+[INFO] [1792836854.838183216] [moveit_move_group_default_capabilities.execute_trajectory_action_capability]: Execution completed: SUCCEEDED
+[INFO] [1792836854.867528057] [rclcpp]: signal_handler(SIGINT/SIGTERM)

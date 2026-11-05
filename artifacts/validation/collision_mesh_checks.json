@@ -1,0 +1,58 @@
+{
+  "cad_zero": {
+    "q_rad": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "valid": true,
+    "collision": "",
+    "check_ms_median": 0.19234753563068807,
+    "check_ms_max": 1.357115979772061
+  },
+  "false_hull_contact": {
+    "q_rad": [
+      0,
+      0,
+      0,
+      0,
+      -0.005,
+      0
+    ],
+    "valid": true,
+    "collision": "",
+    "check_ms_median": 1.0127905115950853,
+    "check_ms_max": 2.245237003080547
+  },
+  "recorded_drift": {
+    "q_rad": [
+      -0.0001907378,
+      -0.0001907378,
+      0,
+      -0.0040054931,
+      -0.0005722133,
+      -0.0001907378
+    ],
+    "valid": false,
+    "collision": "link2 / link5 (distance=-0.1906 mm, minimum=-0.0500 mm) [CAD triangle meshes intersect; distance above is convex-hull distance]",
+    "check_ms_median": 0.1567280269227922,
+    "check_ms_max": 0.6744019920006394
+  },
+  "deep_collision": {
+    "q_rad": [
+      1.0887,
+      -1.1648,
+      0.088,
+      -0.6404,
+      1.342,
+      1.788
+    ],
+    "valid": false,
+    "collision": "link1 / link5 (distance=-23.7766 mm, minimum=-0.0500 mm) [CAD triangle meshes intersect; distance above is convex-hull distance]",
+    "check_ms_median": 0.715959002263844,
+    "check_ms_max": 0.9213670273311436
+  }
+}

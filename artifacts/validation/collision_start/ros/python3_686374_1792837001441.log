@@ -1,0 +1,3 @@
+[INFO] [1792837001.510473675] [rebotarm_uart_bridge]: UART /dev/pts/0@115200: source=batch, MIT 50.0Hz; explicit enable required
+[INFO] [1792837001.874949879] [rebotarm_rs_task_server]: kinematics backend = SDK (pinocchio), urdf=/home/wq/reBotArmController_ROS2-main/install/rebotarm_description/share/rebotarm_description/urdf/rebotarm_with_d435.urdf.xacro
+[INFO] [1792837003.508716828] [rebotarm_rs_task_server]: RS task server ready: namespace=/rebotarm, model=/home/wq/reBotArmController_ROS2-main/src/rebotarm_description/mjcf/hardware_scene.xml, tcp_offset=[0.0, 0.0, 0.0]

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>rebotarm_ros2_control</name>
+  <version>0.1.0</version>
+  <description>Optional ros2_control hardware interface backed by the existing UART ROS adapter.</description>
+  <maintainer email="support@example.com">reBotArm Maintainers</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>hardware_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_lifecycle</depend>
+  <depend>rebotarm_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>rebotarm_description</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

@@ -1,0 +1,7 @@
+[INFO] [1792849040.337747284] [rebotarm_uart_bridge]: UART /dev/pts/0@115200: source=batch, MIT 50.0Hz; explicit enable required
+[INFO] [1792849040.717083096] [rebotarm_rs_task_server]: kinematics backend = SDK (pinocchio), urdf=/home/wq/reBotArmController_ROS2-main/install/rebotarm_description/share/rebotarm_description/urdf/rebotarm_with_d435.urdf.xacro
+[INFO] [1792849042.451956849] [rebotarm_rs_task_server]: RS task server ready: namespace=/rebotarm, model=/home/wq/reBotArmController_ROS2-main/src/rebotarm_description/mjcf/hardware_scene.xml, tcp_offset=[0.0, 0.0, 0.0]
+[INFO] [1792849045.981379730] [rebotarm_rs_task_server]: trajectory requested: points=17, duration=1.417s, start_rad=[0.0, 0.0, 0.0, 0.0, -0.001, 0.0], goal_rad=[6e-05, -4e-05, 0.09997, -6e-05, 2e-05, 2e-05]
+[INFO] [1792849045.999893039] [rebotarm_rs_task_server]: trajectory progress: elapsed=0.000s; measured_rad=[0.0, 0.0, 0.0, 0.0, -0.001, 0.0], target_rad=[0.0, 0.0, 0.0, 0.0, -0.001, 0.0], max_error_rad=0.00000
+[INFO] [1792849047.001045990] [rebotarm_rs_task_server]: trajectory progress: elapsed=1.004s; measured_rad=[0.0, 0.0, 0.073, 0.0, 0.0, 0.0], target_rad=[5e-05, -3e-05, 0.07424, -4e-05, -0.00024, 1e-05], max_error_rad=0.00124
+[INFO] [1792849047.749162748] [rebotarm_rs_task_server]: trajectory complete: elapsed=1.768s; measured_rad=[0.0, 0.0, 0.1, 0.0, 0.0, 0.0], target_rad=[6e-05, -4e-05, 0.09997, -6e-05, 2e-05, 2e-05], max_error_rad=0.00006

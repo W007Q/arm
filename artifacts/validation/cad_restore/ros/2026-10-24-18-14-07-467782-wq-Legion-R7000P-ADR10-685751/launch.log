@@ -1,0 +1,15 @@
+1792836847.4697971 [INFO] [launch]: All log files can be found below /home/wq/reBotArmController_ROS2-main/artifacts/validation/cad_restore/ros/2026-10-24-18-14-07-467782-wq-Legion-R7000P-ADR10-685751
+1792836847.4700181 [INFO] [launch]: Default logging verbosity is set to INFO
+1792836847.6869631 [INFO] [static_transform_publisher-1]: process started with pid [685795]
+1792836847.6871130 [INFO] [move_group-2]: process started with pid [685797]
+1792836847.6968348 [static_transform_publisher-1] [WARN] [1792836847.696598426] []: Old-style arguments are deprecated; see --help for new-style arguments
+1792836847.7069163 [static_transform_publisher-1] [INFO] [1792836847.706790461] [static_transform_publisher]: Spinning until stopped - publishing transform
+1792836847.7069898 [static_transform_publisher-1] translation: ('0.000000', '0.000000', '0.000000')
+1792836847.7070196 [static_transform_publisher-1] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+1792836847.7070446 [static_transform_publisher-1] from 'world' to 'base_link'
+1792836854.8670115 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1792836854.8708181 [INFO] [move_group-2]: sending signal 'SIGINT' to process[move_group-2]
+1792836854.8710246 [INFO] [static_transform_publisher-1]: sending signal 'SIGINT' to process[static_transform_publisher-1]
+1792836854.8711686 [static_transform_publisher-1] [INFO] [1792836854.867529244] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+1792836854.8728995 [ERROR] [static_transform_publisher-1]: process has died [pid 685795, exit code -2, cmd '/opt/ros/humble/lib/tf2_ros/static_transform_publisher 0 0 0 0 0 0 world base_link --ros-args -r __node:=static_transform_publisher'].
+1792836854.8948164 [ERROR] [move_group-2]: process has died [pid 685797, exit code -2, cmd '/opt/ros/humble/lib/moveit_ros_move_group/move_group --ros-args --params-file /tmp/launch_params_0lqyz927 -r /joint_states:=/rebotarm/joint_states'].

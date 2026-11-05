@@ -1,0 +1,23 @@
+rebotarm_rgbd_detector:
+  ros__parameters:
+    arm_namespace: rebotarm
+    base_frame: base_link
+    use_pose_topic: false
+    image_topic: /camera/camera/color/image_raw
+    depth_topic: /camera/camera/aligned_depth_to_color/image_raw
+    camera_info_topic: /camera/camera/color/camera_info
+    pose_topic: ""
+    depth_scale_16uc1: 0.001
+    transform_timeout_sec: 0.15
+    # 正式抓取默认使用 YOLO；颜色分割可显式设置 detector_backend:=color。
+    # 从工作空间根目录启动；训练完成后把自定义 best.pt 放到 models/ 下。
+    # 也可以通过 yolo_model:=/绝对路径/best.pt 指定其他本地权重。
+    detector_backend: yolo
+    yolo_model: "models/best.pt"
+    yolo_confidence: 0.45
+    yolo_iou: 0.50
+    # 输入图像按此尺寸缩放后推理；越大越容易看清小目标，但更耗时。
+    yolo_imgsz: 640
+    # "0" 为第一块 GPU；只有显式改为 "cpu" 时才使用 CPU。
+    yolo_device: "0"
+    yolo_class_map: "{}"

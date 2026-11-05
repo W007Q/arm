@@ -1,0 +1,13 @@
+{
+  "planning_error_code": -26,
+  "measured": [
+    0.0,
+    0.0,
+    0.0,
+    -0.004000000189989805,
+    -0.0010000000474974513,
+    0.0
+  ],
+  "expected_error": "planning rejected without moving the start state",
+  "uart_fault": ""
+}

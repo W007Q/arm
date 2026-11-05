@@ -1,0 +1,5 @@
+<library path="rebotarm_ros2_control">
+  <class name="rebotarm_ros2_control/UartSystem" type="rebotarm_ros2_control::UartSystem" base_class_type="hardware_interface::SystemInterface">
+    <description>Asynchronous ROS adapter to the existing STM32 UART command/feedback nodes.</description>
+  </class>
+</library>

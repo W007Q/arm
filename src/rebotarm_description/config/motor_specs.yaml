@@ -1,0 +1,80 @@
+# Derived by scripts/sync_robot_parameters.py; do not edit these values here.
+# Sources: rebotarm_description/urdf/robot_arm.urdf and config/*.yaml.
+joints:
+  joint1:
+    motor: DM4340P
+    rated: 9.0
+    peak: 27.0
+  joint2:
+    motor: DM4340P
+    rated: 9.0
+    peak: 27.0
+  joint3:
+    motor: DM4340P
+    rated: 9.0
+    peak: 27.0
+  joint4:
+    motor: DM4310
+    rated: 3.0
+    peak: 7.0
+  joint5:
+    motor: PA43
+    rated: 5.0
+    peak: 13.0
+  joint6:
+    motor: DM4310
+    rated: 3.0
+    peak: 7.0
+motors:
+  DM4340P:
+    mass: 0.375
+    gear: 40.0
+    torque_constant: 3.0
+    no_load_speed: 5.5
+    rated_speed: 3.77
+    rotor_inertia: 2.0e-05
+    friction_static: 0.05
+    friction_viscous: 0.02
+    phase_resistance: 0.88
+    thermal_resistance: 2.0
+    thermal_capacity: 60.0
+  DM4310:
+    mass: 0.3
+    gear: 10.0
+    torque_constant: 0.81
+    no_load_speed: 20.9
+    rated_speed: 12.57
+    rotor_inertia: 1.8e-05
+    friction_static: 0.03
+    friction_viscous: 0.01
+    phase_resistance: 0.85
+    thermal_resistance: 2.5
+    thermal_capacity: 40.0
+  PA43:
+    mass: 0.295
+    gear: 20.25
+    torque_constant: 3.42
+    no_load_speed: 10.47
+    rated_speed: 10.47
+    rotor_inertia: 2.0e-05
+    friction_static: 0.05
+    friction_viscous: 0.02
+    phase_resistance: 1.0
+    thermal_resistance: 2.0
+    thermal_capacity: 50.0
+limits: {}
+payload:
+  masses_kg:
+  - 0.0
+  - 1.5
+  - 2.5
+  body: gripper_end
+  tcp_offset_m:
+  - 0.0412434
+  - 0.1005811
+  - 0.1376001
+scan:
+  samples: 20000
+  refine: true
+  seed: 0
+ambient_temperature: 25.0

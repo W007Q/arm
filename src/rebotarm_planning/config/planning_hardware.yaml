@@ -1,0 +1,16 @@
+rebotarm_rs_task_server:
+  ros__parameters:
+    hardware_scene_calibrated: true
+    # 桌面贴着新 CAD 底座底面；base_link 的原点不在底面上。
+    table_top_m: -0.042275
+    scene_ttl_sec: 30.0
+    max_joint_speed: 0.2
+    # 真机有负载时需要足够的位置误差产生 Kp 力矩；仍受 0.35 rad
+    # 跟踪保护、碰撞检查和关节限位约束。
+    max_command_lead_rad: 0.2
+    # 任一未到位轴连续 4 秒没有累计朝目标移动 0.002 rad 才中止。
+    # 跨路点及终点等待持续检查；缓慢跟随可以延长执行，不是运行满 4 秒就停止。
+    motion_stall_timeout_sec: 4.0
+    command_hz: 60.0
+    ik_tolerance: 0.005
+    ik_orientation_tolerance: 0.10

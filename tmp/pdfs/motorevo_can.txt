@@ -1,0 +1,1551 @@
+Motorevo CANFD&CAN协议模组使用说明书 |
+Motorevo CANFD & CAN Protocol Module
+User Manual​
+English version: ​ Motorevo CANFD & CAN Protocol Module User Manual​
+1. 前言​
+ 本章前言十分重要！无论如何请一定要看完，会对您的使用有十分巨大的帮助，并避免潜在危险！​
+ 1.1 快速导航​
+    ▪ 如何驱动电机？快速上手请看这里！​
+    ▪ 分不清VCC/GND， CAN H/CAN L?引脚定义请看这里！​
+    ▪ 板子上红灯黄灯蓝灯代表什么意思？LED指示灯解析请看这里！​
+    ▪ 电机怎么控制？CANFD通讯波特率定义看这里，CANFD数据帧定义看这里，封包解包代码
+      这里（封包）和这里（解包）！​
+    ▪ 电机报错，为什么会报这个错误？错误码分析看这里!​
+    ▪ 如何接入板载终端120欧电阻？请看这里！​
+
+ 1.2 快速开始 Quick Start​
+   在第一次运行前，请先确认以下事项：​
+   ▪ 确保电机输出端空载，或运行范围内安全，不会对人和财物造成风险损伤。​
+   ▪ 推荐使用24V可调限流直流电源，限流5A以内（推荐高于2A，防止启动瞬间电流不足导致电
+     压下降误触欠压保护）。​
+   ▪ 在母线上并入电解电容，推荐耐压100V以上，容值220uF以上，低ESR；用于吸收电机刹
+     车、正反转、以及启动瞬间的电压波动（推荐，但不是必须）。​
+   ▪ 需要确保Parameter Range和电机内配置的参数范围一致。​
+
+
+
+
+   ▪ 确保控制模式（Control Mode）正确。​
+   确认以上项目后，可以参照以下视频流程对电机进行位置控制：​
+
+
+
+
+2. Motorevo Studio上位机​
+ 上位机可以快速驱动电机运行（需要配合FD Jason模块，如果没有请联系销售），修改参数，校准
+ 自学习电机，可以点击下方链接下载。目前仅支持Windows10/11。​
+     版本​ 发布日期                     备注​                 点此下载​
+   V3.6.8​ 2026年7月1 ​ Motorevo Studio V3.6.8更新说   Motorevo
+           日​       明​                            Studio…
+                    ​                             58.85MB
+
+   V3.6.6​ 2026年6月 修复V3.6.5电机温度显示最高只能             Motorevo
+           25日​     到99度的bug，参数界面加上               Studio…
+                    boot version number。​         58.79MB
+   V3.6.5​ 2026年6月 CANFD模式下可以可以控制Servo            Motorevo
+           23日​     Position模式和Velocity模式（均       Studio…
+                    为广播模式控制）。增加Auto-              58.79MB
+                    Match功能，可以自动匹配控制模
+                    式。​
+   V3.6.3​ 2026年5月 参数界面添加了Protocol Type等          Motorevo_Studi
+           14日​     参数​                           o_V3.6.3.exe
+                    ​                             58.82MB
+
+   V3.6.0​ ​        ​                             Motorevo
+                                                  Studio…
+                                                  58.74MB
+
+   Linux/ Mac OS系统即将上线：​
+
+3. 版本记录​
+本说明书支持的固件如下：​
+固件号​        发布日期​        更新说明​                                     下载​
+EF260325​   2026.3.25​   First release​                            ​
+EF260418​   2026.4.18​   ​                                         ​
+EF260509​   2026.5.9​    ​                                         ​
+​           ​            ​                                         ​
+
+4. 引脚定义​
+4.1 功率接插件定义​
+ 驱动板上供电和功率插口型号为：XT30(2+2)PB-M.G.B（公头）,厂商为AMASS（艾迈斯），引
+ 脚定义如下：​
+
+
+
+
+ 与之匹配的母头型号为：XT30(2+2) -F.G.B，原厂链接：艾迈斯官网链接​
+4.2 LED指示灯定义​
+ 驱动板上有3颗LED状态指示灯，颜色和含义见下表：​
+     颜色                    含义​
+     黄灯    电源指示灯，亮起表示电机上电，熄灭表示电机未上电。​
+     蓝灯    使能指示灯，亮起表示电机处于使能状态，熄灭表示电机为上使能状态。​
+     红灯    报错指示灯，亮起表示电机进入报错状态。​
+
+4.3 USB接口定义​
+ USB接口型号：SH1.0 - 4P，用于和电脑进行连接通信/校准/辨识等。​
+ 参考购买链接：淘宝购买链接，或淘宝搜索"usb转sh1.0端子线usb转1.0mm-4pin"​
+ 引脚定义如下：​
+5. 最大工作参数​
+ 驱动板型号​         最大输入电压 推荐工作电压      峰值相电流       编码器位数​   最大工作温度
+                  （V）​   （V）​       （A）​                  （℃）​
+ LTW4.0AN1430      60​    48​        60​         14​       50​
+ G​
+ LTW3.8AN1430     60​      48​       60​         14​      50​
+ G​
+
+6. CANFD协议通信和控制电机​
+   该协议基于CANFD接口的电机通信协议，主机既可以采用广播方式单次发送64字节报文，完成
+ 单条CANFD指令对最多8个电机实时控制，也可以采用单独控制方式单次发送8字节报文，对单个
+ 电机进行实时控制。在使用广播方式控制时，电机的ID必须设置为1-8之间，一条总线上最多串联8
+ 个关节；在使用单独控制当时时，电机ID可以在1-255之间，一条总线上可以串联超过8台电机。​
+ 注意：单独方式只在260617（及）以后的固件才支持！​
+    广播方式通过64字节控制8个电机​
+    DLC：64，帧类型：Standard​
+    Byte​          含义​
+    Byte0-Byte7​   主机发送给电机Id=1的关节8Bytes指令数据​
+    Byte8-Byte15​  主机发送给电机Id=2的关节8Bytes指令数据​
+    Byte16-Byte23​ 主机发送给电机Id=3的关节8Bytes指令数据​
+    Byte24-Byte31​ 主机发送给电机Id=4的关节8Bytes指令数据​
+    Byte32-Byte39​ 主机发送给电机Id=5的关节8Bytes指令数据​
+    Byte40-Byte47​ 主机发送给电机Id=6的关节8Bytes指令数据​
+    Byte48-Byte55​ 主机发送给电机Id=7的关节8Bytes指令数据​
+    Byte56-Byte63​ 主机发送给电机Id=8的关节8Bytes指令数据​
+
+    单独方式通过8字节控制1个电机​
+  DLC：8，帧类型：Standard​
+  Byte​          含义​
+  Byte0​         主机发送给电机的Byte0数据​
+  Byte1​         主机发送给电机的Byte1数据​
+  Byte2​         主机发送给电机的Byte2数据​
+  Byte3​         主机发送给电机的Byte3数据​
+  Byte4​         主机发送给电机的Byte4数据​
+  Byte5​         主机发送给电机的Byte5数据​
+  Byte6​         主机发送给电机的Byte6数据​
+  Byte7​         主机发送给电机的Byte7数据​
+
+FDCAN通信波特率配置：目前电机支持5MHz和4Mhz两种数据域波特率，其详细信息如下表：​
+  ​                          5MHz版​    4Mhz版​
+         CAN 时钟主频​           170Mhz​   170Mhz​
+          仲裁域 BPR​              10​       10​
+          仲裁域 Seg1​             13​       13​
+          仲裁域 Seg2​              3​        3​
+      仲裁域 Sync Jump Width​       3​        3​
+       仲裁域波特率 Baud​           1Mhz​      1Mhz​
+        仲裁率采样率 SMP​           82.3%​    82.3%​
+          数据域 BPR​               1​        1​
+          数据域 Seg1​             25​       31​
+          数据域 Seg2​              8​       11​
+      数据域 Sync Jump Width​       4​       11​
+       数据域波特率 Baud​           5Mhz​    3.95Mhz​
+     数据域采样率 SMP​      76.47%​       74.41%​
+
+两个版本的通信波特率目前不支持修改参数切换，需要OTA固件来切换。（260617后的固件允许通
+过上位机修修改参数实现）​
+根据CAN通信的需求，当串联多个电机时，需要在总线首端和尾端并入120欧电阻（如下图所
+示），用于总线阻抗匹配，吸收信号反射回波，提高通信抗干扰能力。​
+
+
+
+
+如果首端或者尾端未接入120欧电阻，可能会导致总线上某些电机丢包严重，甚至总线错误引起
+Buff OFF。​
+位于总线末端的电机可以使用驱动板上自带的终端电阻结点进行短接，只需要将下图所示的节点使
+用焊锡短接，即可在板上接入120欧电阻：​
+
+
+
+
+6.1 状态定义以及状态切换报文​
+6.1.1 状态定义​
+状态定义              描述                   指示灯
+失能状态​ 三相PWM不开关，电机不运行FOC控制，使能指示灯熄
+      灭。​                         仅有黄灯亮​
+使能状态​ 三相PWM发波，电机运行FOC控制，使能指示灯亮起。​ 黄灯蓝灯一起亮​
+保护状态​ 电机在使能状态下检测到错误进入保护模式，此时电机
+      下使能，三项PWM关断，蓝灯熄灭，红灯亮起​      黄灯红灯一起亮​
+
+电机状态切换如下图：​
+
+
+
+
+6.1.2 状态切换报文​
+   广播方式切换状态：主机下发报文，报文标识符为：0x10，帧长度：64，帧类型：标准
+ 帧，数据端格式为高字节在前低字节在后。实现电机使能、电机失能、电机零点位置保存、
+ 清除错误等功能。​
+ 对于发给每个电机的8 Bytes状态切换报文如下：​
+    报文标识符：0x10，DLC：64，帧类型：Standard​
+  其中每个电机的8字节报文定义如下：​
+          Byte​       字节格式​                 含义​
+    Byte [(ID-1)*8]​   0xFF​   固定​
+   Byte [(ID-1)*8+1]​  0xFF​   固定​
+   Byte [(ID-1)*8+2]​  0xFF​   固定​
+   Byte [(ID-1)*8+3]​  0xFF​   固定​
+   Byte [(ID-1)*8+4]​  0xFF​   固定​
+   Byte [(ID-1)*8+5]​  0xFF​   固定​
+   Byte [(ID-1)*8+6]​  0xFF​   固定​
+                       0xFC​   使能命令：命令电机进入使能状态​
+                       0xFD​   失能命令：命令进入失能状态​
+                       0xFE​   设零命令：设置当前位置为零位，并保存Flash​
+  Byte [(ID-1)*8+7]​
+                       0xFB​   清错命令：确认故障排除后清除故障码​
+                               查询命令：查询电机当前状态，电机接收到后不会执
+                     0xFA​     行任何操作，但会回复一帧报文响应。（该功能需要
+                               固件号在260617以后）​
+
+  单独控制方式切换状态：报文标识符为：0x100+Motor ID，帧长度：8，帧类型：标准
+帧，数据端格式为高字节在前低字节在后。实现电机使能、电机失能、电机零点位置保存、
+清除错误等功能。​
+  报文标识符：0x100+Motor ID，DLC：8，帧类型：Standard​
+    Byte​     字节格式​                        含义​
+    Byte0​     0xFF​      固定​
+    Byte1​     0xFF​      固定​
+    Byte2​     0xFF​      固定​
+    Byte3​     0xFF​      固定​
+    Byte4​     0xFF​      固定​
+    Byte5​         0xFF​      固定​
+    Byte6​         0xFF​      固定​
+                   0xFC​      使能命令：命令电机进入使能状态​
+                   0xFD​      失能命令：命令进入失能状态​
+                   0xFE​      设零命令：设置当前位置为零位，并保存Flash​
+    Byte7​
+                   0xFB​      清错命令：确认故障排除后清除故障码​
+                              查询命令：查询电机当前状态，电机接收到后不会执行任
+                   0xFA​      何操作，但会回复一帧报文响应。（该功能需要固件号在
+                              260617以后）​
+
+注意！！！发送0xFE设零命令后，电机将会对片上Flash进行擦写，在发送后1秒内需要确
+保电机供电稳定！否则可能会发生Flash丢失（包括电角度信息、编码器校准信息永久丢
+失），回归默认参数等情况。一旦发生只能重新配置电机参数，并重新进行校准，才能继续
+使用电机。​
+此外，设零命令发1-2帧即可，没有必要连续发几百上千帧，会大大增加参数丢失的风险！​
+​
+6.1.2.1 示例，广播方式给8个关节发送上使能指令：​
+  报文标识符：0x10，DLC：64，帧类型：Standard​
+  Byte​         含义​                  8Bytes 数据​
+  Byte0-Byte7​ 主机发送给Id=1的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+                数据​                  FC​
+  Byte8-Byte15​ 主机发送给Id=2的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+                数据​                  FC​
+  Byte16-       主机发送给Id=3的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte23​       数据​                  FC​
+  Byte24-       主机发送给Id=4的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte31​       数据​                  FC​
+  Byte32-       主机发送给Id=5的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte39​       数据​                  FC​
+  Byte40-      主机发送给Id=6的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte47​      数据​                  FC​
+  Byte48-      主机发送给Id=7的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte55​      数据​                  FC​
+  Byte56-      主机发送给Id=8的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte63​      数据​                  FC​
+
+6.1.2.2 示例，广播方式给8个关节发送失能指令​
+  报文标识符：0x10，DLC：64，帧类型：Standard​
+  Byte​         含义​                  8Bytes 数据​
+  Byte0-Byte7​ 主机发送给Id=1的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+                数据​                  FD​
+  Byte8-Byte15​ 主机发送给Id=2的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+                数据​                  FD​
+  Byte16-       主机发送给Id=3的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte23​       数据​                  FD​
+  Byte24-       主机发送给Id=4的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte31​       数据​                  FD​
+  Byte32-       主机发送给Id=5的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte39​       数据​                  FD​
+  Byte40-       主机发送给Id=6的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte47​       数据​                  FD​
+  Byte48-       主机发送给Id=7的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte55​       数据​                  FD​
+  Byte56-       主机发送给Id=8的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte63​       数据​                  FD​
+
+6.1.2.3 示例，广播方式给8个关节发送零点保存指令​
+  报文标识符：0x10，DLC：64，帧类型：Standard​
+  Byte​    含义​                    8Bytes 数据​
+  Byte0-Byte7​ 主机发送给Id=1的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+                数据​                  FE​
+  Byte8-Byte15​ 主机发送给Id=2的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+                数据​                  FE​
+  Byte16-       主机发送给Id=3的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte23​       数据​                  FE​
+  Byte24-       主机发送给Id=4的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte31​       数据​                  FE​
+  Byte32-       主机发送给Id=5的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte39​       数据​                  FE​
+  Byte40-       主机发送给Id=6的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte47​       数据​                  FE​
+  Byte48-       主机发送给Id=7的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte55​       数据​                  FE​
+  Byte56-       主机发送给Id=8的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte63​       数据​                  FE​
+
+6.1.2.4 示例，广播方式给8个关节发送清除错误指令​
+  报文标识符：0x10，DLC：64，帧类型：Standard​
+  Byte​         含义​                  8Bytes 数据​
+  Byte0-Byte7​ 主机发送给Id=1的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+                数据​                  FB​
+  Byte8-Byte15​ 主机发送给Id=2的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+                数据​                  FB​
+  Byte16-       主机发送给Id=3的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte23​       数据​                  FB​
+  Byte24-       主机发送给Id=4的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte31​       数据​                  FB​
+  Byte32-       主机发送给Id=5的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+  Byte39​       数据​                  FB​
+       Byte40-   主机发送给Id=6的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+       Byte47​   数据​                  FB​
+       Byte48-   主机发送给Id=7的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+       Byte55​   数据​                  FB​
+       Byte56-   主机发送给Id=8的关节8Bytes指令 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x
+       Byte63​   数据​                  FB​
+
+   6.1.2.5 示例，单独控制方式给2号电机发送使能指令​
+       报文标识符：0x102，DLC：8，帧类型：Standard​
+       Byte​        数据​
+             Byte0​       0xFF​
+             Byte1​       0xFF​
+             Byte2​       0xFF​
+             Byte3​       0xFF​
+             Byte4​       0xFF​
+             Byte5​       0xFF​
+             Byte6​       0xFF​
+             Byte7​       0xFC​
+
+   ​
+6.2 电机控制报文​
+    目前电机支持三种控制模式：MIT模式，Servo Position模式，以及Velocity模式（260519
+ 以前的固件只支持MIT模式）。控制所有模式报文的报文标识符均为0x20，不同ID的关节根据
+ 内部配置的Control Mode解析报文。​
+ 例如，当1号-3号电机为MIT模式，4号-6号电机为Servo Position模式，7号8号电机为Velicity
+ 模式，则可以通过一条报文标识符为0x20的CANFD报文，Byte0-23使用MIT模式封包，Byte24-
+ Byte47使用Servo Position模式封包，Byte48-Byte63使用Velocity模式封包，同时对8个模式
+ 不同的电机进行控制。​
+ 注意：在控制前务必确认报文是按照对应电机的控制模式进行封包，否则可能会让电机跑飞！​
+6.2.1 MIT模式（力位混合控制模式）​
+   MIT协议针对现代机器人专门优化，抛弃了CANopen的通用性包袱，协议字段设计充分
+ 结合机器人控制需求，在非工业机器人场合是更加务实的方案，并且无需复杂协议栈，极大
+ 减轻了系统负担。​
+ 此模式下，电机扭矩输出公式为：​
+   ​T = K × (θ − θ) + K × (V − V ) + T ​
+      out
+                p   ​
+                        ref
+                                            d
+                                                ref         ref
+
+
+ 其中参数含义如下表：​
+      参数​                         单位​                  含义               备注​
+      ​Kp​​                    ​Nm/rad ​         刚度​              主机通过CAN发送给电机​
+      ​Kd​​                   ​Nm/(rad/s) ​      阻尼​              主机通过CAN发送给电机​
+      ​θref ​                     ​rad ​         目标位置​            主机通过CAN发送给电机​
+     ​V ref ​                    ​rad/s ​        目标速度​            主机通过CAN发送给电机​
+     ​T ref ​                     ​Nm ​          前馈扭矩​            主机通过CAN发送给电机​
+        ​θ ​                       ​rad ​        当前电机实际位置​        电机内部采集​
+        ​V ​                     ​rad/s ​        当前电机实际转速​        电机内部采集​
+                                                                  该值在经过电机内部的限幅
+                                                                  运算后，会被限制在
+     ​T out ​                    ​Nm ​           控制器输出扭矩​         ±Torque Limit(Nm)以内，
+                                                                  随后除以Torque
+                                                                  Constant(Nm/A)得到​Iqref ​
+                                                                  (A)，送入电流PI控制器​
+
+   在广播模式下，主机下发报文，报文标识符为：0x20，帧长度：64，帧类型：标准帧，
+ 数据端格式为高字节在前低字节在后。对于发给每个电机的8 Bytes控制报文如下：​
+  报文标识符：0x20，DLC：64，帧类型：Standard​
+                  Byte​         含义                                   映射​
+    Byte [(ID-1)*8]​    8bits​                         0x0000对应​θref =CAN COM Theta MIN​
+                               ​θref ​                 0xFFFF对应​θref =CAN COM Theta MAX​
+   Byte [(ID-1)*8+1]​   8bits​
+ Byte [(ID-1)*8+2]​   8bits​                       Byte2[0-7]为速度高8位，Byte3[4-7]为速
+                                                   度低4位​
+                                        ​V ref ​   0x000对应​V ref =CAN COM Velocity
+                      高4bits​                      MIN​
+ Byte [(ID-1)*8+3]​                                0xFFF对应​V ref =CAN COM Velocity
+                                                   MAX​
+                      低4bits​                      Byte3[0-3]为​Kp​高4位，Byte4[0-7]为
+                                                   ​Kp​低8位​
+                                         ​Kp​​     0x000对应​Kp​=CAN COM Kp MIN​
+ Byte [(ID-1)*8+4]​   8bits​                       0xFFF对应​Kp​=CAN COM Kp MAX​
+ Byte [(ID-1)*8+5]​   8bits​                       Byte5[0-7]为​Kd​高8位，Byte6[4-7]为
+                                                   ​Kd​低4位​
+                                         ​Kd​​     0x000对应​Kd​=CAN COM Kd MIN​
+                      高4bits​
+ Byte [(ID-1)*8+6]​                                0xFFF对应​Kd​=CAN COM Kd MAX​
+                      低4bits​                      Byte6[0-3]为​T ref 高4位，Byte7[0-7]为
+                                                   ​T ref 低8位​
+                                        ​T ref ​   0x000对应​T ref =CAN COM Torque MIN​
+ Byte [(ID-1)*8+7]​   8bits​                       0xFFF对应​T ref =CAN COM Torque MAX​
+
+发包示例：给8个电机全都发送​K = 0, K = 0, θ  p   ​
+
+
+                                           d   ​
+                                                   ref
+                                                         = 0, V ref = 0, T ref = 0   ：​
+报文标识符：0x20，DLC：64，帧类型：Standard​
+Byte​         含义​                                  8Bytes 数据​
+Byte0-Byte7​ 主机发送给Id=1的关节8Bytes指令                  0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x07,0xF
+              数据​                                  F​
+Byte8-Byte15​ 主机发送给Id=2的关节8Bytes指令                 0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x07,0xF
+              数据​                                  F​
+Byte16-       主机发送给Id=3的关节8Bytes指令                 0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x07,0xF
+Byte23​       数据​                                  F​
+Byte24-       主机发送给Id=4的关节8Bytes指令                 0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x07,0xF
+Byte31​       数据​                                  F​
+Byte32-      主机发送给Id=5的关节8Bytes指令         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x07,0xF
+Byte39​      数据​                          F​
+Byte40-      主机发送给Id=6的关节8Bytes指令         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x07,0xF
+Byte47​      数据​                          F​
+Byte48-      主机发送给Id=7的关节8Bytes指令         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x07,0xF
+Byte55​      数据​                          F​
+Byte56-      主机发送给Id=8的关节8Bytes指令         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x07,0xF
+Byte63​      数据​                          F​
+
+  在单独控制模式下，报文标识符为：0x200+Motor ID，帧长度：8，帧类型：标准帧，
+数据端格式为高字节在前低字节在后。对于发给每个电机的8 Bytes控制报文如下：​
+报文标识符：0x200+Motor ID，DLC：8，帧类型：Standard​
+        Byte​           含义                          映射​
+ Byte0​        8bits​          0x0000对应​  θ ref =CAN COM Theta MIN​
+                       ​θref ​ 0xFFFF对应​  θ ref =CAN COM Theta MAX​
+ Byte1​        8bits​
+ Byte2​        8bits​          Byte2[0-7]为速度高8位，Byte3[4-7]为速度低4位​
+                      ​V ref ​ 0x000对应​V ref =CAN COM Velocity MIN​
+              高4bits​          0xFFF对应​V ref =CAN COM Velocity MAX​
+ Byte3​
+              低4bits​          Byte3[0-3]为​Kp​高4位，Byte4[0-7]为​Kp​低8位​
+                        ​Kp​​  0x000对应​Kp​=CAN COM Kp MIN​
+ Byte4​        8bits​          0xFFF对应​Kp​=CAN COM Kp MAX​
+ Byte5​        8bits​          Byte5[0-7]为​Kd​高8位，Byte6[4-7]为​Kd​低4位​
+                        ​Kd​​  0x000对应​Kd​=CAN COM Kd MIN​
+              高4bits​          0xFFF对应​Kd​=CAN COM Kd MAX​
+ Byte6​
+              低4bits​          Byte6[0-3]为​ T ref 高4位，Byte7[0-7]为​T ref 低
+                               8位​
+                      ​ ​
+                        T ref
+                               0x000对应​T ref =CAN COM Torque MIN​
+ Byte7​        8bits​          0xFFF对应​T ref =CAN COM Torque MAX​
+
+封包代码示例：​
+  # 通信范围常量​
+代码块​
+1
+2    CAN_COM_THETA_MIN = -12.5​
+3    CAN_COM_THETA_MAX = 12.5​
+4    CAN_COM_VELOCITY_MIN = -10.0​
+5    CAN_COM_VELOCITY_MAX = 10.0​
+6    CAN_COM_KP_MIN = 0.0​
+7    CAN_COM_KP_MAX = 250.0​
+8    CAN_COM_KD_MIN = 0.0​
+9    CAN_COM_KD_MAX = 50.0​
+10   CAN_COM_TORQUE_MIN = -50.0​
+11   CAN_COM_TORQUE_MAX = 50.0​
+12   ​
+13   def pack_motor_command_8Bytes(​
+14       target_position: float,​
+15       target_velocity: float,​
+16       target_torque: float,​
+17       kp: float,​
+18       kd: float,​
+19   ) -> bytes:​
+20       """​
+21       封包函数：输入目标位置、速度、力矩、PID参数，输出8字节CAN报文​
+22   ​
+23       Args:​
+24            target_position: 目标位置 (rad)​
+25            target_velocity: 目标速度 (rad/s)​
+26            target_torque: 目标力矩 (Nm)​
+27            kp: 比例系数​
+28            kd: 微分系数​
+29   ​
+30       Returns:​
+31            8 字节报文 (bytes)，需要根据id自己把8Bytes移到对应的位置​
+32   ​
+33       字节布局:​
+34            Byte0-1: θ_ref (16bits) -   位置​
+35            Byte2[0-7] + Byte3[4-7]: V_ref (12bits) - 速度​
+36            Byte3[0-3] + Byte4[0-7]: K_p (12bits) - 比例​
+37            Byte5[0-7] + Byte6[4-7]: K_d (12bits) - 微分​
+38            Byte6[0-3] + Byte7[0-7]: T_ref (12bits) - 力矩​
+39       """​
+40       FULL_SCALE_16BIT = 65535.0    # 2^16-1​
+41       FULL_SCALE_12BIT = 4095.0     # 2^12-1​
+42       #   物理值映射到原始整数值​
+43       pos_raw = int((target_position - CAN_COM_THETA_MIN) /​
+44                      (CAN_COM_THETA_MAX - CAN_COM_THETA_MIN) *
+     FULL_SCALE_16BIT)​
+45       pos_raw = max(0, min(int(FULL_SCALE_16BIT), pos_raw))​
+46   ​
+47       vel_raw = int((target_velocity - CAN_COM_VELOCITY_MIN) /​
+48                     (CAN_COM_VELOCITY_MAX - CAN_COM_VELOCITY_MIN) *
+     FULL_SCALE_12BIT)​
+49       vel_raw = max(0, min(int(FULL_SCALE_12BIT), vel_raw))​
+50   ​
+51       kp_raw = int((kp - CAN_COM_KP_MIN) /​
+52                    (CAN_COM_KP_MAX - CAN_COM_KP_MIN) * FULL_SCALE_12BIT)​
+53       kp_raw = max(0, min(int(FULL_SCALE_12BIT), kp_raw))​
+54   ​
+55       kd_raw = int((kd - CAN_COM_KD_MIN) /​
+56                    (CAN_COM_KD_MAX - CAN_COM_KD_MIN) * FULL_SCALE_12BIT)​
+57       kd_raw = max(0, min(int(FULL_SCALE_12BIT), kd_raw))​
+58   ​
+59       torque_raw = int((target_torque - CAN_COM_TORQUE_MIN) /​
+60                        (CAN_COM_TORQUE_MAX - CAN_COM_TORQUE_MIN) *
+     FULL_SCALE_12BIT)​
+61       torque_raw = max(0, min(int(FULL_SCALE_12BIT), torque_raw))​
+62   ​
+63       #   字节封装​
+64       byte0 = (pos_raw >> 8) & 0xFF           # Position[15:8]​
+65       byte1 = pos_raw & 0xFF                  # Position[7:0]​
+66   ​
+67       byte2 = (vel_raw >> 4) & 0xFF           # Velocity[11:4]​
+68       byte3 = ((vel_raw & 0x0F) << 4) | ((kp_raw >> 8) & 0x0F)    #
+     Velocity[3:0] | Kp[11:8]​
+69   ​
+70       byte4 = kp_raw & 0xFF                   # Kp[7:0]​
+71   ​
+72       byte5 = (kd_raw >> 4) & 0xFF            # Kd[11:4]​
+73       byte6 = ((kd_raw & 0x0F) << 4) | ((torque_raw >> 8) & 0x0F)     #
+     Kd[3:0] | Torque[11:8]​
+74   ​
+75       byte7 = torque_raw & 0xFF               # Torque[7:0]​
+76   ​
+77       return bytes([byte0, byte1, byte2, byte3, byte4, byte5, byte6,
+     byte7])​
+78   ​
+79   def pack_64byte_message(​
+80       motor1: tuple, motor2: tuple, motor3: tuple, motor4: tuple,​
+81       motor5: tuple, motor6: tuple, motor7: tuple, motor8: tuple,​
+82   ) -> bytes:​
+83       """​
+84       将8个电机的指令封装为64字节CAN报文​
+85   ​
+86       Args:​
+87            motor1~motor8:每个参数为 (target_position, target_velocity,
+     target_torque, kp, kd) 的元组​
+   88     ​
+   89         Returns:​
+   90                     64字节报文 (bytes)​
+   91                     Byte0-7:  电机1指令​
+   92                     Byte8-15: 电机2指令​
+   93                     ...​
+   94                     Byte56-63:          电机8指令​
+   95         """​
+   96         motors = [motor1, motor2, motor3, motor4, motor5, motor6, motor7,
+          motor8]​
+   97         result = b''​
+   98         for m in motors:​
+   99                     cmd = pack_motor_command_8Bytes(*m)​
+  100                     result += cmd​
+  101         return result​
+  102     ​
+  103     if __name__ == "__main__":​
+  104         #   测试8电机封包，参数随机​
+  105         motors = [​
+  106                     (3.14, 0.0, 0.0, 10.5, 42.5),              # motor1​
+  107                     (1.0, 5.0, 10.0, 20.0, 5.0),               # motor2​
+  108                     (-2.5, -3.0, 15.0, 30.0, 10.0),             # motor3​
+  109                     (0.0, 0.0, 0.0, 0.0, 0.0),                  # motor4​
+  110                     (5.0, 8.0, -20.0, 100.0, 25.0),             # motor5​
+  111                     (-8.0, -10.0, 50.0, 250.0, 50.0), # motor6​
+  112                     (2.0, 2.0, 2.0, 50.0, 15.0),                # motor7​
+  113                     (-5.0, 5.0, -25.0, 150.0, 30.0),            # motor8​
+  114         ]​
+  115         msg_64 = pack_64byte_message(*motors)​
+  116                  字节封包结果: {msg_64.hex()}")​
+              print(f"64
+  117         print(f"长度: {len(msg_64)} bytes")​
+  118     ​
+  119         #   每8字节拆分验证​
+  120         for i in range(8):​
+  121                     segment = msg_64[i*8:(i+1)*8]​
+  122                     print(f"Motor{i+1}: {segment.hex()}")​
+
+
+
+
+6.2.2 Servo Position模式（伺服模式）​
+   此模式下，电机的目标扭矩由位置环、速度环共同决定，其中，外环为位置环，将位置
+ 误差计算为速度环的目标速度：​
+   ​V = K × (θ − θ) − K × V ​
+        ref       pos
+                  p       ​
+                                     ref               pos
+                                                       d     ​
+
+
+
+
+ 随后，经过​V 限幅：​  ref
+              limit   ​
+
+
+
+
+   ​V = clip(V , −V , +V ) ​
+        ref                    ref          ref
+                                           limit   ​
+                                                        ref
+                                                       limit     ​
+随后，​V 进入速度环进行计算，得到​T ​
+          ref                              out
+
+
+
+  ​T = K × ∫ (V − V )dt + K × (V
+    out         vel
+                i     ​
+                            ref            vel
+                                           p     ​
+                                                     ref
+                                                           −V)   ​
+其中参数含义如下表：​
+    参数​                       单位​              含义                          备注​
+   ​Kppos ​​                  1/s ​         位置环比例系数​                 主机通过CAN发送给电机​
+   ​Kdpos ​​                      /​        位置环微分系数​                 主机通过CAN发送给电机​
+   ​Kivel​​               ​Nm/(rad/s) ​     速度环积分系数​                 主机通过CAN发送给电机​
+   ​Kpvel​​               ​Nm/(rad/s) ​     速度环比例系数​                 主机通过CAN发送给电机​
+   ​θref ​                    ​rad ​        目标位置​                    主机通过CAN发送给电机​
+   ​Vlimit
+      ref ​
+           ​                 ​rad/s ​       目标速度限幅​                  主机通过CAN发送给电机​
+      ​θ ​                     ​rad ​       当前电机实际位置​                电机内部采集​
+      ​V ​                   ​rad/s ​       当前电机实际转速​                电机内部采集​
+                                                                     该值在经过电机内部的限幅
+                                                                     运算后，会被限制在
+    ​T out ​                 ​Nm ​          控制器输出扭矩​                 ±Torque Limit(Nm)以内，
+                                                                     随后除以Torque
+                                                                     Constant(Nm/A)得到​Iqref ​
+                                                                     (A)，送入电流PI控制器​
+
+广播方式下：主机下发报文，报文标识符为：0x20，帧长度：64，帧类型：标准帧，数据
+端格式为高字节在前低字节在后。对于发给每个电机的8 Bytes控制报文如下：​
+报文标识符：0x20，DLC：64，帧类型：Standard​
+                Byte​         含义​                                   映射​
+   Byte [(ID-1)*8]​   8bits​                          0x0000对应​θref =CAN COM Theta
+                                                      MIN​
+                             ​θref ​
+  Byte [(ID-1)*8+1]​  8bits​                          0xFFFF对应​θref =CAN COM Theta
+                                                      MAX​
+  Byte [(ID-1)*8+2]​          8bits​      ​V ref ​    0x00对应​V ref =CAN COM Velocity
+                                                      MIN​
+                                                                 0xFF对应​V ref =CAN COM Velocity
+                                                                 MAX​
+                               8bits​                            0x00对应​Kppos ​=CAN COM Kp MIN​
+         Byte [(ID-1)*8+3]​                  ​
+                                             Kppos ​       ​
+                                                                 0xFF对应​Kppos ​=CAN COM Kp MAX​
+                               8bits​                            0x00对应​Kdpos ​=CAN COM Kd MIN​
+         Byte [(ID-1)*8+4]​                  ​
+                                             Kdpos ​       ​
+                                                                 0xFF对应​Kdpos ​=CAN COM Kd MAX​
+                               8bits​                            0x00对应​Kpvel​=CAN COM Kp MIN​
+         Byte [(ID-1)*8+5]​                  ​   Kpvel ​​
+                                                                 0xFF对应​Kpvel​=CAN COM Kp MAX​
+         Byte [(ID-1)*8+6]​    8bits​                            0x00对应​Kdvel​=CAN COM Kd MIN​
+                                             ​Kdvel​​
+                                                                 0xFF对应​Kdvel​=CAN COM Kd MAX​
+         Byte [(ID-1)*8+7]​    8bits​        ​Kivel​​            0x00对应​Kivel​=CAN COM Ki MIN​
+                                         ​                       0xFF对应​Kivel​=CAN COM Ki MAX​
+
+    发包示例：给8个电机全都发送：
+​
+Kppos = 0, Kdpos = 0, θref = 0, V ref = 0, Kpvel = 0, Kdvel = 0, Kivel = 0
+     ​            ​                                 ​              ​          ​
+
+
+                                                                                   ：​
+    报文标识符：0x20，DLC：64，帧类型：Standard​
+    Byte​         含义​                                          8Bytes 数据​
+    Byte0-Byte7​ 主机发送给Id=1的关节8Bytes指令                          0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x00,0x0
+                  数据​                                          0​
+    Byte8-Byte15​ 主机发送给Id=2的关节8Bytes指令                         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x00,0x0
+                  数据​                                          0​
+    Byte16-       主机发送给Id=3的关节8Bytes指令                         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x00,0x0
+    Byte23​       数据​                                          0​
+    Byte24-       主机发送给Id=4的关节8Bytes指令                         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x00,0x0
+    Byte31​       数据​                                          0​
+    Byte32-       主机发送给Id=5的关节8Bytes指令                         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x00,0x0
+    Byte39​       数据​                                          0​
+    Byte40-       主机发送给Id=6的关节8Bytes指令                         0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x00,0x0
+    Byte47​       数据​                                          0​
+          Byte48-        主机发送给Id=7的关节8Bytes指令                     0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x00,0x0
+          Byte55​        数据​                                      0​
+          Byte56-        主机发送给Id=8的关节8Bytes指令                     0x7F,0xFF,0x7F,0xF0,0x00,0x00,0x00,0x0
+          Byte63​        数据​                                      0​
+
+      在单独控制模式下，报文标识符为：0x200+Motor ID，帧长度：8，帧类型：标准帧，数据
+      端格式为高字节在前低字节在后。对于发给每个电机的8 Bytes控制报文如下：​
+          报文标识符：0x200+Motor ID，DLC：8，帧类型：Standard​
+                   Byte​              含义                       映射​
+            Byte0​       8bits​               0x0000对应​ θ ref =CAN COM Theta MIN​
+                                     ​θref ​  0xFFFF对应​θref =CAN COM Theta MAX​
+            Byte1​       8bits​
+                         8bits​               0x00对应​V ref =CAN COM Velocity MIN​
+            Byte2​                  ​V ​
+                                       ref
+                                              0xFF对应​V ref =CAN COM Velocity MAX​
+                         8bits​               0x00对应​Kppos ​=CAN COM Kp MIN​
+            Byte3​                  ​Kp ​
+                                        pos ​
+                                              0xFF对应​Kppos ​=CAN COM Kp MAX​
+                             8bits​                              0x00对应​Kdpos ​=CAN COM Kd MIN​
+              Byte4​                           ​
+                                               Kdpos ​       ​
+                                                                 0xFF对应​Kdpos ​=CAN COM Kd MAX​
+                             8bits​                              0x00对应​Kpvel​=CAN COM Kp MIN​
+              Byte5​                           ​         ​
+                                                   Kpvel ​
+                                                                 0xFF对应​Kpvel​=CAN COM Kp MAX​
+              Byte6​         8bits​                              0x00对应​Kdvel​=CAN COM Kd MIN​
+                                               ​Kdvel​​
+                                                                 0xFF对应​Kdvel​=CAN COM Kd MAX​
+              Byte7​         8bits​            ​Kivel​​          0x00对应​Kivel​=CAN COM Ki MIN​
+                                       ​                         0xFF对应​Kivel​=CAN COM Ki MAX​
+
+      ​
+6.2.3 Velocity模式（速度模式）​
+      此模式下，电机扭矩输出公式为：
+​T   out
+           = Kpvel × (V ref − V ) + ∫ Kivel × (V ref − V ) dt
+                    ​                      ​
+
+                                                                      ​
+其中参数含义如下表：​
+     参数​                     单位​                   含义                  备注​
+    ​Kivel​​           ​Nm/(rad/s) ​           积分刚度​             主机通过CAN发送给电机​
+    ​Kpvel​​           ​Nm/(rad/s) ​           阻尼​               主机通过CAN发送给电机​
+    ​V ref ​                ​rad/s ​           目标速度​     主机通过CAN发送给电机​
+      ​V ​                  ​rad/s ​           当前电机实际转速​ 电机内部采集​
+                                                         该值在经过电机内部的限幅
+                                                         运算后，会被限制在
+    ​T out ​                ​Nm ​              控制器输出扭矩​ ±Torque   Limit(Nm)以内，
+                                                         随后除以Torque
+                                                         Constant(Nm/A)得到​Iqref ​
+                                                         ，送入电流PI控制器​
+
+在广播方式下：主机下发报文，报文标识符为：0x20，帧长度：64，帧类型：标准帧，数
+据端格式为高字节在前低字节在后。对于发给每个电机的8 Bytes控制报文如下：​
+报文标识符：0x20，DLC：64，帧类型：Standard​
+                Byte​            含义                                    映射​
+   Byte [(ID-1)*8]​   8bits​   ​V ref ​               0x0000对应​V ref =CAN COM Velocity
+                             ​                        MIN​
+  Byte [(ID-1)*8+1]​  8bits​                          0xFFFF对应​V ref =CAN COM Velocity
+                                                      MAX​
+  Byte [(ID-1)*8+2]​         8bits​                   Byte2[0-7]为​Kpvel​高8位，Byte3[4-7]为
+                                           ​Kpvel​​   ​Kpvel​低4位​
+                            高4bits​
+                        ​              ​              0x000对应​Kpvel​=CAN COM Kp MIN​
+  Byte [(ID-1)*8+3]​                                  0xFFF对应​Kpvel​=CAN COM Kp MAX​
+                            低4bits​                   Byte3[0-3]为​Kdvel​高4位，Byte4[0-7]为
+                                                      ​Kdvel​低8位​
+                                           ​Kdvel​​   0x000对应​Kdvel​=CAN COM Kd MIN​
+  Byte [(ID-1)*8+4]​         8bits​
+                                                      0xFFF对应​Kdvel​=CAN COM Kd MAX​
+  Byte [(ID-1)*8+5]​    8bits​                           Byte5[0-7]为​Kivel​高8位，Byte6[4-7]为
+                                          ​Kivel​​       ​Kivel​低4位​
+                       高4bits​
+                                      ​                  0x000对应​Kivel​=CAN COM Ki MIN​
+  Byte [(ID-1)*8+6]​                                     0xFFF对应​Kivel​=CAN COM Ki MAX​
+                       低4bits​            无意义            ​
+                                      ​
+  Byte [(ID-1)*8+7]​   8bits​             0xAC​          固定字节，必须要发0xAC，否则将忽略本
+                                                         帧报文​
+
+发包示例：给8个电机全都发送​K                p = 0, KD = 0, V
+                                vel
+                                  ​
+                                        vel      ref
+                                                     = 0, Kivel = 0
+                                                     ​                     ​
+
+
+                                                                                ：​
+报文标识符：0x20，DLC：64，帧类型：Standard​
+Byte​         含义​                                        8Bytes 数据​
+Byte0-Byte7​ 主机发送给Id=1的关节8Bytes指令                        0x7F,0xFF,0x00,0x00,0x00,0x00,0x00,0x0
+              数据​                                        0​
+Byte8-Byte15​ 主机发送给Id=2的关节8Bytes指令                       0x7F,0xFF,0x00,0x00,0x00,0x00,0x00,0x0
+              数据​                                        0​
+Byte16-       主机发送给Id=3的关节8Bytes指令                       0x7F,0xFF,0x00,0x00,0x00,0x00,0x00,0x0
+Byte23​       数据​                                        0​
+Byte24-       主机发送给Id=4的关节8Bytes指令                       0x7F,0xFF,0x00,0x00,0x00,0x00,0x00,0x0
+Byte31​       数据​                                        0​
+Byte32-       主机发送给Id=5的关节8Bytes指令                       0x7F,0xFF,0x00,0x00,0x00,0x00,0x00,0x0
+Byte39​       数据​                                        0​
+Byte40-       主机发送给Id=6的关节8Bytes指令                       0x7F,0xFF,0x00,0x00,0x00,0x00,0x00,0x0
+Byte47​       数据​                                        0​
+Byte48-       主机发送给Id=7的关节8Bytes指令                       0x7F,0xFF,0x00,0x00,0x00,0x00,0x00,0x0
+Byte55​       数据​                                        0​
+Byte56-       主机发送给Id=8的关节8Bytes指令                       0x7F,0xFF,0x00,0x00,0x00,0x00,0x00,0x0
+Byte63​       数据​                                        0​
+
+在单独控制方式下：报文标识符为：0x200+Motor ID，帧长度：8，帧类型：标准帧，数据
+端格式为高字节在前低字节在后。对于发给每个电机的8 Bytes控制报文如下：​
+      报文标识符：0x200+Motor ID，DLC：8，帧类型：Standard​
+                 Byte​               含义                     映射​
+          Byte0​          8bits​   ​V ref ​ 0x0000对应​ V ref =CAN COM Velocity
+
+                                 ​          MIN​
+          Byte1​          8bits​            0xFFFF对应​V ref =CAN COM Velocity
+                                            MAX​
+            Byte2​             8bits​                  Byte2[0-7]为​Kpvel​高8位，Byte4[0-7]为
+                                            ​Kpvel​​   ​Kpvel​低4位​
+                              高4bits​
+                          ​             ​              0x000对应​Kpvel​=CAN COM Kp MIN​
+            Byte3​                                     0xFFF对应​Kpvel​=CAN COM Kp MAX​
+                              低4bits​                  Byte3[0-3]为​Kdvel​高4位，Byte4[0-7]为
+                                                       ​Kdvel​低8位​
+                                            ​Kdvel​​   0x000对应​Kdvel​=CAN COM Kd MIN​
+            Byte4​            8bits​
+                                                       0xFFF对应​Kdvel​=CAN COM Kd MAX​
+            Byte5​             8bits​                  Byte5[0-7]为​Kivel​高8位，Byte6[4-7]为
+                                                       ​Kivel​低4位​
+                              高4bits​       ​Kivel​​   0x000对应​Kivel​=CAN COM Ki MIN​
+            Byte6​                                     0xFFF对应​Kivel​=CAN COM Ki MAX​
+                              低4bits​       无意义        ​
+                                        ​
+            Byte7​            8bits​        0xAC​      固定字节，必须要发0xAC，否则将忽略本
+                                                       帧报文​
+
+  ​
+6.3 电机反馈帧解包​
+   260617以前的固件，电机反馈报文的报文标识符为电机Motor Id。260617以后的固件支持
+ 用户自己更改电机反馈帧的报文标识符。具体操作是：当CAN_MASTER参数小于0时，电机反
+ 馈报文的报文标识符为电机Motor Id；当CAN_MASTER大于等于0时，电机反馈帧报文标识符
+ 为CAN_MASTER值。DLC为8，帧类型为标准帧，数据端格式为高字节在前低字节在后，具体定
+ 义如下：​
+                                   电机反馈帧定义​
+报文标识符：Motor ID或者CAN_MASTER，DLC：8，帧类型：Standard​
+        Byte​              含义​                         映射
+                                   0x0000对应​θ =CAN COM Theta MIN​
+ Byte0​       8bits​
+                       当前电机角度 0xFFFF对应​ =CAN COM Theta MAX​
+                                              θ
+
+                         ​θ(rad) ​ 注意，当电机内部角度​θ 大于CAN COM Theta MAX时，将
+ Byte1​       8bits​               会反馈0xFFFF，同理当​θ 小于CAN COM Theta MIN时，
+                                   将会反馈0x0000。​
+ Byte2​       8bits​               Byte2[0-7]为速度高8位，Byte3[4-7]为速度低4位​
+                                   0x000对应​V =CAN COM Velocity MIN​
+                       当前电机速度 0xFFF对应​V =CAN COM Velocity MAX​
+             高4bits​ ​V (rad/s) ​ 注意，当电机内部速度​V 大于CAN COM Velocity MAX时，
+                                   将会反馈0xFFF，同理当​V 小于CAN COM Velocity MIN
+ Byte3​                            时，将会反馈0x000。​
+                                   Byte3[0-3]为​T 高4位，Byte4[0-7]为​T 低8位​
+             低4bits​               0x000对应​T =CAN COM Torque MIN​
+                       当前电机输出 0xFFF对应​T =CAN COM Torque MAX​
+                       扭矩​T (Nm) ​ 注意，当电机内部扭矩​T 大于CAN COM Torque MAX时，
+ Byte4​       8bits​               将会反馈0xFFF，同理当​T 小于CAN COM Torque MIN
+                                   时，将会反馈0x000。​
+                       当前电机线圈      0x00对应​−40∘C ​
+ Byte5​       8bits​    温度​∘C ​ 0xFF对应​215∘C ​
+ Byte6​       8bits​ 错误码&使能指 Bit 0：使能指示位，​
+                            示​     1表示电机在使能状态，​
+                     共16位，其中​ 0表示电机不在使能状态（电机报错保护下使能后也会置
+                     Byte6为高8 0）​
+                     位，​
+                                   Bit 1：母线过压。当驱动板母线电压超过阈值
+                     Byte7为低8位​ BUS_OV_LOCK则触发该保护。​
+                     ​
+                                   Bit 2：相电流过流。当电机三相电流任意一相超过
+                                   PHASE_OC_LOCK则触发该保护。​
+                                   Bit 3：电机线圈过温。当电机线圈温度超过
+                                   Motor_OT_LOCK则触发该保护。​
+                                 Bit 4：电机超速​
+                                 Bit 5：暂未定义​
+                                 Bit 6：暂未定义​
+                                 Bit 7：暂未定义​
+                                 Bit 8：电机堵转报警。当电机电流(Iq)大于此
+                                 Stuck_Current，同时速度小于Stuck Velocity，持续时间
+                                 超过Stuck Time时触发该保护。一旦三个条件不成立，计
+                                 时会被重置。​
+                                 Bit 9：暂未定义​
+                                 Bit 10：驱动板板温过温。当驱动板板温超过
+                                 PCB_OT_LOCK阈值则触发该保护。​
+           8bits​
+ Byte7​                          Bit 11：母线欠压。当驱动板母线电压超过阈值
+                                 BUS_UV_LOCK则触发该保护。​
+                                 Bit 12：位置超限​
+                                 Bit 13：CAN通信超时。当驱动板在CAN_TIME_OUT时间
+                                 内没有收到报文，则触发该保护。​
+                                 Bit 14：暂未定义​
+                                 Bit 15：暂未定义​
+
+解包代码示例：​
+  代码块​
+  1   def parse_torque_12bit(byte6_str, byte7_str, t_min, t_max):​
+  2       """​
+  3       解析电机实际扭矩反馈值（12bits CAN 数据）​
+  4   ​
+  5     功能：​
+  6        将 CAN 报文中 Byte6[0-3]（高4位）和 Byte7[0-7]（低8位）组合为 12bits
+      原始值，​
+  7        再线性映射为物理单位扭矩（Nm）。​
+  8   ​
+  9       输入参数：​
+ 10           byte6_str (str|float): Byte6 原始数据，十六进制字符串（如 'A3'）​
+ 11           byte7_str (str|float): Byte7 原始数据，十六进制字符串（如 'FF'）​
+ 12           t_min (float): 扭矩物理量下界（Nm），对应 raw=0 时的值​
+ 13           t_max (float): 扭矩物理量上界（Nm），对应 raw=4095 时的值​
+14   ​
+15       返回值：​
+16          float|None:   解析后的扭矩值（Nm），解析失败或数据异常时返回 None​
+17   ​
+18       示例：​
+19          >>> parse_torque_12bit('A3', 'FF', -70.0, 70.0)​
+20          52.3​
+21   ​
+22       含义：​
+23          12bits   原始值范围 0~4095，对应满量程 [-70, 70] Nm​
+24       """​
+25       print(byte6_str)​
+26       if pd.isna(byte6_str) or pd.isna(byte7_str):​
+27          return None​
+28       try:​
+29          b6 = int(byte6_str, 16)​
+30          b7 = int(byte7_str, 16)​
+31       except (ValueError, TypeError):​
+32          return None​
+33       raw_12 = ((b6 & 0x0F) << 8) | b7​
+34       torque = t_min + (raw_12 / 4096.0) * (t_max - t_min)​
+35       return torque​
+36   ​
+37   def parse_position_16bit(data0_str, data1_str, p_min, p_max):​
+38       """​
+39       解析电机实际位置反馈值（16bits CAN 数据）​
+40   ​
+41       功能：​
+42         将 CAN 报文中 Byte0（高8位）和 Byte1（低8位）组合为 16bits 原始值，​
+43         再线性映射为物理单位位置（rad）。​
+44   ​
+45       输入参数：​
+46          data0_str (str|float): Byte0 原始数据，十六进制字符串（如 '7F'）​
+47          data1_str (str|float): Byte1 原始数据，十六进制字符串（如 'FF'）​
+48          p_min (float): 位置物理量下界（rad），对应 raw=0 时的值​
+49          p_max (float): 位置物理量上界（rad），对应 raw=65535 时的值​
+50   ​
+51       返回值：​
+52          float|None:   解析后的位置值（rad），解析失败或数据异常时返回 None​
+53   ​
+54       示例：​
+55          >>> parse_position_16bit('7F', 'FF', -12.5, 12.5)​
+56          6.27​
+57   ​
+58       含义：​
+59          16bits   原始值范围 0~65535，对应满量程 [-12.5, 12.5] rad​
+60       """​
+61        if pd.isna(data0_str) or pd.isna(data1_str):​
+62           return None​
+63        try:​
+64           high_byte = int(data0_str, 16)​
+65           low_byte = int(data1_str, 16)​
+66        except (ValueError, TypeError):​
+67           return None​
+68        position_raw = (high_byte << 8) | low_byte​
+69        position = p_min + (position_raw / 65536.0) * (p_max - p_min)​
+70        return position​
+71    ​
+72    def parse_velocity_12bit(byte2_str, byte3_str, v_min, v_max):​
+73        """​
+74        解析电机实际速度反馈值（12bits CAN 数据）​
+75    ​
+76      功能：​
+77         将 CAN 报文中 Byte2[0-7]（高8位）和 Byte3[4-7]（低4位）组合为 12bits
+      原始值，​
+78         再线性映射为物理单位速度（rad/s）。​
+79    ​
+80        输入参数：​
+81           byte2_str (str|float): Byte2 原始数据，十六进制字符串（如 'C2'）​
+82           byte3_str (str|float): Byte3 原始数据，十六进制字符串（如 'A3'）​
+83           v_min (float): 速度物理量下界（rad/s），对应 raw=0 时的值​
+84           v_max (float): 速度物理量上界（rad/s），对应 raw=4095 时的值​
+85    ​
+86        返回值：​
+87           float|None:   解析后的速度值（rad/s），解析失败或数据异常时返回 None​
+88    ​
+89        示例：​
+90           >>> parse_velocity_12bit('C2', 'A3', -18.0, 18.0)​
+91           5.42​
+92    ​
+93        含义：​
+94           12bits   原始值范围 0~4095，对应满量程 [-18, 18] rad/s​
+95        """​
+96        if pd.isna(byte2_str) or pd.isna(byte3_str):​
+97           return None​
+98        try:​
+99           b2 = int(byte2_str, 16)​
+100          b3 = int(byte3_str, 16)​
+101       except (ValueError, TypeError):​
+102          return None​
+103       raw_12 = ((b2 & 0xFF) << 4) | ((b3 >> 4) & 0x0F)​
+104       velocity = v_min + (raw_12 / 4096.0) * (v_max - v_min)​
+105       return velocity​
+7. CAN协议通信和控制电机​
+ CAN协议下的指令与CANFD协议下单独控制方式指令完全相同，仅波特率不同。​
+
+8. 修改电机参数​
+ 8.1 参数说明​
+                       Index
+       参数名             （Dec 数据类型​        单位                   解释
+                         ）​
+     Firmware                                       固件版本号 Firmware version
+      Version​         10​    Int32​       /​       number，例如0xEF260325，表示该固
+                                                    件是2026年3月25日发布的EF版本。​
+                                                    电机控制模式，定义如下：​
+                                                    • 0x1：Servo Position模式​
+   Control Mode​       11​    Int32​       /​
+                                                    • 0x2：MIT模式​
+                                                    • 0x3：Velocity模式​
+    Id Controller      12​   Float32​   ​V /A ​     FOC电流环D轴PI控制器比例项Kp​
+          Kp​
+   Id Controller Ki​   13​   Float32​    ​Hz ​      FOC电流环D轴PI控制器积分项Ki​
+    Iq Controller      14​   Float32​   ​V /A ​     FOC电流环Q轴PI控制器比例项Kp​
+          Kp​
+   Iq Controller Ki​   15​   Float32​    ​Hz ​      FOC电流环Q轴PI控制器积分项Ki​
+       Current         16​   Float32​           ​   电流环死区，当电流环DQ轴电流error小
+      DeadZone​                                     于此值后会被设置为0​
+                                          A
+
+
+       Velocity        17​   Float32​   ​rad/s ​    速度环死区，当设定速度和实际速度之
+      DeadZone​                                     差小于此值后会被设置为0​
+       Position        18​   Float32​    ​rad ​     位置环死区，当设定位置和实际位置之
+      DeadZone​                                     差小于此值后会被设置为0​
+   Current                                         电流环积分限幅系数，将电流环积分的
+Integral Limit​   19​   Float32​         /​        输出限幅在Current Integral
+                                                   Limit×V_bus的范围内​
+   Velocity       20​   Float32​      ​Nm ​        速度环积分限幅，将速度环输出扭矩的
+Integral Limit​                                    积分部分限制在此范围内​
+ Torque Limit​    21​   Float32​      ​Nm ​        控制器力限保护，驱动在任何模式下都
+                                                   不会输出高于此值的扭矩。​
+                                                   电机转子实际机械位置与三项坐标系A轴
+Electric Angle    22​   Float32​       ​rad ​      角度之差。严禁随意修改，该值错误会
+    Offset​                                        导致电机烧毁或失控跑飞！该值仅由电
+                                                   机的Calibration命令校准。​
+                                                   设定驱动器机械零位，驱动器输出角度
+                                                   为：测量值- Machine Angle Offset，若
+Machine Angle     23​   Float32​       ​rad ​      要设置当前角度为机械零位，仅需将
+   Offset​                                         Machine Angle Offset设定为当前角度值
+                                                   即可，也可以在本界面右侧按Set
+                                                   Machine Zero Position按钮即可。​
+ CAN COM          24​   Float32​       ​rad ​      CAN通讯数据范围​
+ Theta MIN​                                        ​
+ CAN COM          25​   Float32​       ​rad ​
+ Theta MAX​
+ CAN COM          26​   Float32​      ​rad/s ​
+Velocity MIN​
+ CAN COM          27​   Float32​      ​rad/s ​
+Velocity MAX​
+CAN COM Kp        28​   Float32​    ​Nm/rad ​
+    MIN​
+CAN COM Kp        29​   Float32​    ​Nm/rad ​
+    MAX​
+CAN COM Kd        30​   Float32​   ​Nm/(rad/s) ​
+    MIN​
+CAN COM Kd        31​   Float32​   ​Nm/(rad/s) ​
+    MAX​
+ CAN COM Ki      32​   Float32​
+     MIN​
+ CAN COM Ki      33​   Float32​
+     MAX​
+  CAN COM        34​   Float32​    ​Nm ​
+ Torque MIN​
+  CAN COM        35​   Float32​    ​Nm ​
+ Torque MAX​
+   Motor ID​     36​    Int32​       /​       设置本机Motor ID号，范围为1~8​
+CAN COM Time     37​    Int32​      ​ms ​     设置CAN中断超时报警时间。​
+     Out​
+   Default       38​   Float32​               驱动板在EtherCAT模式下伺服模式的位
+ Position Kp​                                 置环Kp​
+   Default       39​   Float32​               驱动板在EtherCAT模式下伺服模式的位
+ Position Kd​                                 置环Kd​
+   Default       40​   Float32​               驱动板在EtherCAT模式下伺服模式的速
+ Velocity Kp​                                 度环Kp​
+   Default       41​   Float32​               驱动板在EtherCAT模式下伺服模式的速
+  Velocity Ki​                                度环Ki​
+ Acceleration​   42​   Float32​   ​rad/s2 ​   单位：rad/s^2。驱动在Servo Position
+                                              模式下的加速度值。​
+                                              力矩上升率的限制，此值越大，力矩的
+ Torque slope​   43​   Float32​               最大瞬时变化率越大。注意，此值过大
+                                              可能会导致很高的瞬间冲击电流，损坏
+                                              驱动器或电机。​
+                                              单位：int。电机极对数，要与电机实际
+     NPP​        44​    Int32​       /​       极对数一致，错误极对数会导致驱动或
+                                              电机烧毁。​
+                                              单位：float。减速器减速比，要与实际
+  Gear Ratio​    45​   Float32​      /​       减速比一致，错误极对数可能会导致位
+                                              置显示不准确。​
+   Torque        46​   Float32​   ​Nm/A ​     扭矩常数，单位位​Nm/A ，表示1安培
+  Constant​                                   电流能产生在输出轴上的扭矩大小。该
+                                                   值由电机和减速器共同决定，通常在关
+                                                   节模组出厂时设定好。​
+                                                   无单位。电机运行正方向设置。只能设
+      Rotate Dir​                                  置为0或+1，规定电机正转的方向。注意
+                      47​    Int32​       /​       修改后必须要重新进行电角度校准以及
+​
+                                                   输出轴编码器校准！​
+Encoder Config​       48​    Int32​       /​       ​
+BUS_OV_LOCK​                                       单位V。母线电压过压阈值，当驱动检测
+                      49​   Float32​     V     ​   到母线电压高于此值时会从Motor State
+                                                   切入Rest State，并反馈故障码​
+                                                   单位V。母线电压欠压阈值，当驱动检测
+    BUS_UV_LOCK​      50​   Float32​     V     ​   到母线电压低于此值时会从Motor State
+                                                   切入Rest State，并反馈故障码​
+                                                   单位A。相电流过流保护阈值，当驱动检
+    PHASE_OC_LO       51​   Float32​           ​   测到相电流绝对值高于此值时会从
+        CK​                                        Motor State切入Rest State，并反馈故
+                                         A
+
+                                                   障码​
+                                                   单位摄氏度。驱动板温度保护阈值，当
+    PCB_OT_LOCK​      52​   Float32​    ​∘C ​      驱动检测到温度高于此值时会从Motor
+                                                   State切入Rest State，并反馈故障码​
+    Stuck Current​    53​   Float32​     A     ​   堵转保护相关参数，当电机电枢电流(Iq)
+    Stuck Velocity​   54​   Float32​   ​rad/s ​    大于Stuck Current（A），同时速度小
+                                                   于Stuck Velocity（rad/s)，持续时间超
+     Stuck Time​      55​   Float32​      s ​      过Stuck Time时触发堵转保护​
+       Protect        56​    Int32​       /​       保护开关，每个bit表示对应保护，1为
+       Switchs​                                    打开，0为关闭：​
+                                                   • Bit0: 位置超限保护​
+                                                   • Bit1: 超速保护​
+                                                   • Bit2: 相电流过流保护​
+                                                   • Bit3：过温保护​
+                                                   • Bit4: 过压欠压保护​
+                                                   • Bit5: 堵转保护​
+                                                   • Bit6: 输入轴编码器自检​
+                                                   • Bit7: CAN通讯中断保护​
+                                                   • Bit8：线圈温度超温保护​
+                                               例如，如果全开保护，可以设置为
+                                               0xFFFFFFFF若想关闭位置超限保护和超
+                                               速保护，可以设置为0xFFFFFFFC​
+ Encoder Gain​    57​          ​               编码器相关参数，用户严禁修改此参
+                                               数，修改后会导致编码器异常。​
+ Brake Action     58​          ​               ​
+      DTC​
+ Brake Action     59​          ​               ​
+     Time​
+Brake Hold DTC​   60​          ​               ​
+ Current Filter   61​        Int32​    ​Hz ​   电流滤波器带宽设置。设置为0则关闭电
+  Bandwidth                                    流滤波器。​
+Velocity Filter   62​        Int32​    ​Hz ​   速度滤波器带宽设置。设置为0则关闭电
+  Bandwidth                                    流滤波器。​
+Position Filter   63​        Int32​    ​Hz ​   位置滤波器带宽设置。设置为0则关闭电
+  Bandwidth                                    流滤波器。​
+V_Calibration​    64​       Float32​    /​     电角度校准相关系数，无特殊情况无需
+                                               修改​
+Dual Encoder      65​          ​               编码器相关参数，用户严禁修改此参
+   Config​                                     数，修改后会导致编码器异常。​
+                                               单位摄氏度。电机绕组温度保护阈值，
+Motor OT Lock​    66​       Float32​   ​∘C ​   当驱动检测到温度高于此值时会从
+                                               Motor State切入Rest State，并反馈故
+                                               障码​
+ CAN Master​      67​        Int32​     /​     电机反馈帧报文标识符，具体可以参考
+                                               电机反馈章节​
+                             Int32​     /​     编码器校准标识符，如果做过编码器校
+ Nonius Flag​     68​                          准，该值为1，否则为0（68及以后的参
+                        ​                      数都是260617版本之后新加入）​
+                                        /​     通信协议切换：​
+                             Int32​             • 0：CANFD 5M​
+Protocol Type​    69​
+                        ​                       • 1: CANFD 4M​
+                                                • 2: CAN​
+  Error Code​    70​       Int32​         /​    错误码​
+                       ​                        ​
+     Error                 float​         /​    错误反馈信息。如果触发的错误为过
+  Information​   71​                            压，该值为触发瞬间的电压值。​
+                              ​     ​
+        Ld​      72​       float​        mH​    D轴电感​
+        Lq​      73​       float​        mH​    Q轴电感​
+        Rs​      74​       float​       mOhm​   相电阻​
+       Flux​     75​       float​       mWb​    磁通​
+  BOOTLOADER​                                   Bootloader版本号，例如
+ Firmware        76​       Int32​         /​    0xAA260325，表示该固件是2026年3月
+ Version​                                       25日发布的bootloader。​
+
+8.2 通过USB连接上位机进行参数修改​
+ 有需要修改电机ID，或者其他参数时，可以按照以下步骤通过上位机对参数进行修改：​
+   1. 通过USB线连接电机的USB端口和电脑​
+   2. 打开Motorevo Studio上位机​
+   3. 进入参数修改界面​
+
+
+
+
+   4. 点击右上角UNCONNECT按钮，连接成功后点击Read Parameter，读取当前电机Flash
+      中的参数​
+5. 读取到当前所有参数。如果有参数没有加载出来，可能是USB连接不稳定导致丢包，此
+   时建议重新拔插USB，或者重启上位机。​
+
+
+
+
+6. 找到要修改的参数，修改完后，按回车或者鼠标电机空白区域，进行发送。​
+7. 所有要修改的参数都设置完毕后，点击Save Parameter按钮，发送保存Flash命令。如
+   果不发送保存命令，电机重启后参数将不会存储住。发送Save命令后，1s内不得让电机
+   下电，如果发送完成后立刻下电，可能会导致Flash擦除后没有重新写入，导致电机
+   Flash参数丢失，让电机直接无法工作。​
+8.3 通过CAN协议进行参数修改​
+ 8.3.1 帧定义​
+  对于一般的参数读写，帧定义如下：​
+     报文标识符：0x600+Motor ID，DLC：8，帧类型：Standard​
+        Byte​          内容​                    含义​
+        Byte0​         0x67​    帧头​
+        Byte1​        Index​    索引，确定读写对象，具体见参数说明中的
+                                Index​
+        Byte2​        Data0​    数据第1字节​
+        Byte3​        Data1​    数据第2字节​
+        Byte4​        Data2​    数据第3字节​
+        Byte5​        Data3​    数据第4字节​
+        Byte6​         R/W​     读写标志​
+                                读命令为0x04​
+                                写命令为0x15​
+        Byte7​         0x76​    帧尾​
+
+  无论是读命令还是写命令，电机都会反馈一帧数据如下：（如果是写命令则反馈新的参数）​
+     报文标识符：0x600+Motor ID，DLC：8，帧类型：Standard​
+        Byte​          内容​                    含义​
+        Byte0​      Motor ID​   电机ID​
+           Byte1​             Index​       索引，确定读写对象，具体见参数说明中的
+                                           Index​
+           Byte2​             Data0​       数据第1字节​
+           Byte3​             Data1​       数据第2字节​
+           Byte4​             Data2​       数据第3字节​
+           Byte5​             Data3​       数据第4字节​
+           Byte6​             0x00​        固定为0x00​
+           Byte7​             0xFF​        帧尾​
+
+    当发送完所有的修改后，发送Index=0x00（Data0-Data3任意，R/W任意）的保存命令，即
+    可把新下发的参数存入flash中保存。注意发送保存命令后，需要确保电机供电稳定至少1秒
+    钟以上，等待电机完成Flash存储，若电机在存储过程中供电不稳，很可能发生Flash丢失情
+    况。一旦Flash丢失，则无法继续使用电机！​
+8.3.2 示例​
+    例如，现在要给Motor ID=6号电机，设置电流环D轴Kp为0.3，Id Kp参数的Index为[12]，对
+    应十六进制为0x0C。新参数0.3根据IEEE754标准，十六进制为0x3E99999A，因此下发的
+    CAN报文为：0x67 0x0C 0x9A 0x99 0x99 0x3E 0x15 0x76,报文标识符为0x606。​
+                          内容​                                      报文​
+       设置[12] Id Controller Kp为 0.3(0x3E99999A)​ 0x67 0x0C 0x9A 0x99 0x99 0x3E 0x15
+                                                  0x76​
+       设置[13] Id Controller Ki为 0.15(0x3E19999A)​ 0x67 0x0D 0x9A 0x99 0x19 0x3E 0x15
+                                                  0x76​
+       设置[43] Torque Slop为 5.0(0x40A00000)​       0x67 0x2B 0x00 0x00 0xA0 0x40 0x15
+                                                  0x76​
+       设置[51] PHASE-OC-LOCK为                      0x67 0x33 0x00 0x00 0xF0 0x41 0x15
+       30.0(0x41F00000)​                          0x76​
+       保存参数​                                      0x67 0x00 0x00 0x00 0x00 0x00 0x15
+                                                  0x76​
+
+​
+9. 在线升级OTA​
+ 注意：OTA程序有一定的风险，请在供电、通信稳定的情况下使用！​
+ 9.1 升级步骤以及报文定义​
+  请严格按照以下步骤和定义执行OTA程序！​
+  主机发送“Jump”报文​
+  主机向电机发送Jump指令，命令电机进OTA状态：​
+    报文标识符：0x600+Motor ID，DLC：8，帧类型：Standard​
+            Byte​                     定义​
+           Byte0​                     0x67​
+           Byte1​                     0x04​
+           Byte2​                     0xA0
+           Byte3​                     0xA1
+           Byte4​                     0xA2
+           Byte5​                     0xA3
+           Byte6​                     0x00​
+           Byte7​                     0x76​
+
+  电机回复“Jump完毕”报文​
+  电机成功进入OTA状态后，回复：​
+    报文标识符：Motor ID，DLC：8，帧类型：Standard​
+           Byte​                       定义​
+           Byte0​                      0x8A
+           Byte1​                      0xA0
+           Byte2​                      0x00​
+           Byte3​                      0x00​
+            Byte4​                    0x00​
+            Byte5​                    0x00​
+            Byte6​                    0x00​
+            Byte7​                    0xA8
+
+主机发送“预备发送”报文​
+主机在确认电机进入OTA状态后，发送“预备发送”指令，提示电机准备接收新固件：​
+  报文标识符：0x500+Motor ID，DLC：8，帧类型：Standard​
+          Byte​                     定义​
+         Byte0​                     0x00​
+         Byte1​                     0x00​
+         Byte2​                     0x00​
+         Byte3​                     0x00​
+         Byte4​                     0x00​
+         Byte5​                     0x00​
+         Byte6​                     0x00​
+         Byte7​                     0xEF​
+
+电机回复“可以发送”报文​
+电机收到主机发送的“预备发送”指令后，会开辟一段临时存储区存储固件，如果开辟成功则
+回复：​
+  报文标识符：Motor ID，DLC：8，帧类型：Standard​
+         Byte​                       定义​
+         Byte0​                      0x8A
+         Byte1​                      0xA2
+         Byte2​                      0x00​
+            Byte3​                    0x00​
+            Byte4​                    0x00​
+            Byte5​                    0x00​
+            Byte6​                    0x00​
+            Byte7​                    0xA8
+
+如果开辟存储区失败则回复：​
+  报文标识符：Motor ID，DLC：8，帧类型：Standard​
+         Byte​                       定义​
+         Byte0​                      0x8A
+         Byte1​                      0xA1
+         Byte2​                      0x00​
+         Byte3​                      0x00​
+         Byte4​                      0x00​
+         Byte5​                      0x00​
+         Byte6​                      0x00​
+         Byte7​                      0xA8
+
+此时主机可以重新发送预备发送指令，尝试开辟存储区。​
+主机开始发送新固件​
+主机按顺序发送新版本固件，建议每帧之间间隔10ms，防止丢包。​
+  报文标识符：0x400+Motor ID，DLC：64，帧类型：Standard​
+          Byte​                     定义​
+         Byte0​                       ​
+          ......​          ​
+         Byte63​                      ​
+主机发送“SUM校验”报文​
+主机发送完新固件后，发送SUM校验报文，电机会根据自身计算的校验值与报文下发的校验值
+进行比对。 可以参考网址https://hexed.it/​
+  报文标识符：0x500+Motor ID，DLC：8，帧类型：Standard​
+          Byte​                      定义​
+         Byte0​                      0x00​
+         Byte1​                      0x00​
+         Byte2​             SUM校验值，高端在前；例如当
+                             SUM校验和为0x12345678,则
+         Byte3​                   Byte2=0x12​
+                                  Byte3=0x34​
+         Byte4​
+                                  Byte4=0x56​
+         Byte5​                   Byte5=0x78​
+         Byte6​                      0x00​
+         Byte7​                      0xFE​
+
+电机回复“校验结果”报文​
+电机收到SUM校验报文后，将会回复“校验结果”报文，以提示主机电机收到的固件是否正
+确，报文格式如下：​
+  报文标识符：Motor ID，DLC：4，帧类型：Standard​
+         Byte​                       定义​
+         Byte0​
+         Byte1​          如果为SUM校验和则表示校验通
+                         过；​
+         Byte2​          如果全为0xFF则表示校验不通过​
+         Byte3​
+
+当电机反馈校验通过后，会开始进行Flash擦写，此时务必确保电机供电稳定，并且不要主动发
+送CAN报文，影响flash擦写。​
+ 当电机完成Flash擦写后，会发送“OTA完成报文”，并从OTA状态回到失能状态。此时可以对
+ 电机下电，进行一次重启，正式完成OTA流程。​
+    报文标识符：Motor ID，DLC：8，帧类型：Standard​
+           Byte​                       定义​
+           Byte0​                      0x8A
+           Byte1​                      0xA3
+           Byte2​                      0x00​
+           Byte3​                      0x00​
+           Byte4​                      0x00​
+           Byte5​                      0x00​
+           Byte6​                      0x00​
+           Byte7​                      0xA8
+
+9.2 示范：使用ZCAN Pro进行升级​
+ ZCAN Pro是广州周立功半导体发展有限公司（ZLG）推出的一款专业 CAN/CAN FD 总线分析软
+ 件。它主要配合周立功系列的 CAN 卡硬件（如 USBCAN、CANalyst 等）使用，用于汽车电
+ 子、工业自动化等领域的 CAN 总线数据监控、诊断、回放及协议分析。此处使用ZLG CAN卡进
+ 行演示。​
+ i. 点击发送数据，选择普通发送​
+
+
+
+
+ ii. 打开界面如下，按照下图配置，帧id:0x600+CANID,发送67,04,A0,A1,A2,A3,00,76 ，长度为
+     8byte，这个指令会将程序切换到boot，此时蓝灯闪烁，同时返回帧
+     id:CAN_ID,8A,A0,00,00,00,00,00,A8。​
+  ​
+
+
+
+
+iii. 帧id:0X500+CANID,发送 XX,XX,XX,XX,XX,XX,XX,EF,代表即将发送文件，成功返回
+     id:CANID,8A,A2,00,00,00,00,00,A8，如失败返回帧id:CANID,8A,A0,00,00,00,00,00,A8。此
+     时需要重新发送帧id:0X500+CANID，发送 XX,XX,XX,XX,XX,XX,XX,EF。​
+
+
+
+
+  ​
+
+
+
+
+iv. 点击发送数据，选择文件发送​
+v. 打开后界面如下，按照下图配置后，打开bin文件，帧id:0X400+CANID,发送bin文件。​
+
+
+
+
+  也可以8Bytes发送，但是速度会慢一些​
+i. 发送完成后，回到普通发送中，帧id:0X500+CANID: 00 00 xx xx xx xx 00 FE,这条指令代表
+   发送结束,并进行校验，如校验和为0X12345678,则应该发送00,00,12,34,56,78,00,FE此时收
+   到回复:12,34,56,78 ,代表校验通过，若收到FF,FF,FF,FF则代表校验未通过，若校验和通过，
+   开始进行程序的擦除和写入，写入完成后会返回id:CANID,8A,A3,00,00,00,00,00,A8，并自
+   动进入新程序。​
+   获取校验码方法：​
+打开网址址https://hexed.it/​
+在该网址种打开升级的bin文件​
+工具栏选择哈希生成器​
+
+
+
+
+哈希算法选择SNM,点击生成哈希校验值​
+得出校验码​
+
+
+
+
+假如说生成的校验码为9E 86 60 00，那么校验码就是 00 60 86 9E ,将改校验填入00 00 XX XX
+XX XX 00 得到00 00 00 60 86 9E 00 FE​
+ii. 若校验未通过，程序会停留在boot中，此时可以先检查校验和是否正确，若确定校验和正确
+    但校验未通过，可能是传输过程中有帧丢失，保证连线正常，并重新进行第2到4步骤。​
+10. 电机校准与自学习​
+   本章所述的校准和自学习是驱动板安装在电机上后需要进行的必要步骤，如果没有进行校准，
+ 电机将无法正常使用，甚至发生跑飞现象。通常情况下，这些校准都在发货前进行，用户端不需要
+ 进行本章节的操作，除非FAE工程师建议进行以下操作中的几项。​
+ 10.1 电角度校准​
+  准备工作​
+    • 将电机接入24V电源。（如果实在没有24V电源，也可以用更高的电压校准，但是可能会
+      有风险）​
+    • 确保电机输出端空载（输出端带载过大可能会干扰校准结果，导致电机效率下降），无
+      结构件限位，输出轴可以整周自由旋转​
+    • 插入USB线，与上位机建立连接​
+    • 不给电机发送任何CAN报文，防止干扰校准​
+
+  随后按照以下步骤操作​
+    1. 做完上述准备工作​
+    2. 进入Encoder Calibration界面​
+3. 在Electric Angle Offset Calibration窗口，点击Start，后点击Yes，随后电机会开始缓慢
+   旋转，此时供电电流会增加至大约300-500mA。​
+
+
+
+
+4. 校准完成后，电机会自动停止运行。此时需要肉眼观察校准曲线判断是否校准成功。校
+   准曲线有两个阶段：在阶段1，将校准三项线相序，红蓝线可以平行，也可以不平行，都
+   是可以的。在阶段2，红蓝线必须如下图一样平行，否则校准出的Electric Angle Offset
+   是错误的，电机使用该错误校准值会发生卡死或者跑飞的情况。​
+注意，如果校准出错误的波形，电机绝对不能继续使用，否则会烧毁或者跑飞！​
+以下是错误的不平行波形案例，原因可能是极对数设置错误：​
+
+
+
+
+还有错误案例，红线不动，原因可能是电机烧坏、卡死、或者24v供电电压不足：​
+10.2 输出轴编码器校准​
+ 准备工作​
+   • 将电机接入24V电源​
+   • 确保电机输出端空载，无结构件限位，输出轴可以整周自由旋转​
+   • 插入USB线，与上位机建立连接​
+   • 不给电机发送任何CAN报文，防止干扰校准​
+   • 把Protect Switch的Bit7置为0，否则校准的时候会进入CAN超时保护，干扰校准进行​
+
+
+
+
+ 随后按照以下步骤操作​
+   1. 完成以上准备操作​
+   2. Encoder Position选择Input，如果显示灰色选不了，点一下Stop按钮解锁，就可以选择
+      了，随后点击Start按钮。点击后电机蓝灯亮起，开始转动，​
+    电机运行一段时间后会自动停止，蓝灯熄灭，此时可以观察反馈曲线，以下两种情况都
+  是正常的：​
+
+
+
+
+  3. 输出轴编码器校准结束​
+10.3 输出轴编码器跳圈测试​
+该测试的目的是测试输出轴编码器是否会跳圈，跳圈可能会导致零位记忆不准。​
+准备工作​
+ • 将电机接入24V电源​
+ • 确保电机输出端空载，无结构件限位，输出轴可以整周自由旋转​
+ • 插入USB线，与上位机建立连接​
+ • 不给电机发送任何CAN报文，防止干扰校准​
+
+随后按照以下步骤操作​
+ 1. 完成以上准备操作​
+ 2. Encoder Position选择Output，如果显示灰色选不了，点一下Stop按钮解锁，就可以选
+    择了，随后点击Start按钮。点击后电机不会自己转动，屏幕上会显示红蓝两条曲线开始
+    滚动。​
+
+
+
+
+ 3. 用手（推荐用卡簧钳等工具）缓慢旋转输出轴，观察显示的红蓝线，判断是否发生跳圈
+    的现象。其中蓝线代表电机高速端编码器反馈值，红线代表输出轴编码器扇区号。​
+    ◦ 如果显示如下图“不跳圈波形”框中那样，蓝线过零一次，红线抬升/降低一格，表
+      明编码器工作正常，没有跳圈。​
+    ◦ 如果显示下图“跳圈波形”框中，蓝线在一个周期内，红线出现了波动、跳变、毛
+      刺，则说明编码器在此扇区发生跳圈。如果使用，会发生零位漂移的问题。​
+   4. 如果输出轴正转一圈，反转一圈都没有发现跳圈波形，则说明校准已经成功了，此时可
+      以正常使用电机。如果在某些角度发现跳圈波形，可能是校准失败，此时可以再执行一
+      遍输出轴编码器校准，如果多次尝试仍然失败，请联系FAE工程师进行后续处理。​
+10.4 电流环自动整定​
+ 准备工作​
+   • 将电机接入24V电源。（如果实在没有24V电源，也可以用更高的电压校准，但是可能会
+     有风险）​
+   • 插入USB线，与上位机建立连接​
+   • 不给电机发送任何CAN报文，防止干扰校准​
+
+ 随后按照以下步骤操作​
+   1. 点击Identify，随后电机会发出“嗡嗡”声，辨识电阻和电感​
+   2. 输入电流环设计带宽​
+   3. 点击Calculate按钮，根据辨识结果和设计带宽计算PI参数​
+   4. 点击Bode Plot Verification按钮，可以绘制幅频曲线、相频曲线和阶跃响应曲线查看效
+      果​
+   5. 点击Upload To Drive按钮，把计算出的PI参数更新到驱动器（注意，此时该参数还没有
+      存Flash，如果要存Flash，需要再点一下Save按钮​
+10.5 电流环Iq正弦/方波响应测试​
+ 准备工作​
+   • 将电机接入24V电源。（如果实在没有24V电源，也可以用更高的电压校准，但是可能会
+     有风险）​
+   • 插入USB线，与上位机建立连接​
+   • 不给电机发送任何CAN报文，防止干扰校准​
+
+ 随后按照以下步骤操作​
+   1. 进入Current Experiment界面​
+   2. 在下图红框处设定Iq 电流响应测试波形种类、测试频率以及测试幅值（注意，测试幅值
+      必须是整数，不能有小数）​
+   3. 点击Single Experiment，随即完成一次电流环Iq响应测试。​
+      注意：V3.6.8版本上位机对该功能进行了升级，增加了自动扫频和Bode图绘制功能，具
+      体操作方式请参照文档：​ Motorevo Studio V3.6.8更新说明​
+11. 常见问题​
+ 11.1 通讯问题​
+  为什么一整条线路都没有通讯了？​
+    1. 首先检查线序CAN H\L有无接反，断线，用万用表量通断，如果都没有问题​
+    2. 检查末端电机有无120欧电阻，用万用表打到欧姆档两个笔头量CAN H/L（XT30 2+2端子
+       里的小细针），小腿物理末端如没有120欧会导致整条线路断连。​
+  为什么一条线路上中间的电机没有信号，比如12346有，而5却没有？​
+    1. 检查电机ID是否匹配，可能相同ID的电机装到同一条线路上，比如两个6号。​
+    2. 如果电机ID正确，那有可能电机坏了。​
+  为什么USB连不上电脑？​
+    1. 换一个COM口试试​
+ 11.2 控制问题​
+  为什么只能控制电机上下使能，控制不了电机运动？​
+ 1. 检查通讯协议是否为can fd协议​
+ 2. 已经下发控制模式跟电机的控制模式是否一致​
+ 3. 发指令时是否严格按照5.2来控制电机​
+ 4. 检查电机参数的映射范围与电机控制时下发参数的映射范围是否一致​
+为什么会有错误帧？​
+ 1. 查看CAN FD 主站配置的参数与电机驱动板参数是否一致​
+ 2. 是否按照5.1来配置can盒参数​
+

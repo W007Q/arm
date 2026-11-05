@@ -1,0 +1,185 @@
+# Derived by scripts/sync_robot_parameters.py; do not edit these values here.
+# Sources: rebotarm_description/urdf/robot_arm.urdf and config/*.yaml.
+rebotarm_uart_bridge:
+  ros__parameters:
+    port: ''
+    baudrate: 3000000
+    feedback_motor_ids:
+    - 1
+    - 2
+    - 8
+    - 9
+    - 20
+    - 1
+    - 2
+    slot_joint_ids:
+    - 4
+    - 6
+    - 1
+    - 2
+    - 3
+    - 5
+    - 7
+    slot_feedback_ids:
+    - 4
+    - 5
+    - 17
+    - 18
+    - 19
+    - 6
+    - 7
+    arm_namespace: rebotarm
+    command_source: batch
+    tx_hz: 100.0
+    command_timeout: 0.3
+    feedback_timeout: 0.25
+    start_tolerance: 0.15
+    feedback_zero_tolerance_rad:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.01
+    - 0.0
+    joint_names:
+    - joint1
+    - joint2
+    - joint3
+    - joint4
+    - joint5
+    - joint6
+    - gripper
+    joint_ids:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    position_min:
+    - -2.8797933
+    - -2.6179939
+    - 0.0
+    - -1.5707963
+    - -1.5707963
+    - -3.1415927
+    - 0.0
+    position_max:
+    - 2.8797933
+    - 0.0
+    - 2.0943951
+    - 1.5707963
+    - 1.5707963
+    - 3.1415927
+    - 5.0
+    velocity_limit:
+    - 0.3
+    - 0.3
+    - 0.3
+    - 0.3
+    - 0.5
+    - 0.3
+    - 0.5
+    torque_limit:
+    - 1.0
+    - 1.0
+    - 1.0
+    - 7.0
+    - 3.0
+    - 7.0
+    - 3.0
+    kp_limit:
+    - 65.535
+    - 65.535
+    - 65.535
+    - 65.535
+    - 65.535
+    - 65.535
+    - 50.0
+    kd_limit:
+    - 5.0
+    - 5.0
+    - 5.0
+    - 5.0
+    - 5.0
+    - 5.0
+    - 5.0
+    gripper_open_rad: 5.0
+    gripper_close_rad: 0.0
+    gripper_finger_travel_m: 0.046
+rebotarm_posvel_to_mit:
+  ros__parameters:
+    joint_names:
+    - joint1
+    - joint2
+    - joint3
+    - joint4
+    - joint5
+    - joint6
+    - gripper
+    joint_ids:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    arm_kp:
+    - 6.5
+    - 7.8
+    - 3.1
+    - 1.2
+    - 2.1
+    - 1.2
+    arm_kd:
+    - 1.4
+    - 1.4
+    - 1.4
+    - 0.6
+    - 0.3
+    - 0.6
+    arm_velocity_limit:
+    - 0.3
+    - 0.3
+    - 0.3
+    - 0.3
+    - 0.5
+    - 0.3
+    gravity_joint_offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    gravity_joint_direction:
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    gravity_tau_scale:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    gravity_torque_limit_nm:
+    - 1.0
+    - 1.0
+    - 1.0
+    - 7.0
+    - 3.0
+    - 7.0
+    use_joint_gains: true
+    gripper_enabled: true
+    gripper_open_rad: 5.0
+    gripper_close_rad: 0.0
+    gripper_kp: 2.1
+    gripper_kd: 0.3
+    gripper_torque_limit_nm: 0.0
+    gravity_feedforward: false

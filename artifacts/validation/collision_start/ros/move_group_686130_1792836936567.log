@@ -1,0 +1,69 @@
+[INFO] [1792836936.587016169] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.0045534 seconds
+[INFO] [1792836936.587209704] [moveit_robot_model.robot_model]: Loading robot model 'rebotarm_hybrid'...
+[WARN] [1792836937.068803005] [moveit_robot_model.robot_model]: Link camera_link has visual geometry but no collision geometry. Collision geometry will be left empty. Fix your URDF file by explicitly specifying collision geometry.
+[INFO] [1792836938.192486658] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[INFO] [1792836938.192601828] [moveit.ros_planning_interface.moveit_cpp]: Listening to 'joint_states' for joint states
+[INFO] [1792836938.193012644] [moveit_ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[INFO] [1792836938.193215677] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/attached_collision_object' for attached collision objects
+[INFO] [1792836938.193227550] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting planning scene monitor
+[INFO] [1792836938.193408024] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/planning_scene'
+[INFO] [1792836938.193417523] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting world geometry update monitor for collision objects, attached objects, octomap updates.
+[INFO] [1792836938.193575437] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to 'collision_object'
+[INFO] [1792836938.193730977] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to 'planning_scene_world' for planning scene world geometry
+[WARN] [1792836938.193953008] [moveit.ros.occupancy_map_monitor.middleware_handle]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+[ERROR] [1792836938.193962506] [moveit.ros.occupancy_map_monitor.middleware_handle]: No 3D sensor plugin(s) defined for octomap updates
+[INFO] [1792836941.471321333] [moveit.ros_planning_interface.moveit_cpp]: Loading planning pipeline 'ompl'
+[INFO] [1792836941.492595875] [moveit.ros_planning.planning_pipeline]: Using planning interface 'OMPL'
+[INFO] [1792836941.496369203] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.path_tolerance' was not set. Using default value: 0.100000
+[INFO] [1792836941.496381076] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.resample_dt' was not set. Using default value: 0.100000
+[INFO] [1792836941.496387013] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.min_angle_change' was not set. Using default value: 0.001000
+[INFO] [1792836941.496397699] [moveit_ros.fix_workspace_bounds]: Param 'ompl.default_workspace_bounds' was not set. Using default value: 10.000000
+[INFO] [1792836941.496406010] [moveit_ros.fix_start_state_bounds]: Param 'ompl.start_state_max_bounds_error' was not set. Using default value: 0.050000
+[INFO] [1792836941.496411947] [moveit_ros.fix_start_state_bounds]: Param 'ompl.start_state_max_dt' was not set. Using default value: 0.500000
+[INFO] [1792836941.496420258] [moveit_ros.fix_start_state_collision]: Param 'ompl.start_state_max_dt' was not set. Using default value: 0.500000
+[INFO] [1792836941.496425007] [moveit_ros.fix_start_state_collision]: Param 'ompl.jiggle_fraction' was not set. Using default value: 0.020000
+[INFO] [1792836941.496430944] [moveit_ros.fix_start_state_collision]: Param 'ompl.max_sampling_attempts' was set to 0
+[WARN] [1792836941.496435693] [moveit_ros.fix_start_state_collision]: Param 'max_sampling_attempts' needs to be at least 1.
+[INFO] [1792836941.496439255] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Add Time Optimal Parameterization'
+[INFO] [1792836941.496444005] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Resolve constraint frames to robot links'
+[INFO] [1792836941.496448754] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Workspace Bounds'
+[INFO] [1792836941.496453503] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Start State Bounds'
+[INFO] [1792836941.496457065] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Start State In Collision'
+[INFO] [1792836941.517308919] [moveit.plugins.moveit_simple_controller_manager]: Added FollowJointTrajectory controller for rebotarm
+[INFO] [1792836941.517401530] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792836941.517414591] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792836941.517598627] [moveit_ros.trajectory_execution_manager]: Trajectory execution is managing controllers
+[INFO] [1792836941.517609313] [move_group.move_group]: MoveGroup debug mode is ON
+[INFO] [1792836941.525697391] [move_group.move_group]: 
+
+********************************************************
+* MoveGroup using: 
+*     - ApplyPlanningSceneService
+*     - ClearOctomapService
+*     - CartesianPathService
+*     - ExecuteTrajectoryAction
+*     - GetPlanningSceneService
+*     - KinematicsService
+*     - MoveAction
+*     - MotionPlanService
+*     - QueryPlannersService
+*     - StateValidationService
+********************************************************
+
+[INFO] [1792836941.525719950] [moveit_move_group_capabilities_base.move_group_context]: MoveGroup context using planning plugin ompl_interface/OMPLPlanner
+[INFO] [1792836941.525727074] [moveit_move_group_capabilities_base.move_group_context]: MoveGroup context initialization complete
+[INFO] [1792836941.546198982] [moveit_move_group_default_capabilities.plan_service_capability]: Received new planning service request...
+[INFO] [1792836941.550031677] [moveit_move_group_capabilities_base.move_group_capability]: Using planning pipeline 'ompl'
+[INFO] [1792836941.550595658] [moveit_collision_detection_fcl.collision_common]: Found a contact between 'link2' (type 'Robot link') and 'link5' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+[INFO] [1792836941.550631277] [moveit_collision_detection_fcl.collision_common]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+[INFO] [1792836941.550645525] [moveit_ros.fix_start_state_collision]: Start state appears to be in collision with respect to group arm
+[INFO] [1792836941.551310429] [moveit_ros.fix_start_state_collision]: Found a valid state near the start state at distance 0.133637 after 0 attempts
+[INFO] [1792836941.553650652] [moveit.ompl_planning.model_based_planning_context]: Planner configuration 'arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792836941.594421119] [moveit.ros_planning.planning_pipeline]: Planning adapters have added states at index positions: [ 0 ]
+[ERROR] [1792836941.598232442] [moveit.ros_planning.planning_pipeline]: Computed path is not valid. Invalid states at index locations: [ 0 1 ] out of 26. Explanations follow in command line. Contacts are published on /display_contacts
+[INFO] [1792836941.598367797] [moveit_collision_detection_fcl.collision_common]: Found a contact between 'link2' (type 'Robot link') and 'link5' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+[INFO] [1792836941.598374921] [moveit_collision_detection_fcl.collision_common]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+[INFO] [1792836941.598852227] [moveit_collision_detection_fcl.collision_common]: Found a contact between 'link2' (type 'Robot link') and 'link5' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+[INFO] [1792836941.598859351] [moveit_collision_detection_fcl.collision_common]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+[ERROR] [1792836941.599006580] [moveit.ros_planning.planning_pipeline]: Completed listing of explanations for invalid states.
+[INFO] [1792836941.614598570] [rclcpp]: signal_handler(SIGINT/SIGTERM)
